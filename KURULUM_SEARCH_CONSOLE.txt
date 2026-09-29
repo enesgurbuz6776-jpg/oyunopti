@@ -1,0 +1,47 @@
+OYUNOPTİ SEO V2 — GITHUB + GOOGLE SEARCH CONSOLE
+================================================
+
+1) GITHUB
+Eski repodaki dosyaları silmek zorunda değilsin.
+Bu paketteki dosyaların TAMAMINI oyunopti reposunun ana dizinine yükle.
+Aynı isimli index.html, style.css, app.js, robots.txt ve sitemap.xml için Replace/overwrite et.
+Yeni HTML sayfalarını da ekle.
+
+2) YAYIN KONTROLÜ
+GitHub Pages güncellendikten sonra:
+https://enesgurbuz6776-jpg.github.io/oyunopti/
+https://enesgurbuz6776-jpg.github.io/oyunopti/valorant-cs2-sens.html
+https://enesgurbuz6776-jpg.github.io/oyunopti/edpi-hesaplama.html
+https://enesgurbuz6776-jpg.github.io/oyunopti/monitor-ppi-hesaplama.html
+https://enesgurbuz6776-jpg.github.io/oyunopti/oyun-indirme-suresi.html
+https://enesgurbuz6776-jpg.github.io/oyunopti/hz-frame-time.html
+
+adreslerini tek tek aç.
+
+3) GOOGLE SEARCH CONSOLE
+- Google'da "Google Search Console" aç.
+- "Mülk ekle" / Add property.
+- URL prefix seç.
+- Şu adresi ekle: https://enesgurbuz6776-jpg.github.io/oyunopti/
+- GitHub Pages için en kolay doğrulama yöntemi çoğunlukla HTML tag yöntemidir.
+- Search Console sana google-site-verification meta etiketi verirse bunu index.html içindeki <head> bölümüne ekle.
+- Doğrulama bittikten sonra Search Console > Sitemaps bölümüne:
+  sitemap.xml
+  gönder.
+
+4) İLK INDEX İSTEKLERİ
+Search Console URL Inspection bölümünden önce şu 3 sayfayı tek tek denetle ve dizine eklenmesini iste:
+- https://enesgurbuz6776-jpg.github.io/oyunopti/valorant-cs2-sens.html
+- https://enesgurbuz6776-jpg.github.io/oyunopti/edpi-hesaplama.html
+- https://enesgurbuz6776-jpg.github.io/oyunopti/oyun-indirme-suresi.html
+
+5) PARA KAZANMA
+Şimdilik reklam kodu ekleme. Önce gerçek trafik ve içerik biriksin.
+Sonraki aşama:
+- 10-20 faydalı araç/içerik sayfası
+- Search Console impressions/clicks takibi
+- Sonra AdSense başvurusu
+- Mouse / mousepad / monitör affiliate linkleri
+
+NOT:
+SEO anlık sonuç vermez. Google'ın yeni bir siteyi tarayıp sıralaması zaman alabilir.
