@@ -1,0 +1,47 @@
+OYUNOPTİ V4 — PARA KAZANMA ALTYAPISI
+======================================
+
+GITHUB'A YÜKLE:
+Bu paketteki tüm dosyaları oyunopti reposunun ana dizinine yükle.
+Aynı isimli dosyalar yenilensin. Yeni dosyalar eklensin.
+Google doğrulama dosyanı SİLME.
+
+ÖNEMLİ: config.js
+-----------------
+Şimdilik site para kazanma özelliklerini boş konfigürasyonla güvenli şekilde çalıştırır.
+
+Affiliate hesabı aldığında config.js içindeki:
+AFFILIATE.gaming_mouse
+AFFILIATE.mousepad
+AFFILIATE.monitor
+vb. alanlara kendi affiliate URL'lerini koy.
+
+Google Analytics kullanacaksan:
+GA_MEASUREMENT_ID: "G-XXXXXXXXXX"
+
+Sponsor iletişim e-postası:
+CONTACT_EMAIL: "ornek@..."
+
+AdSense:
+ADSENSE_CLIENT alanını sadece Google AdSense onayı aldıktan sonra doldur.
+Bu V4 sürümü reklam yerleşim alanlarını hazırlar; sahte reklam kodu eklemez.
+
+YENİ SAYFALAR:
+- https://enesgurbuz6776-jpg.github.io/oyunopti/gelir-ortakligi.html
+- https://enesgurbuz6776-jpg.github.io/oyunopti/iletisim.html
+
+SITEMAP:
+V4 deploy sonrası:
+https://enesgurbuz6776-jpg.github.io/oyunopti/sitemap-v4.xml
+adresini aç.
+Search Console eski sitemap sorunu devam ediyorsa hemen yeni sitemap göndermek zorunda değilsin.
+Önce siteyi ve sayfaları stabil bırakmak daha iyi.
+
+PARA KAZANMA SIRASI:
+1. Trafik / Search Console gösterimleri
+2. Bir affiliate programa kabul
+3. config.js'e gerçek linkleri ekleme
+4. Google Analytics (isteğe bağlı)
+5. Yeterli içerik/trafik sonrası reklam ağı / AdSense başvurusu
+
+Not: Affiliate programları ve AdSense başvuruları üçüncü taraf onayına tabidir.
