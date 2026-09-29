@@ -1,0 +1,26 @@
+OYUNOPTI V6 TRAFIK PAKETI
+
+Bu ZIP yalnızca eklenmesi/değişmesi gereken dosyaları içerir.
+
+YENI REHBERLER
+- valorant-ideal-edpi.html
+- 1000hz-vs-8000hz-mouse.html
+- 144-fps-240-fps-kac-ms.html
+
+GUNCELLENENLER
+- index.html (Rehberler bölümü)
+- valorant-edpi-hesaplama.html (rehbere iç link)
+- mouse-polling-rate-gecikme.html (rehbere iç link)
+- fps-frame-time-hesaplama.html (rehbere iç link + SEO meta)
+- style.css
+- sitemap-v4.xml (3 yeni URL eklendi)
+
+KURULUM
+1. ZIP'i bilgisayarında çıkar.
+2. GitHub > oyunopti > Add file > Upload files.
+3. ZIP'in içindeki dosyaların TAMAMINI repo köküne yükle.
+4. Commit changes.
+5. GitHub Pages güncellendikten sonra Ctrl+F5.
+6. Ana sayfada "OyunOpti Rehberleri" bölümünün göründüğünü kontrol et.
+7. Üç yeni rehber linkini tek tek aç.
+8. sitemap-v4.xml aynı isimde kaldığı için Search Console'a yeni bir sitemap kaydı ekleme. Google mevcut sitemap'i yeniden okuyabilir.
