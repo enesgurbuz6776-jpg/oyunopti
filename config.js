@@ -1,6 +1,6 @@
-// OyunOpti V4 para kazanma ayarları
+// OyunOpti V5 — Analytics + gelir ortaklığı
 window.OYUNOPTI_CONFIG = {
-GA_MEASUREMENT_ID: "G-06TDBEDK5W",
+  GA_MEASUREMENT_ID: "G-06TDBEDK5W",
 
   AFFILIATE: {
     gaming_mouse: "https://rzekl.com/g/1e8d114494ec67be00a216525dc3e8/?subid=gaming_mouse&ulp=https%3A%2F%2Ftr.aliexpress.com%2Fw%2Fwholesale-gamingmouse.html",

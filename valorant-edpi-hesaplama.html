@@ -1,29 +1,48 @@
 <!doctype html><html lang="tr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Valorant eDPI Hesaplama — DPI ve Sens Calculator | OyunOpti</title>
-<meta name="description" content="Valorant eDPI hesaplama: DPI ve sensitivity değerini gir, eDPI ve yaklaşık cm/360 sonucunu ücretsiz gör.">
+<title>Valorant eDPI Hesaplama: DPI × Sens + cm/360 | OyunOpti</title>
+<meta name="description" content="Valorant eDPI hesaplama aracı: DPI ve sensitivity değerini gir, eDPI ile yaklaşık cm/360 sonucunu anında gör. Formül, örnekler ve sens rehberi.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:site_name" content="OyunOpti">
+<meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#0b1020">
 <link rel="canonical" href="https://enesgurbuz6776-jpg.github.io/oyunopti/valorant-edpi-hesaplama.html">
-<meta property="og:title" content="Valorant eDPI Hesaplama — DPI ve Sens Calculator | OyunOpti">
-<meta property="og:description" content="Valorant eDPI hesaplama: DPI ve sensitivity değerini gir, eDPI ve yaklaşık cm/360 sonucunu ücretsiz gör.">
+<meta property="og:title" content="Valorant eDPI Hesaplama: DPI × Sens + cm/360">
+<meta property="og:description" content="Valorant eDPI hesaplama aracı: DPI ve sensitivity değerini gir, eDPI ile yaklaşık cm/360 sonucunu anında gör. Formül, örnekler ve sens rehberi.">
 <meta property="og:type" content="website"><meta property="og:url" content="https://enesgurbuz6776-jpg.github.io/oyunopti/valorant-edpi-hesaplama.html">
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=5">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Valorant eDPI Hesaplayıcı","url":"https://enesgurbuz6776-jpg.github.io/oyunopti/valorant-edpi-hesaplama.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TRY"}}</script>
-<script src="config.js?v=4"></script>
+<script src="config.js?v=5"></script>
 </head><body><header class="topbar">
 <a class="brand" href="index.html"><span class="brand-mark">OO</span><span>OyunOpti</span></a>
 <nav><a href="index.html#araclar">Araçlar</a><a href="hakkinda.html">Hakkında</a><a class="pill" href="valorant-cs2-sens.html">Sens Hesapla</a></nav>
 </header><main>
 <div class="breadcrumb"><a href="index.html">OyunOpti</a> › Valorant eDPI</div>
-<section class="page-hero"><span class="eyebrow">Valorant eDPI</span><h1>Valorant eDPI Hesaplama </h1><p>DPI ve Valorant sensitivity değerini girerek eDPI ve yaklaşık cm/360 değerini hesapla.</p></section>
+<section class="page-hero"><span class="eyebrow">Valorant eDPI</span><h1>Valorant eDPI Hesaplama</h1><p>DPI ve Valorant sensitivity değerini gir; eDPI ve yaklaşık cm/360 sonucunu saniyeler içinde hesapla.</p></section>
 <section class="tool-card"><div class="form-grid">
 <label>DPI<input id="valDpi" type="number" value="800" min="100" step="50"></label>
 <label>Valorant sensitivity<input id="valSens" type="number" value="0.32" min=".001" step=".001"></label>
 </div><button class="btn primary" id="calcValorantEdpi">Valorant eDPI Hesapla</button><div class="result" id="valEdpiResult"></div>
 <div class="quick-chips"><button onclick="document.querySelector('#valDpi').value=400">400 DPI</button><button onclick="document.querySelector('#valDpi').value=800">800 DPI</button><button onclick="document.querySelector('#valDpi').value=1600">1600 DPI</button></div></section>
-<section class="article"><h2>Valorant eDPI nedir?</h2><p>Valorant eDPI, mouse DPI değeri ile oyun içi sensitivity değerinin çarpımıdır. Örneğin 800 DPI ve 0.32 sens için eDPI 256 olur.</p>
-<h2>eDPI ne işe yarar?</h2><p>Aynı oyunda farklı DPI kullanan oyuncuların hassasiyetlerini karşılaştırmayı kolaylaştırır. Farklı oyunlar arasında doğrudan karşılaştırma için cm/360 daha sağlıklıdır.</p>
-<div class="faq"><details><summary>800 DPI mı 1600 DPI mı daha iyi?</summary><p>Tek başına DPI değeri “daha iyi” değildir. Aynı eDPI korunursa fiziksel hassasiyet benzer kalır; mouse sensörü ve sistem ayarları da deneyimi etkiler.</p></details></div></section>
+<section class="article">
+<h2>Valorant eDPI nedir ve nasıl hesaplanır?</h2>
+<p>eDPI, mouse DPI değeri ile Valorant içindeki sensitivity değerinin çarpımıdır. Formül basittir: <b>eDPI = DPI × sensitivity</b>. Örneğin 800 DPI ve 0.32 sensitivity kullanan bir oyuncunun eDPI değeri 256'dır. Aynı oyunda farklı DPI kullanan ayarları tek sayı üzerinden karşılaştırmak için eDPI kullanışlıdır.</p>
+<h2>eDPI ile cm/360 arasındaki fark nedir?</h2>
+<p>eDPI yalnızca DPI ve oyun içi sensitivity değerlerini birleştirir. cm/360 ise mouse'u masada kaç santimetre hareket ettirdiğinde kameranın tam 360 derece döndüğünü anlatır. Bu nedenle farklı oyunlar arasında fiziksel hassasiyeti karşılaştırırken cm/360 daha anlamlı olabilir. Oyunlar farklı dönüş katsayıları kullandığı için aynı eDPI farklı oyunlarda aynı hissi vermek zorunda değildir.</p>
+<h2>Valorant için ideal eDPI var mı?</h2>
+<p>Herkes için geçerli tek bir “en iyi” eDPI yoktur. Mousepad alanı, kol veya bilek kullanımı, çözünürlük alışkanlığı ve kişisel kontrol tercihi sonucu değiştirir. Pratik yaklaşım; rahatça 180 derece dönebileceğin, küçük düzeltmeleri de kontrol edebildiğin bir ayar seçmek ve sık sık değiştirmek yerine bir süre aynı ayara alışmaktır.</p>
+<h2>DPI değiştirince sensitivity nasıl korunur?</h2>
+<p>DPI değerini değiştirirken aynı eDPI'ı korumak istiyorsan yeni sensitivity değerini ters orantılı ayarlamalısın. Bunu elle hesaplamak yerine <a href="dpi-degistirince-sens.html">DPI değiştirince sens hesaplama</a> aracını kullanabilirsin. Valorant ayarını CS2'ye taşımak için de <a href="valorant-cs2-sens.html">Valorant ↔ CS2 sens dönüştürücü</a> sayfasını aç.</p>
+<div class="callout"><b>Örnek:</b> 800 DPI × 0.32 sens = <b>256 eDPI</b>. Aynı eDPI'ı 1600 DPI'da korumak için sens yaklaşık 0.16 olur.</div>
+<h2>Sık sorulan sorular</h2>
+<div class="faq">
+<details><summary>800 DPI mı 1600 DPI mı daha iyi?</summary><p>Tek başına DPI değeri “daha iyi” değildir. Aynı eDPI korunursa temel fiziksel hassasiyet benzer kalır. Mouse sensörü, işletim sistemi ve oyun ayarları da deneyimi etkileyebilir.</p></details>
+<details><summary>eDPI yükselince ne olur?</summary><p>Genel olarak aynı fiziksel mouse hareketinde oyun içi dönüş miktarı artar; yani hassasiyet yükselir. Daha düşük eDPI daha geniş kol hareketi gerektirebilir.</p></details>
+<details><summary>Valorant sensimi CS2'de aynen kullanabilir miyim?</summary><p>Aynı sayıyı doğrudan kullanmak aynı fiziksel dönüş mesafesini vermez. Oyunların dönüş katsayıları farklı olduğu için <a href="valorant-cs2-sens.html">sens dönüştürücü</a> kullanmak daha doğru olur.</p></details>
+</div>
+<h2>İlgili araçlar</h2>
+<p><a href="cs2-edpi-hesaplama.html">CS2 eDPI hesapla</a> · <a href="valorant-cs2-sens.html">Valorant CS2 sens dönüştür</a> · <a href="mouse-polling-rate-gecikme.html">Mouse polling rate gecikmesini hesapla</a></p>
+</section>
 
 <section class="monetize-wrap">
   <div class="monetize-head">
@@ -40,5 +59,5 @@
 </main><footer><div class="brand"><span class="brand-mark">OO</span><span>OyunOpti</span></div>
 <div class="foot-links"><a href="hakkinda.html">Hakkında</a><a href="gizlilik.html">Gizlilik</a><a href="index.html#araclar">Araçlar</a></div>
 <small>© <span data-year></span> OyunOpti. Oyun ve marka adları ilgili hak sahiplerine aittir.</small></footer>
-<script src="app.js?v=3"></script><script src="monetization.js?v=4"></script>
+<script src="app.js?v=5"></script><script src="monetization.js?v=5"></script>
 </body></html>

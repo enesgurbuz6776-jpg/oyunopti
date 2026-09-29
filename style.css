@@ -71,3 +71,8 @@ footer{width:min(1180px,calc(100% - 32px));margin:50px auto 0;border-top:1px sol
 .revenue-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}.revenue-strip>div{background:#0d1425;border:1px solid var(--line);border-radius:16px;padding:16px}.revenue-strip b{display:block}.revenue-strip span{color:var(--muted);font-size:12px}
 @media(max-width:850px){.product-grid{grid-template-columns:1fr 1fr}.consent-bar{align-items:flex-start;flex-direction:column}}
 @media(max-width:560px){.product-grid{grid-template-columns:1fr}.revenue-strip{grid-template-columns:1fr}}
+
+/* ===== V5 SEO ===== */
+.article a{color:var(--accent2);text-decoration:underline;text-decoration-color:rgba(25,211,174,.35);text-underline-offset:3px}
+.article a:hover{text-decoration-color:var(--accent2)}
+.article h3{font-size:21px}

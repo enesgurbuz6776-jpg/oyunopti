@@ -1,0 +1,33 @@
+OYUNOPTI V5 SEO PAKETI
+
+Bu pakette mevcut V4 gelir ortakligi + Google Analytics ayarlari korunmustur.
+
+Degisen ana dosyalar:
+- index.html
+- valorant-edpi-hesaplama.html
+- cs2-edpi-hesaplama.html
+- valorant-cs2-sens.html
+- mouse-polling-rate-gecikme.html
+- style.css
+- config.js
+
+Yapilanlar:
+- Ana sayfa SEO baslik/aciklama guclendirildi.
+- V3/V4 gibi eski gorunen surum etiketleri temizlendi.
+- 4 onemli araca daha kapsamli, kullanici odakli SEO metni eklendi.
+- Ic linkler eklendi.
+- SSS bolumleri genisletildi.
+- robots index/follow ve sosyal meta etiketleri eklendi.
+- Mitgo dogrulama meta etiketi korundu.
+- GA4 Measurement ID ve mevcut 3 AliExpress affiliate linki config.js icinde korundu.
+
+KURULUM:
+1) ZIP'i bilgisayarinda klasore cikart.
+2) GitHub > enesgurbuz6776-jpg/oyunopti reposuna gir.
+3) Add file > Upload files.
+4) Klasorun ICINDEKI dosyalari repo kokune surukle.
+5) Ayni isimli dosyalarin degistirilecegini kontrol et.
+6) Commit changes.
+7) GitHub Pages guncellendikten sonra Ctrl+F5.
+8) Ana sayfa ve 4 arac sayfasini test et.
+9) Search Console'da yeni icerigin yeniden taranmasini bekle; surekli tekrar dizine ekleme istegi gonderme.

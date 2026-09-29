@@ -1,16 +1,19 @@
 <!doctype html><html lang="tr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Valorant CS2 Sens Dönüştürme — Sensitivity Çevirici | OyunOpti</title>
-<meta name="description" content="Valorant sensitivity değerini CS2 veya Apex'e çevir. DPI ile yaklaşık cm/360 değerini de ücretsiz hesapla.">
+<title>Valorant CS2 Sens Dönüştürme: Sensitivity Çevirici | OyunOpti</title>
+<meta name="description" content="Valorant sensini CS2'ye veya CS2 sensini Valorant'a çevir. DPI, eDPI mantığı ve yaklaşık cm/360 ile ücretsiz sensitivity dönüştürme aracı.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:site_name" content="OyunOpti">
+<meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#0b1020">
 <link rel="canonical" href="https://enesgurbuz6776-jpg.github.io/oyunopti/valorant-cs2-sens.html">
-<meta property="og:title" content="Valorant CS2 Sens Dönüştürme — Sensitivity Çevirici | OyunOpti">
-<meta property="og:description" content="Valorant sensitivity değerini CS2 veya Apex'e çevir. DPI ile yaklaşık cm/360 değerini de ücretsiz hesapla.">
+<meta property="og:title" content="Valorant CS2 Sens Dönüştürme: Sensitivity Çevirici">
+<meta property="og:description" content="Valorant sensini CS2'ye veya CS2 sensini Valorant'a çevir. DPI, eDPI mantığı ve yaklaşık cm/360 ile ücretsiz sensitivity dönüştürme aracı.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://enesgurbuz6776-jpg.github.io/oyunopti/valorant-cs2-sens.html">
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=5">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Valorant CS2 Sens Dönüştürücü","url":"https://enesgurbuz6776-jpg.github.io/oyunopti/valorant-cs2-sens.html","applicationCategory":"GameApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TRY"}}</script>
-<script src="config.js?v=4"></script>
+<script src="config.js?v=5"></script>
 </head><body><header class="topbar">
 <a class="brand" href="index.html"><span class="brand-mark">OO</span><span>OyunOpti</span></a>
 <nav><a href="index.html#araclar">Araçlar</a><a href="hakkinda.html">Hakkında</a><a class="pill" href="valorant-cs2-sens.html">Sens Hesapla</a></nav>
@@ -22,10 +25,25 @@
 <label>Sensitivity<input id="sensValue" type="number" min=".0001" step=".001" value=".32"></label>
 <label>DPI<input id="sensDpi" type="number" min="100" step="50" value="800"></label>
 </div><button class="btn primary" id="calcSens">Sensitivity Dönüştür</button><div class="result" id="sensResult"></div></section>
-<section class="article"><h2>Valorant sens CS2'ye nasıl çevrilir?</h2><p>Oyunların fare dönüş katsayıları aynı değildir. Bu nedenle Valorant'taki 0.32 değerini CS2'de doğrudan 0.32 kullanmak aynı fiziksel mouse hareketini vermez. Bu araç, oyunların yaw değerlerini kullanarak yaklaşık aynı cm/360 mesafesini hedefler.</p>
-<h2>cm/360 nedir?</h2><p>Mouse'u masada kaç santimetre hareket ettirdiğinizde oyun içi kameranın tam 360 derece döndüğünü ifade eder. Farklı oyunlar arasında ayar taşırken eDPI'dan daha kullanışlı bir karşılaştırmadır.</p>
-<div class="faq"><details><summary>Valorant'tan CS2'ye dönüşüm birebir hissedilir mi?</summary><p>Hayır. Aynı cm/360 korunabilir fakat FOV, oyun motoru ve nişan davranışı hissiyatı değiştirebilir.</p></details>
-<details><summary>DPI neden isteniyor?</summary><p>DPI, fiziksel cm/360 değerini hesaplamak için gerekir. Sadece sensitivity dönüşümü için zorunlu değildir.</p></details></div></section>
+<section class="article">
+<h2>Valorant sens CS2'ye nasıl çevrilir?</h2>
+<p>Valorant ve CS2 aynı mouse dönüş ölçeğini kullanmadığı için oyun içindeki sensitivity sayılarını birebir kopyalamak aynı fiziksel hissi vermez. Bu araç, oyunların dönüş katsayılarını kullanarak yaklaşık aynı 360 derece dönüş mesafesini hedefler. Kaynak oyunu, hedef oyunu, mevcut sensitivity değerini ve DPI'ını girmen yeterlidir.</p>
+<h2>Neden cm/360 ile karşılaştırmak daha mantıklı?</h2>
+<p>cm/360, mouse'u masada kaç santimetre hareket ettirdiğinde kameranın tam tur döndüğünü gösterir. Böylece farklı sensitivity ölçeklerine sahip oyunlarda ortak bir fiziksel ölçü elde edilir. Aynı cm/360 değerine sahip iki ayar genel dönüş mesafesi açısından benzerdir; ancak FOV, nişan mekanikleri, hızlanma ayarları ve oyun motoru nedeniyle his tamamen aynı olmayabilir.</p>
+<h2>eDPI oyunlar arasında taşınabilir mi?</h2>
+<p>eDPI aynı oyun içindeki ayarları karşılaştırmak için kullanışlıdır; fakat farklı oyunların sensitivity ölçekleri değiştiği için Valorant eDPI ile CS2 eDPI'ı doğrudan eşitlemek doğru değildir. Valorant içinde karşılaştırma yapmak için <a href="valorant-edpi-hesaplama.html">Valorant eDPI hesaplayıcıyı</a>, CS2 için <a href="cs2-edpi-hesaplama.html">CS2 eDPI hesaplayıcıyı</a> kullanabilirsin.</p>
+<h2>DPI'ı da değiştireceksen ne yapmalısın?</h2>
+<p>Örneğin 800 DPI'dan 1600 DPI'a geçerken aynı oyun içi hissi korumak istiyorsan sensitivity değerini de ayarlaman gerekir. Bunun için <a href="dpi-degistirince-sens.html">DPI değiştirince sens hesaplama</a> aracını kullan; ardından gerekiyorsa bu sayfada oyunlar arası dönüşüm yap.</p>
+<div class="callout"><b>İpucu:</b> Yeni oyuna geçtikten sonra sonucu başlangıç noktası olarak kullan. Birkaç maç oynayıp çok küçük düzeltmeler yapmak, her maç büyük sens değişiklikleri yapmaktan daha tutarlı olabilir.</div>
+<h2>Sık sorulan sorular</h2>
+<div class="faq">
+<details><summary>Valorant'tan CS2'ye dönüşüm birebir hissedilir mi?</summary><p>Hayır. Dönüş mesafesi eşitlenebilir ancak FOV, oyun motoru ve nişan davranışı algılanan hissi değiştirebilir.</p></details>
+<details><summary>DPI neden isteniyor?</summary><p>DPI, yaklaşık cm/360 ve fiziksel hassasiyet hesabı için kullanılır. Sadece oyun içi sensitivity oranını dönüştürmek için her zaman gerekli değildir.</p></details>
+<details><summary>Aynı sens sayısını iki oyunda kullanabilir miyim?</summary><p>Kullanabilirsin ancak bu aynı fiziksel hassasiyet anlamına gelmez. Oyunların dönüş ölçekleri farklıdır.</p></details>
+</div>
+<h2>İlgili araçlar</h2>
+<p><a href="valorant-edpi-hesaplama.html">Valorant eDPI</a> · <a href="cs2-edpi-hesaplama.html">CS2 eDPI</a> · <a href="dpi-degistirince-sens.html">DPI değiştirince sens</a></p>
+</section>
 
 <section class="monetize-wrap">
   <div class="monetize-head">
@@ -43,5 +61,5 @@
 <div class="brand"><span class="brand-mark">OO</span><span>OyunOpti</span></div>
 <div class="foot-links"><a href="hakkinda.html">Hakkında</a><a href="gizlilik.html">Gizlilik</a><a href="index.html#araclar">Araçlar</a></div>
 <small>© <span data-year></span> OyunOpti. Oyun ve marka adları ilgili hak sahiplerine aittir.</small>
-</footer><script src="app.js?v=3"></script><script src="monetization.js?v=4"></script>
+</footer><script src="app.js?v=5"></script><script src="monetization.js?v=5"></script>
 </body></html>

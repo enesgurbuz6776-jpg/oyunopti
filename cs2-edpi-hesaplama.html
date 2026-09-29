@@ -1,28 +1,48 @@
 <!doctype html><html lang="tr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CS2 eDPI Hesaplama — DPI ve Sens Calculator | OyunOpti</title>
-<meta name="description" content="CS2 eDPI hesaplama: DPI ve CS2 sensitivity değerini gir, eDPI ve yaklaşık cm/360 sonucunu ücretsiz hesapla.">
+<title>CS2 eDPI Hesaplama: DPI × Sens + cm/360 | OyunOpti</title>
+<meta name="description" content="CS2 eDPI hesaplama aracı: DPI ve sensitivity değerini gir, eDPI ile yaklaşık cm/360 sonucunu anında hesapla. Formül, örnekler ve ayar rehberi.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:site_name" content="OyunOpti">
+<meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#0b1020">
 <link rel="canonical" href="https://enesgurbuz6776-jpg.github.io/oyunopti/cs2-edpi-hesaplama.html">
-<meta property="og:title" content="CS2 eDPI Hesaplama — DPI ve Sens Calculator | OyunOpti">
-<meta property="og:description" content="CS2 eDPI hesaplama: DPI ve CS2 sensitivity değerini gir, eDPI ve yaklaşık cm/360 sonucunu ücretsiz hesapla.">
+<meta property="og:title" content="CS2 eDPI Hesaplama: DPI × Sens + cm/360">
+<meta property="og:description" content="CS2 eDPI hesaplama aracı: DPI ve sensitivity değerini gir, eDPI ile yaklaşık cm/360 sonucunu anında hesapla. Formül, örnekler ve ayar rehberi.">
 <meta property="og:type" content="website"><meta property="og:url" content="https://enesgurbuz6776-jpg.github.io/oyunopti/cs2-edpi-hesaplama.html">
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=5">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"CS2 eDPI Hesaplayıcı","url":"https://enesgurbuz6776-jpg.github.io/oyunopti/cs2-edpi-hesaplama.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TRY"}}</script>
-<script src="config.js?v=4"></script>
+<script src="config.js?v=5"></script>
 </head><body><header class="topbar">
 <a class="brand" href="index.html"><span class="brand-mark">OO</span><span>OyunOpti</span></a>
 <nav><a href="index.html#araclar">Araçlar</a><a href="hakkinda.html">Hakkında</a><a class="pill" href="valorant-cs2-sens.html">Sens Hesapla</a></nav>
 </header><main>
 <div class="breadcrumb"><a href="index.html">OyunOpti</a> › CS2 eDPI</div>
-<section class="page-hero"><span class="eyebrow">CS2 eDPI</span><h1>CS2 eDPI Hesaplama </h1><p>CS2 için DPI ve sensitivity değerinden eDPI ve yaklaşık cm/360 sonucunu hesapla.</p></section>
+<section class="page-hero"><span class="eyebrow">CS2 eDPI</span><h1>CS2 eDPI Hesaplama</h1><p>DPI ve CS2 sensitivity değerini gir; eDPI ve yaklaşık cm/360 sonucunu anında gör.</p></section>
 <section class="tool-card"><div class="form-grid">
 <label>DPI<input id="csDpi" type="number" value="800" min="100" step="50"></label>
 <label>CS2 sensitivity<input id="csSens" type="number" value="1.0" min=".001" step=".001"></label>
 </div><button class="btn primary" id="calcCs2Edpi">CS2 eDPI Hesapla</button><div class="result" id="csEdpiResult"></div>
 <div class="quick-chips"><button onclick="document.querySelector('#csDpi').value=400">400 DPI</button><button onclick="document.querySelector('#csDpi').value=800">800 DPI</button><button onclick="document.querySelector('#csDpi').value=1600">1600 DPI</button></div></section>
-<section class="article"><h2>CS2 eDPI nasıl hesaplanır?</h2><p>DPI × CS2 sensitivity formülü kullanılır. Örneğin 800 DPI ve 1.0 sensitivity için eDPI 800 olur.</p>
-<h2>CS2 cm/360 neden önemli?</h2><p>cm/360, mouse'u kaç santimetre hareket ettirdiğinizde karakterin tam tur döndüğünü gösterir ve fiziksel hassasiyeti daha doğrudan ifade eder.</p></section>
+<section class="article">
+<h2>CS2 eDPI nasıl hesaplanır?</h2>
+<p>CS2'de eDPI hesabı <b>DPI × sensitivity</b> formülüyle yapılır. Örneğin 800 DPI ve 1.00 sensitivity kullandığında eDPI değerin 800 olur. 400 DPI ve 2.00 sensitivity de aynı eDPI sonucunu verir. Bu yüzden yalnızca sensitivity sayısına değil, DPI ile birlikte değerlendirmek gerekir.</p>
+<h2>CS2'de cm/360 neyi gösterir?</h2>
+<p>cm/360, oyun içinde tam 360 derece dönmek için mouse'u fiziksel olarak kaç santimetre hareket ettirmen gerektiğini gösterir. Daha yüksek cm/360 daha düşük fiziksel hassasiyet, daha düşük cm/360 ise daha yüksek hassasiyet anlamına gelir. Farklı oyunlar arasında ayar karşılaştırırken cm/360, tek başına eDPI'dan daha kullanışlıdır.</p>
+<h2>CS2 için yüksek mi düşük mü sensitivity?</h2>
+<p>Tek bir doğru değer yoktur. Düşük sensitivity daha büyük kol hareketi ve daha geniş mousepad alanı gerektirebilir; yüksek sensitivity ise daha kısa hareketlerle dönmeyi sağlar. Seçeceğin ayarın hem hızlı dönüşlerde hem de küçük nişan düzeltmelerinde kontrol edilebilir olması önemlidir.</p>
+<h2>Valorant ayarını CS2'ye nasıl taşırsın?</h2>
+<p>Valorant ve CS2 aynı sensitivity ölçeğini kullanmaz. Bu nedenle Valorant'taki sayıyı CS2'ye doğrudan yazmak yerine <a href="valorant-cs2-sens.html">Valorant ↔ CS2 sensitivity dönüştürücü</a> aracını kullan. DPI değerini değiştiriyorsan <a href="dpi-degistirince-sens.html">aynı eDPI'ı koruyan yeni sensi</a> de hesaplayabilirsin.</p>
+<div class="callout"><b>Örnek:</b> 800 DPI × 1.00 sens = <b>800 eDPI</b>. 400 DPI kullanırken aynı eDPI için sens 2.00 olur.</div>
+<h2>Sık sorulan sorular</h2>
+<div class="faq">
+<details><summary>CS2'de eDPI ile sensitivity aynı şey mi?</summary><p>Hayır. Sensitivity yalnızca oyun içindeki değerdir. eDPI ise bu değeri mouse DPI ile çarpar ve ayarı tek sayıda ifade eder.</p></details>
+<details><summary>DPI değiştirince aim bozulur mu?</summary><p>Yeni sensitivity değeriyle aynı eDPI korunursa temel dönüş hassasiyeti yakın kalır. Yine de donanım ve sistem ayarları hissi etkileyebilir.</p></details>
+<details><summary>CS2 eDPI'ımı Valorant ile karşılaştırabilir miyim?</summary><p>Sayısal eDPI değerlerini doğrudan eşitlemek doğru değildir; oyunların dönüş ölçekleri farklıdır. Oyunlar arası karşılaştırmada cm/360 veya sens dönüştürme aracı kullan.</p></details>
+</div>
+<h2>İlgili araçlar</h2>
+<p><a href="valorant-edpi-hesaplama.html">Valorant eDPI hesapla</a> · <a href="valorant-cs2-sens.html">Valorant CS2 sens dönüştür</a> · <a href="mouse-polling-rate-gecikme.html">Mouse polling rate hesapla</a></p>
+</section>
 
 <section class="monetize-wrap">
   <div class="monetize-head">
@@ -39,5 +59,5 @@
 </main><footer><div class="brand"><span class="brand-mark">OO</span><span>OyunOpti</span></div>
 <div class="foot-links"><a href="hakkinda.html">Hakkında</a><a href="gizlilik.html">Gizlilik</a><a href="index.html#araclar">Araçlar</a></div>
 <small>© <span data-year></span> OyunOpti. Oyun ve marka adları ilgili hak sahiplerine aittir.</small></footer>
-<script src="app.js?v=3"></script><script src="monetization.js?v=4"></script>
+<script src="app.js?v=5"></script><script src="monetization.js?v=5"></script>
 </body></html>
