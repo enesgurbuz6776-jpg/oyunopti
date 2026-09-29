@@ -1,0 +1,16 @@
+OYUNOPTİ SITEMAP FIX
+
+1) GitHub oyunopti ana dizinine:
+   - sitemap-v3.xml dosyasını YENİ dosya olarak yükle.
+   - robots.txt dosyasını bununla DEĞİŞTİR.
+   - Eski sitemap.xml dosyasını şimdilik SİLME.
+   - Google doğrulama dosyasını SİLME.
+
+2) GitHub Pages güncellendikten sonra şu adresi aç:
+   https://enesgurbuz6776-jpg.github.io/oyunopti/sitemap-v3.xml
+
+3) Google Search Console > Site Haritaları bölümünde yeni site haritası kutusuna:
+   sitemap-v3.xml
+   yaz ve Gönder.
+
+4) Yeni sitemap 'Başarılı' olursa eski /sitemap.xml kaydını daha sonra kaldırabilirsin.
