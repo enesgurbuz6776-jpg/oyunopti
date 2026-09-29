@@ -1,0 +1,29 @@
+OYUNOPTİ V3 TRAFİK PAKETİ
+==========================
+
+GITHUB:
+- Bu paketteki tüm dosyaları oyunopti reposunun ana dizinine yükle.
+- index.html, style.css, app.js, sitemap.xml ve robots.txt yenileriyle değişsin.
+- Yeni HTML dosyaları eklensin.
+- Google doğrulama dosyanı (googlec....html) SİLME.
+
+V3 YENİ SAYFALAR:
+- https://enesgurbuz6776-jpg.github.io/oyunopti/valorant-edpi-hesaplama.html
+- https://enesgurbuz6776-jpg.github.io/oyunopti/cs2-edpi-hesaplama.html
+- https://enesgurbuz6776-jpg.github.io/oyunopti/dpi-degistirince-sens.html
+- https://enesgurbuz6776-jpg.github.io/oyunopti/fps-frame-time-hesaplama.html
+- https://enesgurbuz6776-jpg.github.io/oyunopti/mouse-polling-rate-gecikme.html
+- https://enesgurbuz6776-jpg.github.io/oyunopti/cozunurluk-en-boy-orani.html
+
+SEARCH CONSOLE:
+- Deploy sonrası sitemap.xml zaten V3 sayfalarını içerir.
+- Site Haritaları bölümünde mevcut sitemap'i silmek zorunda değilsin.
+- Google zamanla güncellenmiş sitemap'i tekrar okuyabilir.
+- İstersen V3'ten en önemli 3 yeni URL için URL Denetimi > Dizine eklenmesini iste:
+  1) valorant-edpi-hesaplama.html
+  2) fps-frame-time-hesaplama.html
+  3) mouse-polling-rate-gecikme.html
+
+NOT:
+- Google doğrulama HTML dosyan repoda kalmalı.
+- SEO sonuçları anlık değildir.

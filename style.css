@@ -26,3 +26,26 @@ h1{font-size:clamp(44px,7vw,78px);line-height:.98;letter-spacing:-.06em;margin:1
 footer{width:min(1180px,calc(100% - 32px));margin:50px auto 0;border-top:1px solid var(--line);padding:34px 0 50px;color:var(--muted)}footer .foot-links{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0}footer small{font-size:12px}
 @media(max-width:900px){nav a:not(.pill){display:none}.hero{grid-template-columns:1fr;gap:28px}.cards{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:580px){main{width:min(100% - 22px,1180px)}.topbar{padding:12px}.hero{min-height:auto;padding:45px 0}.hero-actions{flex-direction:column}.btn{text-align:center}.cards{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.tool-card{padding:18px}.mini-grid{grid-template-columns:1fr}.arrow{transform:rotate(90deg);text-align:center}.result-grid{grid-template-columns:1fr}}
+
+/* ===== V3 TRAFIK ===== */
+.v3-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.v3-card{background:linear-gradient(180deg,rgba(15,21,38,.98),rgba(10,15,28,.98));border:1px solid var(--line);border-radius:22px;padding:22px;transition:.2s}
+.v3-card:hover{border-color:#4c5f91;transform:translateY(-2px)}
+.v3-card h3{margin:10px 0 8px;font-size:20px}
+.v3-card p{margin:0;color:var(--muted);line-height:1.6}
+.v3-card .go{display:inline-block;margin-top:17px;color:var(--accent2);font-weight:800}
+.metric-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
+.metric{background:#0b1020;border:1px solid var(--line);border-radius:15px;padding:14px}
+.metric small{display:block;color:var(--muted);margin-bottom:5px}
+.metric b{font-size:21px}
+.table-wrap{overflow:auto;margin-top:18px}
+.tool-table{width:100%;border-collapse:collapse;min-width:560px}
+.tool-table th,.tool-table td{border-bottom:1px solid var(--line);padding:12px 10px;text-align:left}
+.tool-table th{color:#b8c4e2;font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.tool-table td{color:var(--muted)}
+.tool-table b{color:#fff}
+.quick-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.quick-chips button{background:#0b1020;color:#dce5ff;border:1px solid var(--line);border-radius:999px;padding:8px 12px;cursor:pointer}
+.callout{margin:20px 0;padding:18px;border-radius:17px;background:rgba(124,92,255,.08);border:1px solid rgba(124,92,255,.25);color:var(--muted);line-height:1.7}
+@media(max-width:900px){.v3-grid{grid-template-columns:1fr 1fr}.metric-row{grid-template-columns:1fr 1fr}}
+@media(max-width:580px){.v3-grid{grid-template-columns:1fr}.metric-row{grid-template-columns:1fr}}
