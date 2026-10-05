@@ -60,6 +60,27 @@
     });
   }
 
+  function productButtons(){
+    document.querySelectorAll("[data-product-buy]").forEach(a=>{
+      const key=a.getAttribute("data-product-buy");
+      const product=cfg.PRODUCTS && cfg.PRODUCTS[key];
+      const url=product && (product.payment_url||"").trim();
+      if(url){
+        a.href=url;
+        a.target="_blank";
+        a.rel="nofollow sponsored noopener";
+        a.classList.remove("disabled");
+        a.addEventListener("click",()=>{
+          if(window.gtag) gtag("event","product_click",{"product":key,"link_url":url});
+        });
+      } else {
+        a.removeAttribute("href");
+        a.classList.add("disabled");
+        a.textContent="Ödeme bağlantısı yakında";
+      }
+    });
+  }
+
   function sponsorEmail(){
     const mail=(cfg.CONTACT_EMAIL||"").trim();
     document.querySelectorAll("[data-contact]").forEach(el=>{
@@ -72,6 +93,7 @@
     consent();
     affiliateCards();
     trackTools();
+    productButtons();
     sponsorEmail();
   });
 })();
