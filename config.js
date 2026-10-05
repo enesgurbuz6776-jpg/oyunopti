@@ -12,7 +12,7 @@ window.OYUNOPTI_CONFIG = {
 
   PRODUCTS: {
     personal_sens: {
-      name: "Kişisel Valorant Sens Analizi",
+      name: "Kişisel Valorant & CS2 Sens Analizi",
       price_try: 49,
       payment_url: ""
     }
