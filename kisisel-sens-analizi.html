@@ -1,32 +1,33 @@
 <!doctype html><html lang="tr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kişisel Valorant Sens Analizi – 49 TL | OyunOpti</title>
-<meta name="description" content="DPI, mevcut sensitivity, mousepad alanı ve oyun tercihine göre kişisel Valorant sens analizi. eDPI karşılaştırması, alternatif ayarlar ve test planı.">
+<title>Kişisel Valorant & CS2 Sens Analizi – 49 TL | OyunOpti</title>
+<meta name="description" content="Valorant, CS2 veya her iki oyun için DPI, sensitivity, mousepad alanı ve oyun tercihine göre kişisel sens analizi. eDPI karşılaştırması, alternatif ayarlar ve test planı.">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta name="theme-color" content="#0b1020">
 <link rel="canonical" href="https://enesgurbuz6776-jpg.github.io/oyunopti/kisisel-sens-analizi.html">
 <meta property="og:site_name" content="OyunOpti"><meta property="og:type" content="product">
-<meta property="og:title" content="Kişisel Valorant Sens Analizi – 49 TL">
-<meta property="og:description" content="DPI ve sensitivity ayarına göre kişisel eDPI değerlendirmesi, alternatif sens seçenekleri ve test planı.">
+<meta property="og:title" content="Kişisel Valorant & CS2 Sens Analizi – 49 TL">
+<meta property="og:description" content="Valorant ve CS2 için kişisel eDPI değerlendirmesi, alternatif sens seçenekleri ve test planı.">
 <meta property="og:url" content="https://enesgurbuz6776-jpg.github.io/oyunopti/kisisel-sens-analizi.html">
 <link rel="stylesheet" href="style.css?v=7">
 <script src="config.js?v=6"></script>
 </head><body><header class="topbar">
 <a class="brand" href="index.html"><span class="brand-mark">OO</span><span>OyunOpti</span></a>
-<nav><a href="index.html#araclar">Araçlar</a><a href="index.html#rehberler">Rehberler</a><a href="hakkinda.html">Hakkında</a><a class="pill" href="valorant-edpi-hesaplama.html">eDPI Hesapla</a></nav>
+<nav><a href="index.html#araclar">Araçlar</a><a href="index.html#rehberler">Rehberler</a><a href="hakkinda.html">Hakkında</a><a class="pill" href="valorant-cs2-sens.html">Sens Dönüştür</a></nav>
 </header><main>
 <div class="breadcrumb"><a href="index.html">OyunOpti</a> › Kişisel Sens Analizi</div>
-<section class="page-hero"><span class="eyebrow">OyunOpti Özel</span><h1>Kişisel Valorant Sens Analizi</h1><p>Hazır bir “mucize sens” vermek yerine mevcut ayarını, DPI'ını ve kullanım alanını temel alarak sana özel bir başlangıç planı oluşturuyoruz.</p></section>
+<section class="page-hero"><span class="eyebrow">OyunOpti Özel</span><h1>Kişisel Valorant & CS2 Sens Analizi</h1><p>Valorant, CS2 veya iki oyunu birden seç. Mevcut ayarını, DPI'ını, mousepad alanını ve oynayış tercihini temel alarak sana özel bir test planı hazırlanır.</p></section>
 
 <section class="own-product">
 <div class="own-product-grid">
 <div>
 <h2>Pakette ne var?</h2>
 <div class="product-bullets">
+<span>✓ Valorant, CS2 veya iki oyun için kişisel analiz</span>
 <span>✓ Mevcut DPI + sens için eDPI değerlendirmesi</span>
 <span>✓ Düşük / orta / yüksek sens alternatifleri</span>
 <span>✓ Mousepad alanına göre pratik ayar önerisi</span>
-<span>✓ Valorant → CS2 yaklaşık dönüşüm karşılığı</span>
+<span>✓ Valorant ↔ CS2 yaklaşık sens karşılığı</span>
 <span>✓ 3 aşamalı sensitivity test planı</span>
 </div>
 </div>
@@ -40,15 +41,31 @@
 
 <section class="order-card">
 <h2>Analiz bilgilerini hazırla</h2>
-<p>Ödeme bağlantısı aktif olduğunda bu bilgiler kişisel analizin hazırlanmasında kullanılacak. Şimdilik formu doldurup özetini hazırlayabilirsin.</p>
+<p>Önce oyunu seç; form ona göre açılır. Ödeme bağlantısı aktif olduğunda bu bilgiler kişisel analizin hazırlanmasında kullanılacak.</p>
 <form id="sensOrderForm" class="order-grid">
+<label>Oyun
+<select id="orderGame">
+<option value="valorant">Valorant</option>
+<option value="cs2">CS2</option>
+<option value="both">Valorant + CS2</option>
+</select>
+</label>
 <label>DPI<input id="orderDpi" type="number" min="100" step="50" value="800" required></label>
-<label>Valorant sensitivity<input id="orderSens" type="number" min=".001" step=".001" value=".32" required></label>
+
+<label id="valorantSensWrap">Valorant sensitivity<input id="orderValorantSens" type="number" min=".001" step=".001" value=".32"></label>
+<label id="cs2SensWrap" hidden>CS2 sensitivity<input id="orderCs2Sens" type="number" min=".001" step=".001" value="1.00"></label>
+
 <label>Mousepad genişliği (cm)<input id="orderPad" type="number" min="10" step="1" placeholder="Örn. 45"></label>
-<label>Rank / seviye<select id="orderRank"><option>Yeni başlayan</option><option>Iron / Bronze</option><option>Silver / Gold</option><option>Platinum / Diamond</option><option>Ascendant+</option></select></label>
-<label>Oynayış tercihi<select id="orderStyle"><option>Dengeli</option><option>Düşük sens / kol aim</option><option>Yüksek sens / bilek aim</option><option>Emin değilim</option></select></label>
-<label>CS2 de oynuyor musun?<select id="orderCs2"><option>Hayır</option><option>Evet</option></select></label>
-<label class="full">Ek not<textarea id="orderNote" placeholder="Örn. 180 derece dönerken mousepad yetmiyor, mikro düzeltmelerde zorlanıyorum..."></textarea></label>
+<label>Oyun seviyesi
+<select id="orderLevel"><option>Yeni başlayan</option><option>Orta seviye</option><option>İleri seviye</option><option>Rekabetçi / yüksek seviye</option></select>
+</label>
+<label>Oynayış tercihi
+<select id="orderStyle"><option>Dengeli</option><option>Düşük sens / kol aim</option><option>Yüksek sens / bilek aim</option><option>Emin değilim</option></select>
+</label>
+<label>En çok zorlandığın konu
+<select id="orderProblem"><option>Mikro düzeltme / küçük hedef</option><option>Hızlı dönüş / 180 derece</option><option>Spray / takip</option><option>Ayarım tutarsız hissettiriyor</option><option>Emin değilim</option></select>
+</label>
+<label class="full">Ek not<textarea id="orderNote" placeholder="Örn. düşük sens seviyorum ama 180 dönerken mousepad yetmiyor..."></textarea></label>
 <label class="full" style="display:flex;grid-template-columns:auto 1fr;align-items:flex-start;gap:10px;font-weight:500">
 <input id="termsAccept" type="checkbox" required style="width:auto;margin-top:4px">
 <span><a href="mesafeli-satis.html" target="_blank">Mesafeli satış / ön bilgilendirme</a>, <a href="iade-iptal.html" target="_blank">iptal-iade</a> ve <a href="dijital-teslimat.html" target="_blank">dijital teslimat</a> koşullarını okudum.</span>
@@ -63,12 +80,16 @@
 </section>
 
 <section class="article">
-<h2>Bu analiz ne yapar?</h2>
-<p>Formdaki değerler üzerinden mevcut eDPI hesabın çıkarılır, ayarın çok küçük veya çok büyük fiziksel hareket gerektirip gerektirmediği değerlendirilir ve test etmen için birkaç kontrollü alternatif hazırlanır. Amaç her maç sens değiştirmek değil, daha sistemli deneme yapmaktır.</p>
+<h2>Valorant için ne incelenir?</h2>
+<p>Valorant sensitivity ve DPI değerinden eDPI çıkarılır; mousepad alanı ve oynayış tercihiyle birlikte daha düşük, dengeli ve daha yüksek alternatifler test planına dönüştürülür.</p>
+<h2>CS2 için ne incelenir?</h2>
+<p>CS2 sensitivity ve DPI değerinden eDPI çıkarılır. Hızlı dönüş, mikro düzeltme ve takip ihtiyacı birlikte değerlendirilir. Valorant da oynuyorsan iki oyun arasındaki yaklaşık sensitivity karşılığı ayrıca gösterilebilir.</p>
+<h2>İki oyunu da oynuyorsan</h2>
+<p>Her iki sensitivity değerini de girebilirsin. Böylece iki ayarın birbiriyle ne kadar uyumlu olduğu ve oyun değiştirirken hangi başlangıç değerlerinin daha mantıklı test edilebileceği raporda yer alır.</p>
 <h2>Ne yapmaz?</h2>
 <p>“Bu sens ile kesin rank atlarsın” veya “aim'in şu kadar artar” gibi garanti vermez. Aim; pratik, oyun bilgisi, donanım ve kişisel alışkanlık gibi birçok faktörden etkilenir.</p>
-<h2>Ücretsiz hesaplayıcıyı kullanmak ister misin?</h2>
-<p>Satın almadan önce <a href="valorant-edpi-hesaplama.html">Valorant eDPI hesaplayıcı</a> ve <a href="valorant-ideal-edpi.html">ideal eDPI rehberi</a> ücretsiz olarak kullanılabilir.</p>
+<h2>Önce ücretsiz hesaplamak ister misin?</h2>
+<p><a href="valorant-edpi-hesaplama.html">Valorant eDPI hesaplayıcı</a> · <a href="cs2-edpi-hesaplama.html">CS2 eDPI hesaplayıcı</a> · <a href="valorant-cs2-sens.html">Valorant ↔ CS2 sens dönüştürücü</a></p>
 </section>
 </main><footer><div class="brand"><span class="brand-mark">OO</span><span>OyunOpti</span></div>
 <div class="foot-links"><a href="hakkinda.html">Hakkında</a><a href="gizlilik.html">Gizlilik</a><a href="mesafeli-satis.html">Mesafeli Satış</a><a href="iade-iptal.html">İptal / İade</a><a href="dijital-teslimat.html">Dijital Teslimat</a><a href="gelir-ortakligi.html">Gelir ortaklığı</a><a href="iletisim.html">İletişim</a></div>
@@ -77,31 +98,58 @@
 <script>
 (function(){
   const form=document.getElementById("sensOrderForm");
+  const game=document.getElementById("orderGame");
+  const valWrap=document.getElementById("valorantSensWrap");
+  const csWrap=document.getElementById("cs2SensWrap");
+  const valSens=document.getElementById("orderValorantSens");
+  const csSens=document.getElementById("orderCs2Sens");
   const preview=document.getElementById("orderPreview");
   const copy=document.getElementById("copyOrder");
+
+  function syncGame(){
+    const g=game.value;
+    valWrap.hidden=(g==="cs2");
+    csWrap.hidden=(g==="valorant");
+    valSens.required=(g!=="cs2");
+    csSens.required=(g!=="valorant");
+  }
+  game.addEventListener("change",syncGame); syncGame();
+
   form.addEventListener("submit",function(e){
     e.preventDefault();
     const dpi=Number(document.getElementById("orderDpi").value||0);
-    const sens=Number(document.getElementById("orderSens").value||0);
-    const edpi=(dpi*sens).toFixed(1);
-    const data={
-      dpi, sens, edpi,
-      pad:document.getElementById("orderPad").value||"Belirtilmedi",
-      rank:document.getElementById("orderRank").value,
-      style:document.getElementById("orderStyle").value,
-      cs2:document.getElementById("orderCs2").value,
-      note:document.getElementById("orderNote").value||"Yok"
-    };
-    const text="OyunOpti Kişisel Sens Analizi\nDPI: "+data.dpi+"\nValorant sens: "+data.sens+"\neDPI: "+data.edpi+"\nMousepad: "+data.pad+" cm\nRank: "+data.rank+"\nTercih: "+data.style+"\nCS2: "+data.cs2+"\nNot: "+data.note;
+    const g=game.value;
+    const v=Number(valSens.value||0);
+    const c=Number(csSens.value||0);
+    const gameName=g==="valorant"?"Valorant":g==="cs2"?"CS2":"Valorant + CS2";
+    const lines=[
+      "OyunOpti Kişisel Sens Analizi",
+      "Oyun: "+gameName,
+      "DPI: "+dpi
+    ];
+    if(g!=="cs2"){
+      lines.push("Valorant sens: "+v);
+      lines.push("Valorant eDPI: "+(dpi*v).toFixed(1));
+    }
+    if(g!=="valorant"){
+      lines.push("CS2 sens: "+c);
+      lines.push("CS2 eDPI: "+(dpi*c).toFixed(1));
+    }
+    lines.push("Mousepad: "+(document.getElementById("orderPad").value||"Belirtilmedi")+" cm");
+    lines.push("Seviye: "+document.getElementById("orderLevel").value);
+    lines.push("Tercih: "+document.getElementById("orderStyle").value);
+    lines.push("Zorlanılan konu: "+document.getElementById("orderProblem").value);
+    lines.push("Not: "+(document.getElementById("orderNote").value||"Yok"));
+    const text=lines.join("\n");
     preview.textContent=text;
     preview.hidden=false;
     copy.hidden=false;
-    localStorage.setItem("oyunopti_personal_sens_order",JSON.stringify(data));
-    if(window.gtag) gtag("event","product_form_ready",{"product":"personal_sens"});
+    localStorage.setItem("oyunopti_personal_sens_order",JSON.stringify({game:g,dpi,valorantSens:v,cs2Sens:c,text}));
+    if(window.gtag) gtag("event","product_form_ready",{"product":"personal_sens","game":g});
   });
+
   copy.addEventListener("click",async function(){
-    const text=preview.textContent;
-    try{await navigator.clipboard.writeText(text);copy.textContent="Kopyalandı ✓";}
+    try{await navigator.clipboard.writeText(preview.textContent);copy.textContent="Kopyalandı ✓";}
     catch(e){copy.textContent="Kopyalama başarısız";}
   });
 })();
