@@ -88,3 +88,24 @@ footer{width:min(1180px,calc(100% - 32px));margin:50px auto 0;border-top:1px sol
 .guide-link{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;margin:22px 0;padding:16px;border:1px solid rgba(124,92,255,.24);background:rgba(124,92,255,.06);border-radius:16px}
 .guide-link>span{font-size:23px}.guide-link b{display:block}.guide-link p{margin:4px 0 0;color:var(--muted);font-size:13px}.guide-link>a{font-weight:900;color:var(--accent2);white-space:nowrap}
 @media(max-width:650px){.guide-cta{align-items:stretch;flex-direction:column}.guide-cta .btn{text-align:center}.guide-link{grid-template-columns:auto 1fr}.guide-link>a{grid-column:2}}
+
+
+/* ===== V7 OWN PRODUCT ===== */
+.own-product{margin:34px 0;padding:24px;border:1px solid rgba(124,92,255,.28);background:linear-gradient(135deg,rgba(124,92,255,.10),rgba(25,211,174,.05));border-radius:24px}
+.own-product-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:20px;align-items:center}
+.own-product h2{font-size:32px;margin:6px 0 10px;letter-spacing:-.03em}
+.own-product p{color:var(--muted);line-height:1.65;margin:0}
+.product-price{font-size:42px;font-weight:900;letter-spacing:-.04em;margin:8px 0}
+.product-price small{font-size:14px;color:var(--muted);font-weight:700}
+.product-bullets{display:grid;gap:8px;margin:18px 0 0;color:#dbe4ff}
+.product-bullets span{display:block}
+.own-product-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.order-card{margin:24px 0;padding:22px;background:linear-gradient(180deg,#11192c,#0c1221);border:1px solid var(--line);border-radius:22px}
+.order-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.order-grid label{display:grid;gap:7px;color:#dbe4ff;font-weight:700}
+.order-grid input,.order-grid select,.order-grid textarea{width:100%;box-sizing:border-box;background:#0b1020;color:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 13px;font:inherit}
+.order-grid textarea{min-height:110px;resize:vertical}
+.order-grid .full{grid-column:1/-1}
+.order-preview{margin-top:16px;padding:16px;border-radius:14px;background:rgba(25,211,174,.06);border:1px solid rgba(25,211,174,.20);color:var(--muted);white-space:pre-wrap}
+.product-note{font-size:12px;color:#8490ad;line-height:1.6;margin-top:12px}
+@media(max-width:760px){.own-product-grid{grid-template-columns:1fr}.order-grid{grid-template-columns:1fr}.order-grid .full{grid-column:auto}}
