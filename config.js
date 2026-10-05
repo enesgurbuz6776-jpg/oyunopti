@@ -10,6 +10,14 @@ window.OYUNOPTI_CONFIG = {
     keyboard: ""
   },
 
+  PRODUCTS: {
+    personal_sens: {
+      name: "Kişisel Valorant Sens Analizi",
+      price_try: 49,
+      payment_url: ""
+    }
+  },
+
   CONTACT_EMAIL: "",
   ADSENSE_CLIENT: ""
 };
