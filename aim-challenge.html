@@ -1,0 +1,204 @@
+<!doctype html><html lang="tr"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OyunOpti Aim Challenge – Ücretsiz Aim Testi</title>
+<meta name="description" content="20 saniyelik OyunOpti Aim Challenge ile hedef vurma hızını, isabet oranını ve ortalama reaksiyon süreni ölç. Tarayıcıdan ücretsiz oyna.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#0b1020">
+<link rel="canonical" href="https://enesgurbuz6776-jpg.github.io/oyunopti/aim-challenge.html">
+<meta property="og:site_name" content="OyunOpti">
+<meta property="og:type" content="website">
+<meta property="og:title" content="OyunOpti Aim Challenge">
+<meta property="og:description" content="20 saniyede kaç hedef vurabilirsin? Hız, isabet ve reaksiyon süreni ölç.">
+<meta property="og:url" content="https://enesgurbuz6776-jpg.github.io/oyunopti/aim-challenge.html">
+<link rel="stylesheet" href="style.css?v=8">
+<script src="config.js?v=7"></script>
+</head><body>
+<header class="topbar">
+<a class="brand" href="index.html"><span class="brand-mark">OO</span><span>OyunOpti</span></a>
+<nav><a href="index.html#araclar">Araçlar</a><a href="index.html#rehberler">Rehberler</a><a href="kisisel-sens-analizi.html">Kişisel Analiz</a><a class="pill" href="aim-challenge.html">Aim Challenge</a></nav>
+</header>
+<main>
+<div class="breadcrumb"><a href="index.html">OyunOpti</a> › Aim Challenge</div>
+<section class="page-hero">
+<span class="eyebrow">Yeni • Web Oyunu</span>
+<h1>OyunOpti Aim Challenge</h1>
+<p>20 saniyede mümkün olduğunca çok hedef vur. İsabet oranını, ortalama hedef vurma süreni ve kişisel rekorunu ölç.</p>
+</section>
+
+<section class="aim-shell">
+<div class="aim-top">
+  <div><small>Süre</small><b id="timeLeft">20.0</b></div>
+  <div><small>Vuruş</small><b id="hits">0</b></div>
+  <div><small>Iska</small><b id="misses">0</b></div>
+  <div><small>Hak</small><b id="playsLeft">-</b></div>
+</div>
+
+<div id="aimArena" class="aim-arena" aria-label="Aim Challenge oyun alanı">
+  <div id="aimIntro" class="aim-intro">
+    <div class="aim-logo">◎</div>
+    <h2>20 saniyelik aim testi</h2>
+    <p>Başlat'a bastıktan sonra çıkan hedeflere mümkün olduğunca hızlı tıkla. Boş alana tıklarsan ıska sayılır.</p>
+    <button id="startAim" class="btn primary" type="button">Oyunu Başlat</button>
+  </div>
+  <button id="aimTarget" class="aim-target" type="button" aria-label="Hedef" hidden></button>
+</div>
+
+<div id="aimResult" class="aim-result" hidden>
+  <div class="metric-row">
+    <div class="metric"><small>Skor</small><b id="resultScore">0</b></div>
+    <div class="metric"><small>İsabet</small><b id="resultAccuracy">%0</b></div>
+    <div class="metric"><small>Ort. vurma</small><b id="resultReaction">0 ms</b></div>
+    <div class="metric"><small>Rekor</small><b id="resultBest">0</b></div>
+  </div>
+  <p id="resultText"></p>
+  <button id="playAgain" class="btn primary" type="button">Tekrar Oyna</button>
+</div>
+</section>
+
+<section class="own-product">
+  <div class="own-product-grid">
+    <div>
+      <span class="eyebrow">Aim Challenge Pro</span>
+      <h2>Sınırsız oyun + gelişmiş modlar</h2>
+      <p>Ücretsiz sürümde ilk gün 3 oyun, sonraki günlerde günde 1 oyun hakkı var. Pro'da sınırsız oyun, Flick, Reaction ve Tracking modları ile detaylı skor geçmişi açılacak.</p>
+      <div class="product-bullets">
+        <span>✓ Sınırsız Aim Challenge</span>
+        <span>✓ Flick / Reaction / Tracking modları</span>
+        <span>✓ Günlük ve haftalık skor geçmişi</span>
+        <span>✓ Reklamsız kullanım</span>
+      </div>
+    </div>
+    <div>
+      <div class="product-price">39 TL <small>tek seferlik</small></div>
+      <a class="btn primary disabled" data-product-buy="aim_pro">Pro yakında</a>
+      <p class="product-note">Ödeme sistemi aktif edildiğinde Pro tek seferlik satın alma olarak açılacak.</p>
+    </div>
+  </div>
+</section>
+
+<section class="article">
+<h2>Ücretsiz kullanım nasıl çalışıyor?</h2>
+<p>Test sürümünde ilk gün 3 oyun hakkın var. Sonraki günlerde günlük 1 ücretsiz oyun hakkı yenilenir. Haklar bu cihazdaki tarayıcıda tutulur; uygulama sürümüne geçildiğinde hesap sistemiyle daha sağlam hale getirilebilir.</p>
+<h2>Skor nasıl hesaplanıyor?</h2>
+<p>Her hedef vuruşu skoruna eklenir. Boş alana yapılan tıklamalar ıska sayılır. Sonuç ekranında isabet oranı ve hedefin görünmesi ile vurulması arasındaki ortalama süre gösterilir. Bu ölçüm profesyonel laboratuvar testi değildir; cihaz ve tarayıcı gecikmesi sonucu etkileyebilir.</p>
+</section>
+</main>
+<footer>
+<div class="brand"><span class="brand-mark">OO</span><span>OyunOpti</span></div>
+<div class="foot-links"><a href="hakkinda.html">Hakkında</a><a href="gizlilik.html">Gizlilik</a><a href="mesafeli-satis.html">Mesafeli Satış</a><a href="iade-iptal.html">İptal / İade</a><a href="dijital-teslimat.html">Dijital Teslimat</a><a href="iletisim.html">İletişim</a></div>
+<small>© <span data-year></span> OyunOpti.</small>
+</footer>
+<script src="app.js?v=5"></script><script src="monetization.js?v=6"></script>
+<script>
+(function(){
+  const STORAGE="oyunopti_aim_usage_v1";
+  const BEST="oyunopti_aim_best_v1";
+  const GAME_MS=20000;
+  const arena=document.getElementById("aimArena");
+  const target=document.getElementById("aimTarget");
+  const intro=document.getElementById("aimIntro");
+  const startBtn=document.getElementById("startAim");
+  const againBtn=document.getElementById("playAgain");
+  const result=document.getElementById("aimResult");
+  const timeEl=document.getElementById("timeLeft");
+  const hitsEl=document.getElementById("hits");
+  const missesEl=document.getElementById("misses");
+  const playsEl=document.getElementById("playsLeft");
+
+  let running=false,hits=0,misses=0,startAt=0,endAt=0,timer=0,targetShownAt=0,reactions=[];
+
+  function dayKey(){ return new Date().toISOString().slice(0,10); }
+  function getUsage(){
+    try{
+      const x=JSON.parse(localStorage.getItem(STORAGE)||"null");
+      if(x && x.firstDay) return x;
+    }catch(e){}
+    const fresh={firstDay:dayKey(),date:dayKey(),playsToday:0};
+    localStorage.setItem(STORAGE,JSON.stringify(fresh));
+    return fresh;
+  }
+  function allowance(u){ return u.firstDay===dayKey()?3:1; }
+  function left(){
+    const u=getUsage();
+    if(u.date!==dayKey()){ u.date=dayKey(); u.playsToday=0; localStorage.setItem(STORAGE,JSON.stringify(u)); }
+    return Math.max(0,allowance(u)-u.playsToday);
+  }
+  function consume(){
+    const u=getUsage();
+    if(u.date!==dayKey()){u.date=dayKey();u.playsToday=0;}
+    u.playsToday++;
+    localStorage.setItem(STORAGE,JSON.stringify(u));
+  }
+  function updateLeft(){ playsEl.textContent=left(); }
+
+  function placeTarget(){
+    const rect=arena.getBoundingClientRect();
+    const size=Math.max(42,Math.min(62,rect.width*.085));
+    target.style.width=size+"px";target.style.height=size+"px";
+    const maxX=Math.max(8,rect.width-size-8), maxY=Math.max(8,rect.height-size-8);
+    target.style.left=(8+Math.random()*(maxX-8))+"px";
+    target.style.top=(8+Math.random()*(maxY-8))+"px";
+    targetShownAt=performance.now();
+    target.hidden=false;
+  }
+
+  function tick(){
+    if(!running) return;
+    const remain=Math.max(0,endAt-performance.now());
+    timeEl.textContent=(remain/1000).toFixed(1);
+    if(remain<=0){finish();return;}
+    timer=requestAnimationFrame(tick);
+  }
+
+  function start(){
+    if(running) return;
+    if(left()<=0){
+      intro.hidden=false;
+      intro.innerHTML='<div class="aim-logo">🔒</div><h2>Bugünkü ücretsiz hakkın bitti</h2><p>Yarın 1 ücretsiz oyun hakkın yenilenecek. Sınırsız oyun için Pro ödeme sistemi yakında açılacak.</p><a class="btn primary disabled" data-product-buy="aim_pro">Pro yakında</a>';
+      return;
+    }
+    consume();updateLeft();
+    running=true;hits=0;misses=0;reactions=[];
+    hitsEl.textContent="0";missesEl.textContent="0";timeEl.textContent="20.0";
+    result.hidden=true;intro.hidden=true;
+    startAt=performance.now();endAt=startAt+GAME_MS;
+    placeTarget();timer=requestAnimationFrame(tick);
+    if(window.gtag) gtag("event","aim_game_start",{"free_plays_left":left()});
+  }
+
+  function finish(){
+    running=false;cancelAnimationFrame(timer);target.hidden=true;
+    const total=hits+misses;
+    const accuracy=total?Math.round(hits/total*100):0;
+    const avg=reactions.length?Math.round(reactions.reduce((a,b)=>a+b,0)/reactions.length):0;
+    const oldBest=Number(localStorage.getItem(BEST)||0);
+    const best=Math.max(oldBest,hits);
+    localStorage.setItem(BEST,String(best));
+    document.getElementById("resultScore").textContent=hits;
+    document.getElementById("resultAccuracy").textContent="%"+accuracy;
+    document.getElementById("resultReaction").textContent=avg+" ms";
+    document.getElementById("resultBest").textContent=best;
+    document.getElementById("resultText").textContent=hits>=30?"Çok hızlısın. Aynı skoru daha yüksek isabetle tekrar etmeye çalış.":hits>=20?"İyi başlangıç. İsabeti koruyarak hızını artır.":"Önce isabeti oturt, sonra hızı yükselt.";
+    result.hidden=false;
+    intro.hidden=true;
+    updateLeft();
+    if(window.gtag) gtag("event","aim_game_finish",{"score":hits,"accuracy":accuracy,"avg_reaction":avg});
+  }
+
+  target.addEventListener("pointerdown",function(e){
+    if(!running) return;
+    e.stopPropagation();
+    hits++;hitsEl.textContent=hits;
+    reactions.push(performance.now()-targetShownAt);
+    placeTarget();
+  });
+  arena.addEventListener("pointerdown",function(e){
+    if(!running || e.target===target) return;
+    misses++;missesEl.textContent=misses;
+  });
+  startBtn.addEventListener("click",start);
+  againBtn.addEventListener("click",start);
+  updateLeft();
+})();
+</script>
+</body></html>
