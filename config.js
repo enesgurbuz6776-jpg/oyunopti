@@ -16,7 +16,7 @@ window.OYUNOPTI_CONFIG = {
     personal_sens: {
       name: "Kişisel Valorant & CS2 Sens Analizi",
       price_try: 49,
-      payment_url: ""
+      payment_url: "https://www.shopier.com/oyunopti/51606158"
     },
     aim_pro: {
       name: "OyunOpti Aim Challenge Pro",
