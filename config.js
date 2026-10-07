@@ -19,7 +19,7 @@ window.OYUNOPTI_CONFIG = {
     aim_pro: {
       name: "OyunOpti Aim Challenge Pro",
       price_try: 39,
-      payment_url: ""
+      payment_url: "https://shopier.com/oyunopti/51605293"
     }
   },
 
