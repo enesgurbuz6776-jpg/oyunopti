@@ -1,86 +1,119 @@
 <!doctype html><html lang="tr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>OyunOpti Aim Challenge – Ücretsiz Aim Testi</title>
-<meta name="description" content="20 saniyelik OyunOpti Aim Challenge ile hedef vurma hızını, isabet oranını ve ortalama reaksiyon süreni ölç. Tarayıcıdan ücretsiz oyna.">
+<title>OyunOpti Aim Range – FPS Aim Trainer</title>
+<meta name="description" content="OyunOpti Aim Range ile sabit, hareketli ve peek yapan robot hedeflerde nişan hızını, isabetini ve reaksiyon süreni ölç.">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta name="theme-color" content="#0b1020">
 <link rel="canonical" href="https://enesgurbuz6776-jpg.github.io/oyunopti/aim-challenge.html">
-<meta property="og:site_name" content="OyunOpti">
-<meta property="og:type" content="website">
-<meta property="og:title" content="OyunOpti Aim Challenge">
-<meta property="og:description" content="20 saniyede kaç hedef vurabilirsin? Hız, isabet ve reaksiyon süreni ölç.">
+<meta property="og:site_name" content="OyunOpti"><meta property="og:type" content="website">
+<meta property="og:title" content="OyunOpti Aim Range">
+<meta property="og:description" content="Sabit, hareketli ve peek yapan robot hedeflerde 20 saniyelik aim antrenmanı.">
 <meta property="og:url" content="https://enesgurbuz6776-jpg.github.io/oyunopti/aim-challenge.html">
-<link rel="stylesheet" href="style.css?v=8">
+<link rel="stylesheet" href="style.css?v=9">
 <script src="config.js?v=7"></script>
 </head><body>
 <header class="topbar">
 <a class="brand" href="index.html"><span class="brand-mark">OO</span><span>OyunOpti</span></a>
-<nav><a href="index.html#araclar">Araçlar</a><a href="index.html#rehberler">Rehberler</a><a href="kisisel-sens-analizi.html">Kişisel Analiz</a><a class="pill" href="aim-challenge.html">Aim Challenge</a></nav>
+<nav><a href="index.html#araclar">Araçlar</a><a href="index.html#rehberler">Rehberler</a><a href="kisisel-sens-analizi.html">Kişisel Analiz</a><a class="pill" href="aim-challenge.html">Aim Range</a></nav>
 </header>
 <main>
-<div class="breadcrumb"><a href="index.html">OyunOpti</a> › Aim Challenge</div>
-<section class="page-hero">
-<span class="eyebrow">Yeni • Web Oyunu</span>
-<h1>OyunOpti Aim Challenge</h1>
-<p>20 saniyede mümkün olduğunca çok hedef vur. İsabet oranını, ortalama hedef vurma süreni ve kişisel rekorunu ölç.</p>
+<div class="breadcrumb"><a href="index.html">OyunOpti</a> › Aim Range</div>
+<section class="page-hero aim-hero">
+<span class="eyebrow">FPS Aim Trainer • Tarayıcıdan Oyna</span>
+<h1>OyunOpti Aim Range</h1>
+<p>Bir antrenman sahası gibi: robot hedefleri vur, hareketli botları takip et, peek yapan hedefe reaksiyon ver. Her tur 20 saniye.</p>
+</section>
+
+<section class="aim-mode-panel">
+  <button class="aim-mode active" data-mode="static"><b>Static</b><span>Hedef belirir, vur ve sıradakine geç.</span></button>
+  <button class="aim-mode" data-mode="moving"><b>Moving</b><span>Robot sağa sola hareket eder.</span></button>
+  <button class="aim-mode" data-mode="peek"><b>Peek</b><span>Robot siperden çıkıp tekrar saklanır.</span></button>
 </section>
 
 <section class="aim-shell">
 <div class="aim-top">
   <div><small>Süre</small><b id="timeLeft">20.0</b></div>
-  <div><small>Vuruş</small><b id="hits">0</b></div>
+  <div><small>Skor</small><b id="score">0</b></div>
+  <div><small>Headshot</small><b id="headshots">0</b></div>
   <div><small>Iska</small><b id="misses">0</b></div>
   <div><small>Hak</small><b id="playsLeft">-</b></div>
 </div>
 
-<div id="aimArena" class="aim-arena" aria-label="Aim Challenge oyun alanı">
-  <div id="aimIntro" class="aim-intro">
-    <div class="aim-logo">◎</div>
-    <h2>20 saniyelik aim testi</h2>
-    <p>Başlat'a bastıktan sonra çıkan hedeflere mümkün olduğunca hızlı tıkla. Boş alana tıklarsan ıska sayılır.</p>
-    <button id="startAim" class="btn primary" type="button">Oyunu Başlat</button>
+<div id="aimArena" class="aim-arena range-arena" aria-label="OyunOpti Aim Range">
+  <div class="range-sky"></div>
+  <div class="range-wall wall-left"></div>
+  <div class="range-wall wall-right"></div>
+  <div class="range-back">
+    <div class="range-sign"><span>OO</span><b>AIM RANGE</b></div>
   </div>
-  <button id="aimTarget" class="aim-target" type="button" aria-label="Hedef" hidden></button>
+  <div class="range-floor"></div>
+  <div class="range-cover cover-left"></div>
+  <div class="range-cover cover-right"></div>
+
+  <div id="aimIntro" class="aim-intro range-intro">
+    <div class="aim-logo">⌖</div>
+    <h2 id="introTitle">Static Range</h2>
+    <p id="introText">Robot hedef belirir. Kafaya vurursan 2 puan, gövdeye vurursan 1 puan. Boşa ateş ıska sayılır.</p>
+    <button id="startAim" class="btn primary" type="button">Antrenmanı Başlat</button>
+  </div>
+
+  <div id="robot" class="range-robot" hidden>
+    <button class="robot-head hit-zone" data-hit="head" aria-label="Robot kafa hedefi">
+      <span class="robot-eye eye-left"></span><span class="robot-eye eye-right"></span>
+    </button>
+    <button class="robot-body hit-zone" data-hit="body" aria-label="Robot gövde hedefi"><span class="robot-core"></span></button>
+    <div class="robot-arm robot-arm-left"></div><div class="robot-arm robot-arm-right"></div>
+    <div class="robot-leg robot-leg-left"></div><div class="robot-leg robot-leg-right"></div>
+  </div>
+
+  <div id="crosshair" class="range-crosshair" hidden><i></i><i></i><i></i><i></i><span></span></div>
+  <div id="hitMarker" class="hit-marker" hidden>×</div>
+  <div id="headshotFlash" class="headshot-flash" hidden>HEADSHOT +2</div>
+
+  <div id="weapon" class="range-weapon">
+    <div id="muzzleFlash" class="muzzle-flash"></div>
+    <div class="weapon-barrel"></div>
+    <div class="weapon-body"><span>OO-7</span></div>
+    <div class="weapon-grip"></div>
+    <div class="weapon-mag"></div>
+  </div>
 </div>
 
 <div id="aimResult" class="aim-result" hidden>
   <div class="metric-row">
     <div class="metric"><small>Skor</small><b id="resultScore">0</b></div>
     <div class="metric"><small>İsabet</small><b id="resultAccuracy">%0</b></div>
-    <div class="metric"><small>Ort. vurma</small><b id="resultReaction">0 ms</b></div>
+    <div class="metric"><small>Ort. reaksiyon</small><b id="resultReaction">0 ms</b></div>
     <div class="metric"><small>Rekor</small><b id="resultBest">0</b></div>
   </div>
   <p id="resultText"></p>
-  <button id="playAgain" class="btn primary" type="button">Tekrar Oyna</button>
+  <button id="playAgain" class="btn primary" type="button">Aynı Modu Tekrar Oyna</button>
 </div>
 </section>
 
 <section class="own-product">
   <div class="own-product-grid">
     <div>
-      <span class="eyebrow">Aim Challenge Pro</span>
-      <h2>Sınırsız oyun + gelişmiş modlar</h2>
-      <p>Ücretsiz sürümde ilk gün 3 oyun, sonraki günlerde günde 1 oyun hakkı var. Pro'da sınırsız oyun, Flick, Reaction ve Tracking modları ile detaylı skor geçmişi açılacak.</p>
+      <span class="eyebrow">Aim Range Pro</span>
+      <h2>Daha uzun antrenman ve detaylı istatistik</h2>
+      <p>Şimdilik üç modu da test edebilirsin. Pro sürümde sınırsız oyun, daha uzun turlar, zorluk seviyeleri, gelişmiş skor geçmişi ve reklamsız kullanım olacak.</p>
       <div class="product-bullets">
-        <span>✓ Sınırsız Aim Challenge</span>
-        <span>✓ Flick / Reaction / Tracking modları</span>
-        <span>✓ Günlük ve haftalık skor geçmişi</span>
-        <span>✓ Reklamsız kullanım</span>
+        <span>✓ Sınırsız antrenman</span><span>✓ Zorluk ve hedef hızı ayarı</span>
+        <span>✓ Günlük / haftalık gelişim grafiği</span><span>✓ Reklamsız kullanım</span>
       </div>
     </div>
     <div>
       <div class="product-price">39 TL <small>tek seferlik</small></div>
       <a class="btn primary disabled" data-product-buy="aim_pro">Pro yakında</a>
-      <p class="product-note">Ödeme sistemi aktif edildiğinde Pro tek seferlik satın alma olarak açılacak.</p>
     </div>
   </div>
 </section>
 
 <section class="article">
-<h2>Ücretsiz kullanım nasıl çalışıyor?</h2>
-<p>Test sürümünde ilk gün 3 oyun hakkın var. Sonraki günlerde günlük 1 ücretsiz oyun hakkı yenilenir. Haklar bu cihazdaki tarayıcıda tutulur; uygulama sürümüne geçildiğinde hesap sistemiyle daha sağlam hale getirilebilir.</p>
-<h2>Skor nasıl hesaplanıyor?</h2>
-<p>Her hedef vuruşu skoruna eklenir. Boş alana yapılan tıklamalar ıska sayılır. Sonuç ekranında isabet oranı ve hedefin görünmesi ile vurulması arasındaki ortalama süre gösterilir. Bu ölçüm profesyonel laboratuvar testi değildir; cihaz ve tarayıcı gecikmesi sonucu etkileyebilir.</p>
+<h2>Nasıl oynanır?</h2>
+<p>Static modda hedefi olabildiğince hızlı vur. Moving modda robot yatay hareket eder. Peek modda hedef siper arkasından kısa süreliğine çıkar. Kafa vuruşu 2, gövde vuruşu 1 puandır.</p>
+<h2>Ölçülen değerler</h2>
+<p>İsabet oranı, ortalama reaksiyon süresi, headshot sayısı ve kişisel rekor tarayıcıda hesaplanır. Sonuçlar cihaz ve tarayıcı gecikmesinden etkilenebilir; profesyonel laboratuvar ölçümü değildir.</p>
 </section>
 </main>
 <footer>
@@ -91,114 +124,155 @@
 <script src="app.js?v=5"></script><script src="monetization.js?v=6"></script>
 <script>
 (function(){
-  const STORAGE="oyunopti_aim_usage_v1";
-  const BEST="oyunopti_aim_best_v1";
-  const GAME_MS=20000;
-  const arena=document.getElementById("aimArena");
-  const target=document.getElementById("aimTarget");
-  const intro=document.getElementById("aimIntro");
-  const startBtn=document.getElementById("startAim");
-  const againBtn=document.getElementById("playAgain");
-  const result=document.getElementById("aimResult");
-  const timeEl=document.getElementById("timeLeft");
-  const hitsEl=document.getElementById("hits");
-  const missesEl=document.getElementById("misses");
-  const playsEl=document.getElementById("playsLeft");
+  const STORAGE="oyunopti_aim_usage_v2", BEST="oyunopti_aim_best_v2", GAME_MS=20000;
+  const arena=document.getElementById("aimArena"), robot=document.getElementById("robot");
+  const intro=document.getElementById("aimIntro"), startBtn=document.getElementById("startAim"), againBtn=document.getElementById("playAgain");
+  const result=document.getElementById("aimResult"), crosshair=document.getElementById("crosshair");
+  const weapon=document.getElementById("weapon"), muzzle=document.getElementById("muzzleFlash");
+  const hitMarker=document.getElementById("hitMarker"), headFlash=document.getElementById("headshotFlash");
+  const timeEl=document.getElementById("timeLeft"), scoreEl=document.getElementById("score"), hsEl=document.getElementById("headshots"), missEl=document.getElementById("misses"), playsEl=document.getElementById("playsLeft");
+  const modeButtons=[...document.querySelectorAll(".aim-mode")];
 
-  let running=false,hits=0,misses=0,startAt=0,endAt=0,timer=0,targetShownAt=0,reactions=[];
+  let mode="static", running=false, score=0, hits=0, headshots=0, misses=0, startAt=0, endAt=0, raf=0, targetShownAt=0, reactions=[], movePhase=0, peekVisible=true, peekTimer=0, audioCtx=null;
 
-  function dayKey(){ return new Date().toISOString().slice(0,10); }
-  function getUsage(){
+  function dayKey(){return new Date().toISOString().slice(0,10)}
+  function getUsage(){try{const x=JSON.parse(localStorage.getItem(STORAGE)||"null");if(x&&x.firstDay)return x}catch(e){} const x={firstDay:dayKey(),date:dayKey(),playsToday:0};localStorage.setItem(STORAGE,JSON.stringify(x));return x}
+  function allowance(u){return u.firstDay===dayKey()?3:1}
+  function left(){const u=getUsage();if(u.date!==dayKey()){u.date=dayKey();u.playsToday=0;localStorage.setItem(STORAGE,JSON.stringify(u))}return Math.max(0,allowance(u)-u.playsToday)}
+  function consume(){const u=getUsage();if(u.date!==dayKey()){u.date=dayKey();u.playsToday=0}u.playsToday++;localStorage.setItem(STORAGE,JSON.stringify(u))}
+  function updateLeft(){playsEl.textContent=left()}
+
+  function beep(freq,dur,vol){
     try{
-      const x=JSON.parse(localStorage.getItem(STORAGE)||"null");
-      if(x && x.firstDay) return x;
+      audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
+      const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+      o.frequency.value=freq;o.type="square";g.gain.setValueAtTime(vol,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+dur);
+      o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+dur);
     }catch(e){}
-    const fresh={firstDay:dayKey(),date:dayKey(),playsToday:0};
-    localStorage.setItem(STORAGE,JSON.stringify(fresh));
-    return fresh;
   }
-  function allowance(u){ return u.firstDay===dayKey()?3:1; }
-  function left(){
-    const u=getUsage();
-    if(u.date!==dayKey()){ u.date=dayKey(); u.playsToday=0; localStorage.setItem(STORAGE,JSON.stringify(u)); }
-    return Math.max(0,allowance(u)-u.playsToday);
+  function shootFx(head){
+    weapon.classList.remove("recoil");void weapon.offsetWidth;weapon.classList.add("recoil");
+    muzzle.hidden=false;muzzle.classList.remove("flash");void muzzle.offsetWidth;muzzle.classList.add("flash");
+    beep(head?520:180,head?.055:.035,head?.045:.025);
   }
-  function consume(){
-    const u=getUsage();
-    if(u.date!==dayKey()){u.date=dayKey();u.playsToday=0;}
-    u.playsToday++;
-    localStorage.setItem(STORAGE,JSON.stringify(u));
+  function hitFx(head,x,y){
+    hitMarker.style.left=x+"px";hitMarker.style.top=y+"px";hitMarker.hidden=false;
+    setTimeout(()=>hitMarker.hidden=true,100);
+    if(head){headFlash.hidden=false;headFlash.classList.remove("show");void headFlash.offsetWidth;headFlash.classList.add("show");setTimeout(()=>headFlash.hidden=true,420)}
   }
-  function updateLeft(){ playsEl.textContent=left(); }
 
-  function placeTarget(){
+  function introForMode(){
+    const t=document.getElementById("introTitle"),p=document.getElementById("introText");
+    if(mode==="moving"){t.textContent="Moving Range";p.textContent="Robot sağa sola gider. Takip et; kafa 2, gövde 1 puan."}
+    else if(mode==="peek"){t.textContent="Peek Range";p.textContent="Robot siper arkasından çıkıp saklanır. Göründüğü anda vur."}
+    else{t.textContent="Static Range";p.textContent="Robot hedef belirir. Kafaya vurursan 2, gövdeye vurursan 1 puan."}
+  }
+  modeButtons.forEach(b=>b.addEventListener("click",()=>{
+    if(running)return;
+    mode=b.dataset.mode;modeButtons.forEach(x=>x.classList.toggle("active",x===b));introForMode();
+  }));
+
+  function robotSize(){
+    const w=arena.getBoundingClientRect().width;
+    const s=Math.max(.75,Math.min(1.12,w/900));
+    robot.style.setProperty("--bot-scale",s);
+  }
+  function placeStatic(){
+    robot.classList.remove("moving","peeking","hidden-behind");
+    const rect=arena.getBoundingClientRect(), rw=104, rh=190;
+    const minX=80,maxX=Math.max(minX,rect.width-rw-80),minY=100,maxY=Math.max(minY,rect.height-rh-95);
+    robot.style.left=(minX+Math.random()*(maxX-minX))+"px";
+    robot.style.top=(minY+Math.random()*(maxY-minY))+"px";
+    targetShownAt=performance.now();robot.hidden=false;
+  }
+  function placeMoving(){
     const rect=arena.getBoundingClientRect();
-    const size=Math.max(42,Math.min(62,rect.width*.085));
-    target.style.width=size+"px";target.style.height=size+"px";
-    const maxX=Math.max(8,rect.width-size-8), maxY=Math.max(8,rect.height-size-8);
-    target.style.left=(8+Math.random()*(maxX-8))+"px";
-    target.style.top=(8+Math.random()*(maxY-8))+"px";
-    targetShownAt=performance.now();
-    target.hidden=false;
+    robot.classList.remove("peeking","hidden-behind");robot.classList.add("moving");
+    robot.style.top=Math.max(110,rect.height*.36)+"px";
+    movePhase=Math.random()*Math.PI*2;targetShownAt=performance.now();robot.hidden=false;
+  }
+  function schedulePeek(){
+    clearTimeout(peekTimer);
+    const leftSide=Math.random()<.5;
+    robot.classList.remove("moving");robot.classList.add("peeking");
+    robot.style.top=Math.max(120,arena.getBoundingClientRect().height*.38)+"px";
+    robot.style.left=leftSide?"62px":"calc(100% - 160px)";
+    robot.dataset.side=leftSide?"left":"right";
+    peekVisible=false;robot.classList.add("hidden-behind");robot.hidden=false;
+    peekTimer=setTimeout(()=>{
+      if(!running)return;
+      peekVisible=true;robot.classList.remove("hidden-behind");targetShownAt=performance.now();
+      peekTimer=setTimeout(()=>{if(running){peekVisible=false;robot.classList.add("hidden-behind");schedulePeek()}},900);
+    },350+Math.random()*650);
+  }
+  function spawn(){
+    robotSize();
+    if(mode==="moving")placeMoving(); else if(mode==="peek")schedulePeek(); else placeStatic();
   }
 
-  function tick(){
-    if(!running) return;
-    const remain=Math.max(0,endAt-performance.now());
-    timeEl.textContent=(remain/1000).toFixed(1);
-    if(remain<=0){finish();return;}
-    timer=requestAnimationFrame(tick);
+  function tick(now){
+    if(!running)return;
+    const remain=Math.max(0,endAt-now);timeEl.textContent=(remain/1000).toFixed(1);
+    if(mode==="moving"&&!robot.hidden){
+      const rect=arena.getBoundingClientRect(), travel=Math.max(90,rect.width-210);
+      const x=75+(Math.sin((now-startAt)/650+movePhase)+1)/2*travel;
+      robot.style.left=x+"px";
+    }
+    if(remain<=0){finish();return}
+    raf=requestAnimationFrame(tick);
   }
-
   function start(){
-    if(running) return;
+    if(running)return;
     if(left()<=0){
-      intro.hidden=false;
-      intro.innerHTML='<div class="aim-logo">🔒</div><h2>Bugünkü ücretsiz hakkın bitti</h2><p>Yarın 1 ücretsiz oyun hakkın yenilenecek. Sınırsız oyun için Pro ödeme sistemi yakında açılacak.</p><a class="btn primary disabled" data-product-buy="aim_pro">Pro yakında</a>';
+      intro.hidden=false;intro.innerHTML='<div class="aim-logo">🔒</div><h2>Bugünkü ücretsiz hakkın bitti</h2><p>Yarın 1 ücretsiz antrenman hakkın yenilenecek. Sınırsız kullanım Pro ile açılacak.</p><a class="btn primary disabled" data-product-buy="aim_pro">Pro yakında</a>';
       return;
     }
-    consume();updateLeft();
-    running=true;hits=0;misses=0;reactions=[];
-    hitsEl.textContent="0";missesEl.textContent="0";timeEl.textContent="20.0";
-    result.hidden=true;intro.hidden=true;
-    startAt=performance.now();endAt=startAt+GAME_MS;
-    placeTarget();timer=requestAnimationFrame(tick);
-    if(window.gtag) gtag("event","aim_game_start",{"free_plays_left":left()});
+    consume();updateLeft();running=true;score=hits=headshots=misses=0;reactions=[];
+    scoreEl.textContent="0";hsEl.textContent="0";missEl.textContent="0";timeEl.textContent="20.0";
+    result.hidden=true;intro.hidden=true;crosshair.hidden=false;
+    startAt=performance.now();endAt=startAt+GAME_MS;spawn();raf=requestAnimationFrame(tick);
+    if(window.gtag)gtag("event","aim_game_start",{"mode":mode,"free_plays_left":left()});
   }
-
   function finish(){
-    running=false;cancelAnimationFrame(timer);target.hidden=true;
-    const total=hits+misses;
-    const accuracy=total?Math.round(hits/total*100):0;
+    running=false;cancelAnimationFrame(raf);clearTimeout(peekTimer);robot.hidden=true;crosshair.hidden=true;
+    const shots=hits+misses,accuracy=shots?Math.round(hits/shots*100):0;
     const avg=reactions.length?Math.round(reactions.reduce((a,b)=>a+b,0)/reactions.length):0;
-    const oldBest=Number(localStorage.getItem(BEST)||0);
-    const best=Math.max(oldBest,hits);
-    localStorage.setItem(BEST,String(best));
-    document.getElementById("resultScore").textContent=hits;
+    let bests={};try{bests=JSON.parse(localStorage.getItem(BEST)||"{}")}catch(e){}
+    bests[mode]=Math.max(Number(bests[mode]||0),score);localStorage.setItem(BEST,JSON.stringify(bests));
+    document.getElementById("resultScore").textContent=score;
     document.getElementById("resultAccuracy").textContent="%"+accuracy;
     document.getElementById("resultReaction").textContent=avg+" ms";
-    document.getElementById("resultBest").textContent=best;
-    document.getElementById("resultText").textContent=hits>=30?"Çok hızlısın. Aynı skoru daha yüksek isabetle tekrar etmeye çalış.":hits>=20?"İyi başlangıç. İsabeti koruyarak hızını artır.":"Önce isabeti oturt, sonra hızı yükselt.";
-    result.hidden=false;
-    intro.hidden=true;
-    updateLeft();
-    if(window.gtag) gtag("event","aim_game_finish",{"score":hits,"accuracy":accuracy,"avg_reaction":avg});
+    document.getElementById("resultBest").textContent=bests[mode];
+    document.getElementById("resultText").textContent=headshots>=8?"Kafa vuruşların iyi. Şimdi aynı isabeti daha hızlı tekrarla.":accuracy>=75?"İsabet iyi; headshot oranını artırmayı dene.":"Önce isabeti yükselt, sonra hıza yüklen.";
+    result.hidden=false;updateLeft();
+    if(window.gtag)gtag("event","aim_game_finish",{"mode":mode,"score":score,"accuracy":accuracy,"headshots":headshots,"avg_reaction":avg});
   }
 
-  target.addEventListener("pointerdown",function(e){
-    if(!running) return;
-    e.stopPropagation();
-    hits++;hitsEl.textContent=hits;
-    reactions.push(performance.now()-targetShownAt);
-    placeTarget();
+  arena.addEventListener("pointermove",e=>{
+    const r=arena.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+    crosshair.style.left=x+"px";crosshair.style.top=y+"px";
+    weapon.style.setProperty("--aim-x",((x/r.width)-.5)*12+"deg");
   });
-  arena.addEventListener("pointerdown",function(e){
-    if(!running || e.target===target) return;
-    misses++;missesEl.textContent=misses;
+  arena.addEventListener("pointerdown",e=>{
+    if(!running)return;
+    const zone=e.target.closest(".hit-zone");
+    if(zone){
+      e.stopPropagation();
+      if(mode==="peek"&&!peekVisible)return;
+      const head=zone.dataset.hit==="head";
+      hits++;score+=head?2:1;if(head)headshots++;
+      scoreEl.textContent=score;hsEl.textContent=headshots;
+      reactions.push(performance.now()-targetShownAt);
+      const r=arena.getBoundingClientRect();hitFx(head,e.clientX-r.left,e.clientY-r.top);shootFx(head);
+      clearTimeout(peekTimer);
+      if(mode==="peek")schedulePeek();else if(mode==="moving"){targetShownAt=performance.now()}else placeStatic();
+    }else{
+      misses++;missEl.textContent=misses;shootFx(false);
+    }
   });
-  startBtn.addEventListener("click",start);
-  againBtn.addEventListener("click",start);
-  updateLeft();
+
+  startBtn.addEventListener("click",start);againBtn.addEventListener("click",start);
+  introForMode();updateLeft();
 })();
 </script>
 </body></html>
