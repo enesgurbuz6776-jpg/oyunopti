@@ -124,7 +124,7 @@
 <script src="app.js?v=5"></script><script src="monetization.js?v=6"></script>
 <script>
 (function(){
-  const STORAGE="oyunopti_aim_usage_v2", BEST="oyunopti_aim_best_v2", GAME_MS=20000;
+  const STORAGE="oyunopti_aim_usage_v3", BEST="oyunopti_aim_best_v3", GAME_MS=20000, TEST_MODE=true;
   const arena=document.getElementById("aimArena"), robot=document.getElementById("robot");
   const intro=document.getElementById("aimIntro"), startBtn=document.getElementById("startAim"), againBtn=document.getElementById("playAgain");
   const result=document.getElementById("aimResult"), crosshair=document.getElementById("crosshair");
@@ -137,10 +137,10 @@
 
   function dayKey(){return new Date().toISOString().slice(0,10)}
   function getUsage(){try{const x=JSON.parse(localStorage.getItem(STORAGE)||"null");if(x&&x.firstDay)return x}catch(e){} const x={firstDay:dayKey(),date:dayKey(),playsToday:0};localStorage.setItem(STORAGE,JSON.stringify(x));return x}
-  function allowance(u){return u.firstDay===dayKey()?3:1}
+  function allowance(u){return TEST_MODE?9999:(u.firstDay===dayKey()?3:1)}
   function left(){const u=getUsage();if(u.date!==dayKey()){u.date=dayKey();u.playsToday=0;localStorage.setItem(STORAGE,JSON.stringify(u))}return Math.max(0,allowance(u)-u.playsToday)}
-  function consume(){const u=getUsage();if(u.date!==dayKey()){u.date=dayKey();u.playsToday=0}u.playsToday++;localStorage.setItem(STORAGE,JSON.stringify(u))}
-  function updateLeft(){playsEl.textContent=left()}
+  function consume(){if(TEST_MODE)return;const u=getUsage();if(u.date!==dayKey()){u.date=dayKey();u.playsToday=0}u.playsToday++;localStorage.setItem(STORAGE,JSON.stringify(u))}
+  function updateLeft(){playsEl.textContent=TEST_MODE?"∞":left()}
 
   function beep(freq,dur,vol){
     try{
@@ -224,7 +224,7 @@
   function start(){
     if(running)return;
     if(left()<=0){
-      intro.hidden=false;intro.classList.remove("aim-hidden");intro.innerHTML='<div class="aim-logo">🔒</div><h2>Bugünkü ücretsiz hakkın bitti</h2><p>Yarın 1 ücretsiz antrenman hakkın yenilenecek. Sınırsız kullanım Pro ile açılacak.</p><a class="btn primary disabled" data-product-buy="aim_pro">Pro yakında</a>';
+      intro.hidden=false;intro.classList.remove("aim-hidden");intro.style.display="flex";intro.innerHTML='<div class="aim-logo">🔒</div><h2>Bugünkü ücretsiz hakkın bitti</h2><p>Yarın 1 ücretsiz antrenman hakkın yenilenecek. Sınırsız kullanım Pro ile açılacak.</p><a class="btn primary disabled" data-product-buy="aim_pro">Pro yakında</a>';
       return;
     }
     consume();updateLeft();running=true;score=hits=headshots=misses=0;reactions=[];
@@ -232,12 +232,14 @@
     result.hidden=true;
     intro.hidden=true;
     intro.classList.add("aim-hidden");
+    intro.style.display="none";
+    arena.classList.add("is-running");
     crosshair.hidden=false;
     startAt=performance.now();endAt=startAt+GAME_MS;spawn();raf=requestAnimationFrame(tick);
     if(window.gtag)gtag("event","aim_game_start",{"mode":mode,"free_plays_left":left()});
   }
   function finish(){
-    running=false;cancelAnimationFrame(raf);clearTimeout(peekTimer);robot.hidden=true;crosshair.hidden=true;
+    running=false;cancelAnimationFrame(raf);clearTimeout(peekTimer);robot.hidden=true;crosshair.hidden=true;arena.classList.remove("is-running");
     const shots=hits+misses,accuracy=shots?Math.round(hits/shots*100):0;
     const avg=reactions.length?Math.round(reactions.reduce((a,b)=>a+b,0)/reactions.length):0;
     let bests={};try{bests=JSON.parse(localStorage.getItem(BEST)||"{}")}catch(e){}
@@ -277,7 +279,10 @@
     }
   });
 
-  startBtn.addEventListener("click",start);againBtn.addEventListener("click",start);
+  startBtn.addEventListener("pointerup",e=>{e.preventDefault();e.stopPropagation();start()});
+  startBtn.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();start()});
+  againBtn.addEventListener("pointerup",e=>{e.preventDefault();e.stopPropagation();start()});
+  againBtn.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();start()});
   introForMode();updateLeft();
 })();
 </script>
