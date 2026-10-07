@@ -138,6 +138,14 @@
     <div>
       <div class="product-price">39 TL <small>tek seferlik</small></div>
       <a class="btn primary disabled" data-product-buy="aim_pro">39 TL – Satın Al</a>
+      <div id="proActivation" class="order-card" style="margin-top:14px;padding:14px">
+        <label style="display:block;font-weight:800;margin-bottom:8px">Pro aktivasyon kodun varsa gir</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <input id="proCode" type="text" autocomplete="off" placeholder="OO-XXXXX-XXXXX-XXXXX-XXXXX" style="flex:1;min-width:220px;background:#0b1020;color:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 12px">
+          <button id="activatePro" class="btn ghost" type="button">Pro'yu Aç</button>
+        </div>
+        <small id="proMessage" style="display:block;margin-top:8px;color:var(--muted)">Ödeme sonrası verilen aktivasyon kodunu burada kullan.</small>
+      </div>
     </div>
   </div>
 </section>
@@ -171,6 +179,7 @@
   const hitMarker=document.getElementById("hitMarker"), headFlash=document.getElementById("headshotFlash");
   const timeEl=document.getElementById("timeLeft"), scoreEl=document.getElementById("score"), hsEl=document.getElementById("headshots"), missEl=document.getElementById("misses"), playsEl=document.getElementById("playsLeft");
   const modeButtons=[...document.querySelectorAll(".aim-mode")];
+  const proInput=document.getElementById("proCode"), proBtn=document.getElementById("activatePro"), proMessage=document.getElementById("proMessage");
   const difficulty=document.getElementById("difficulty"), duration=document.getElementById("duration");
   const planStatus=document.getElementById("planStatus"), activationPanel=document.getElementById("activationPanel");
   const openActivate=document.getElementById("openActivate"), activatePro=document.getElementById("activatePro");
@@ -312,7 +321,7 @@
   function start(){
     if(running)return;
     if(left()<=0){
-      intro.hidden=false;intro.classList.remove("aim-hidden");intro.style.display="flex";intro.innerHTML='<div class="aim-logo">🔒</div><h2>Bugünkü ücretsiz hakkın bitti</h2><p>Yarın 1 ücretsiz antrenman hakkın yenilenecek. Sınırsız kullanım Pro ile açılacak.</p><a class="btn primary disabled" data-product-buy="aim_pro">Pro yakında</a>';
+      intro.hidden=false;intro.classList.remove("aim-hidden");intro.style.display="flex";intro.innerHTML='<div class="aim-logo">🔒</div><h2>Bugünkü ücretsiz hakkın bitti</h2><p>Yarın 1 ücretsiz antrenman hakkın yenilenecek. Pro satın aldıysan aşağıdaki aktivasyon alanına kodunu gir.</p>';
       return;
     }
     consume();updateLeft();running=true;score=hits=headshots=misses=0;reactions=[];
@@ -374,6 +383,8 @@
     }
   });
 
+  proBtn.addEventListener("click",activatePro);
+  proInput.addEventListener("keydown",e=>{if(e.key==="Enter")activatePro()});
   startBtn.addEventListener("pointerup",e=>{e.preventDefault();e.stopPropagation();start()});
   startBtn.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();start()});
   againBtn.addEventListener("pointerup",e=>{e.preventDefault();e.stopPropagation();start()});
