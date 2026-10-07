@@ -224,12 +224,15 @@
   function start(){
     if(running)return;
     if(left()<=0){
-      intro.hidden=false;intro.innerHTML='<div class="aim-logo">🔒</div><h2>Bugünkü ücretsiz hakkın bitti</h2><p>Yarın 1 ücretsiz antrenman hakkın yenilenecek. Sınırsız kullanım Pro ile açılacak.</p><a class="btn primary disabled" data-product-buy="aim_pro">Pro yakında</a>';
+      intro.hidden=false;intro.classList.remove("aim-hidden");intro.innerHTML='<div class="aim-logo">🔒</div><h2>Bugünkü ücretsiz hakkın bitti</h2><p>Yarın 1 ücretsiz antrenman hakkın yenilenecek. Sınırsız kullanım Pro ile açılacak.</p><a class="btn primary disabled" data-product-buy="aim_pro">Pro yakında</a>';
       return;
     }
     consume();updateLeft();running=true;score=hits=headshots=misses=0;reactions=[];
     scoreEl.textContent="0";hsEl.textContent="0";missEl.textContent="0";timeEl.textContent="20.0";
-    result.hidden=true;intro.hidden=true;crosshair.hidden=false;
+    result.hidden=true;
+    intro.hidden=true;
+    intro.classList.add("aim-hidden");
+    crosshair.hidden=false;
     startAt=performance.now();endAt=startAt+GAME_MS;spawn();raf=requestAnimationFrame(tick);
     if(window.gtag)gtag("event","aim_game_start",{"mode":mode,"free_plays_left":left()});
   }
@@ -244,7 +247,10 @@
     document.getElementById("resultReaction").textContent=avg+" ms";
     document.getElementById("resultBest").textContent=bests[mode];
     document.getElementById("resultText").textContent=headshots>=8?"Kafa vuruşların iyi. Şimdi aynı isabeti daha hızlı tekrarla.":accuracy>=75?"İsabet iyi; headshot oranını artırmayı dene.":"Önce isabeti yükselt, sonra hıza yüklen.";
-    result.hidden=false;updateLeft();
+    result.hidden=false;
+    intro.hidden=true;
+    intro.classList.add("aim-hidden");
+    updateLeft();
     if(window.gtag)gtag("event","aim_game_finish",{"mode":mode,"score":score,"accuracy":accuracy,"headshots":headshots,"avg_reaction":avg});
   }
 
