@@ -109,3 +109,20 @@ footer{width:min(1180px,calc(100% - 32px));margin:50px auto 0;border-top:1px sol
 .order-preview{margin-top:16px;padding:16px;border-radius:14px;background:rgba(25,211,174,.06);border:1px solid rgba(25,211,174,.20);color:var(--muted);white-space:pre-wrap}
 .product-note{font-size:12px;color:#8490ad;line-height:1.6;margin-top:12px}
 @media(max-width:760px){.own-product-grid{grid-template-columns:1fr}.order-grid{grid-template-columns:1fr}.order-grid .full{grid-column:auto}}
+
+
+/* ===== V8 AIM CHALLENGE ===== */
+.aim-shell{margin:20px 0 34px}
+.aim-top{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.aim-top>div{background:#0d1425;border:1px solid var(--line);border-radius:15px;padding:12px;text-align:center}
+.aim-top small{display:block;color:var(--muted);font-size:12px}.aim-top b{font-size:24px}
+.aim-arena{position:relative;height:min(64vh,520px);min-height:360px;overflow:hidden;border-radius:24px;border:1px solid #354361;background:radial-gradient(circle at 50% 50%,rgba(124,92,255,.10),transparent 36%),linear-gradient(180deg,#0c1325,#080d18);touch-action:none;user-select:none}
+.aim-arena:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+.aim-intro{position:absolute;z-index:2;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px}
+.aim-intro h2{font-size:30px;margin:8px 0}.aim-intro p{max-width:580px;color:var(--muted);line-height:1.6}
+.aim-logo{font-size:58px;line-height:1}
+.aim-target{position:absolute;z-index:3;border:0;border-radius:50%;cursor:crosshair;background:radial-gradient(circle,#fff 0 16%,#19d3ae 18% 42%,#7c5cff 44% 68%,rgba(255,255,255,.12) 70%);box-shadow:0 0 0 5px rgba(25,211,174,.08),0 8px 24px rgba(0,0,0,.35)}
+.aim-target:active{transform:scale(.9)}
+.aim-result{margin-top:14px;padding:18px;border:1px solid var(--line);border-radius:20px;background:#0d1425}
+.aim-result p{color:var(--muted);line-height:1.6}
+@media(max-width:600px){.aim-top{grid-template-columns:repeat(2,1fr)}.aim-arena{min-height:430px}.aim-target{min-width:48px;min-height:48px}}
