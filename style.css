@@ -206,3 +206,8 @@ footer{width:min(1180px,calc(100% - 32px));margin:50px auto 0;border-top:1px sol
 .history-row{display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid var(--line)}
 .history-row:last-child{border-bottom:0}.history-row span{color:var(--muted);font-size:12px;text-align:right}
 @media(max-width:720px){.aim-probar{grid-template-columns:1fr 1fr}.aim-plan,.aim-probar .btn{grid-column:1/-1}.activation-form{flex-direction:column}.history-row{flex-direction:column}.history-row span{text-align:left}}
+
+
+/* PRODUCT PRICE MOBILE CLARITY */
+.product-price small{display:block;margin-top:4px;line-height:1.25}
+.product-note b{color:#fff}
