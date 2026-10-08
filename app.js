@@ -6,12 +6,32 @@ const fmt=(n,d=3)=>Number(n).toLocaleString("tr-TR",{maximumFractionDigits:d});
 function show(el,html){if(!el)return;el.innerHTML=html;el.classList.add("show")}
 function humanTime(sec){sec=Math.round(sec);const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;return [h?`${h} sa`:"",m?`${m} dk`:"",(!h&&s)?`${s} sn`:""].filter(Boolean).join(" ")}
 
-if($("#calcSens"))$("#calcSens").addEventListener("click",()=>{
- const from=$("#sensFrom").value,to=$("#sensTo").value,s=parseFloat($("#sensValue").value),dpi=parseFloat($("#sensDpi").value||0);
- if(!(s>0))return show($("#sensResult"),"Geçerli bir sensitivity değeri gir.");
- const target=s*yaw[from]/yaw[to]; const counts360=360/(s*yaw[from]); const cm=dpi>0?counts360/dpi*2.54:null;
- show($("#sensResult"),`<div class="result-grid"><div class="result-item"><small>${names[from]}</small><b>${fmt(s,4)}</b></div><div class="result-item"><small>${names[to]}</small><b>${fmt(target,4)}</b></div><div class="result-item"><small>${dpi>0?"Yaklaşık cm/360":"Dönüşüm"}</small><b>${dpi>0?fmt(cm,2)+" cm":"Hazır"}</b></div></div><div class="sub">Aynı yaklaşık fiziksel 360° dönüş mesafesini hedefler. FOV ve oyun motoru farkları hissiyatı etkileyebilir.</div>`);
+function updateSensLive(){
+ const from=$("#sensFrom")?.value,to=$("#sensTo")?.value,s=parseFloat($("#sensValue")?.value),dpi=parseFloat($("#sensDpi")?.value||0);
+ const result=$("#sensResult");
+ if(!result)return;
+ if(!(s>0)||!yaw[from]||!yaw[to]){
+   return show(result,"Geçerli bir sensitivity değeri gir.");
+ }
+ const target=s*yaw[from]/yaw[to];
+ const sourceEdpi=dpi>0?dpi*s:null;
+ const targetEdpi=dpi>0?dpi*target:null;
+ const counts360=360/(s*yaw[from]);
+ const cm=dpi>0?counts360/dpi*2.54:null;
+ show(result,`<div class="result-grid">
+   <div class="result-item"><small>${names[from]} eDPI</small><b>${sourceEdpi!==null?fmt(sourceEdpi,1):"—"}</b></div>
+   <div class="result-item"><small>Eşdeğer ${names[to]} sens</small><b>${fmt(target,4)}</b></div>
+   <div class="result-item"><small>${names[to]} eDPI</small><b>${targetEdpi!==null?fmt(targetEdpi,1):"—"}</b></div>
+   <div class="result-item"><small>Yaklaşık cm/360</small><b>${cm!==null?fmt(cm,2)+" cm":"—"}</b></div>
+ </div><div class="sub">Sonuçlar yazdıkça canlı güncellenir. Dönüşüm aynı yaklaşık fiziksel 360° mesafeyi hedefler; FOV ve oyun motoru hissiyatı değiştirebilir.</div>`);
+}
+["#sensFrom","#sensTo","#sensValue","#sensDpi"].forEach(sel=>{
+ const el=$(sel);
+ if(el){
+   el.addEventListener(el.tagName==="SELECT"?"change":"input",updateSensLive);
+ }
 });
+if($("#sensResult"))updateSensLive();
 
 if($("#calcEdpi"))$("#calcEdpi").addEventListener("click",()=>{
  const game=$("#edpiGame").value,dpi=parseFloat($("#edpiDpi").value),sens=parseFloat($("#edpiSens").value);
