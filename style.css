@@ -496,3 +496,29 @@ main,footer{position:relative;z-index:1}
 @media(prefers-reduced-motion:reduce){
   body:after{animation:none!important}
 }
+
+
+/* ===== V19 GLOBAL BRAND LOGO ===== */
+.brand-mark{
+  display:block!important;
+  width:42px!important;
+  height:42px!important;
+  min-width:42px;
+  border-radius:13px!important;
+  background:url("icon.svg") center/cover no-repeat!important;
+  color:transparent!important;
+  font-size:0!important;
+  text-indent:-9999px;
+  overflow:hidden;
+  box-shadow:0 8px 24px rgba(25,211,174,.14),0 0 0 1px rgba(255,255,255,.04)!important;
+}
+.brand:not(.brand-pro)>span:not(.brand-mark){
+  font-size:19px;
+  font-weight:950;
+  letter-spacing:-.045em;
+  color:#f5f7ff;
+}
+.brand:not(.brand-pro):hover .brand-mark{
+  transform:translateY(-1px) scale(1.03);
+  filter:drop-shadow(0 8px 20px rgba(124,92,255,.22));
+}
