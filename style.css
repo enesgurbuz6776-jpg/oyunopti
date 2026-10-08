@@ -370,3 +370,68 @@ footer{width:min(1180px,calc(100% - 32px));margin:50px auto 0;border-top:1px sol
 @media(prefers-reduced-motion:reduce){
   .fps-grid,.fps-grid:after,.fps-glow,.fps-shard,.fps-crosshair,.fps-label{animation:none!important}
 }
+
+
+/* ===== V17 CURSOR GLOW & AMBIENT PARTICLES ===== */
+.hero-cursor-glow{
+  position:absolute;
+  left:76%;top:46%;
+  width:360px;height:360px;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:2;
+  opacity:.72;
+  transform:translate(-50%,-50%);
+  background:
+    radial-gradient(circle at center,
+      rgba(25,211,174,.22) 0%,
+      rgba(25,211,174,.12) 24%,
+      rgba(124,92,255,.10) 43%,
+      rgba(13,31,38,.08) 56%,
+      transparent 72%);
+  filter:blur(16px);
+  mix-blend-mode:screen;
+  will-change:left,top,opacity;
+}
+.hero-cursor-glow:after{
+  content:"";
+  position:absolute;inset:22%;
+  border-radius:50%;
+  border:1px solid rgba(25,211,174,.16);
+  box-shadow:0 0 42px rgba(25,211,174,.12),inset 0 0 32px rgba(124,92,255,.08);
+}
+.hero-particles{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden}
+.hero-particles span{
+  position:absolute;
+  width:5px;height:5px;
+  border-radius:50%;
+  background:rgba(59,238,198,.38);
+  box-shadow:0 0 12px rgba(25,211,174,.42);
+  animation:heroParticleFloat 9s ease-in-out infinite;
+}
+.hero-particles span:nth-child(1){left:68%;top:18%;animation-delay:-1s;animation-duration:10s}
+.hero-particles span:nth-child(2){left:78%;top:29%;animation-delay:-4s;animation-duration:12s}
+.hero-particles span:nth-child(3){left:88%;top:22%;animation-delay:-6s;animation-duration:9s}
+.hero-particles span:nth-child(4){left:73%;top:48%;animation-delay:-2s;animation-duration:11s}
+.hero-particles span:nth-child(5){left:91%;top:44%;animation-delay:-7s;animation-duration:13s}
+.hero-particles span:nth-child(6){left:82%;top:63%;animation-delay:-5s;animation-duration:10s}
+.hero-particles span:nth-child(7){left:70%;top:70%;animation-delay:-8s;animation-duration:12s}
+.hero-particles span:nth-child(8){left:89%;top:76%;animation-delay:-3s;animation-duration:14s}
+@keyframes heroParticleFloat{
+  0%,100%{transform:translate3d(0,0,0) scale(.85);opacity:.12}
+  35%{opacity:.42}
+  50%{transform:translate3d(10px,-22px,0) scale(1.25);opacity:.55}
+  75%{opacity:.28}
+}
+@media(max-width:900px){
+  .hero-cursor-glow{width:260px;height:260px;opacity:.48;left:82%;top:34%}
+  .hero-particles{opacity:.62}
+}
+@media(max-width:620px){
+  .hero-cursor-glow{display:none}
+  .hero-particles{opacity:.35}
+  .hero-particles span:nth-child(n+5){display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-particles span{animation:none!important}
+}
