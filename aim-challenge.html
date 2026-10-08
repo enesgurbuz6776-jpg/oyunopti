@@ -10,7 +10,7 @@
 <meta property="og:description" content="Sabit, hareketli ve peek yapan robot hedeflerde 20 saniyelik aim antrenmanı.">
 <meta property="og:url" content="https://enesgurbuz6776-jpg.github.io/oyunopti/aim-challenge.html">
 <link rel="stylesheet" href="style.css?v=12">
-<script src="config.js?v=9"></script>
+<script src="config.js?v=10"></script>
 </head><body>
 <header class="topbar">
 <a class="brand" href="index.html"><span class="brand-mark">OO</span><span>OyunOpti</span></a>
@@ -57,7 +57,7 @@
   </div>
   <div class="activation-form">
     <input id="activationCode" autocomplete="off" placeholder="OO-XXXX-XXXX-XXXX">
-    <button id="activatePro" class="btn primary" type="button">Pro'yu Aktifleştir</button>
+    <button id="activateProTop" class="btn primary" type="button">Pro'yu Aktifleştir</button>
   </div>
   <div id="activationMsg" class="activation-msg"></div>
   <a class="btn ghost" data-product-buy="aim_pro">39 TL – Shopier'den Satın Al</a>
@@ -142,7 +142,7 @@
         <label style="display:block;font-weight:800;margin-bottom:8px">Pro aktivasyon kodun varsa gir</label>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <input id="proCode" type="text" autocomplete="off" placeholder="OO-XXXXX-XXXXX-XXXXX-XXXXX" style="flex:1;min-width:220px;background:#0b1020;color:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 12px">
-          <button id="activatePro" class="btn ghost" type="button">Pro'yu Aç</button>
+          <button id="activateProBottom" class="btn ghost" type="button">Pro'yu Aç</button>
         </div>
         <small id="proMessage" style="display:block;margin-top:8px;color:var(--muted)">Ödeme sonrası verilen aktivasyon kodunu burada kullan.</small>
       </div>
@@ -179,10 +179,10 @@
   const hitMarker=document.getElementById("hitMarker"), headFlash=document.getElementById("headshotFlash");
   const timeEl=document.getElementById("timeLeft"), scoreEl=document.getElementById("score"), hsEl=document.getElementById("headshots"), missEl=document.getElementById("misses"), playsEl=document.getElementById("playsLeft");
   const modeButtons=[...document.querySelectorAll(".aim-mode")];
-  const proInput=document.getElementById("proCode"), proBtn=document.getElementById("activatePro"), proMessage=document.getElementById("proMessage");
+  const proInput=document.getElementById("proCode"), proBtn=document.getElementById("activateProBottom"), proMessage=document.getElementById("proMessage");
   const difficulty=document.getElementById("difficulty"), duration=document.getElementById("duration");
   const planStatus=document.getElementById("planStatus"), activationPanel=document.getElementById("activationPanel");
-  const openActivate=document.getElementById("openActivate"), activatePro=document.getElementById("activatePro");
+  const openActivate=document.getElementById("openActivate"), activateTopBtn=document.getElementById("activateProTop");
   const activationCode=document.getElementById("activationCode"), activationMsg=document.getElementById("activationMsg");
   const proHistory=document.getElementById("proHistory"), historyList=document.getElementById("historyList");
 
@@ -216,17 +216,17 @@
     const digest=await crypto.subtle.digest("SHA-256",data);
     return [...new Uint8Array(digest)].map(b=>b.toString(16).padStart(2,"0")).join("");
   }
-  async function activate(){
-    const code=(activationCode.value||"").trim().toUpperCase();
-    if(!code){activationMsg.textContent="Aktivasyon kodunu gir.";return}
-    activationMsg.textContent="Kontrol ediliyor...";
+  async function activateFrom(inputEl,msgEl){
+    const code=(inputEl?.value||"").trim().toUpperCase();
+    if(!code){if(msgEl)msgEl.textContent="Aktivasyon kodunu gir.";return}
+    if(msgEl)msgEl.textContent="Kontrol ediliyor...";
     try{
       const h=await codeHash(code), valid=((window.OYUNOPTI_CONFIG||{}).AIM_PRO_CODE_HASHES||[]).includes(h);
-      if(!valid){activationMsg.textContent="Kod geçersiz. Shopier siparişin için verilen kodu kontrol et.";return}
+      if(!valid){if(msgEl)msgEl.textContent="Kod geçersiz. Shopier siparişin için verilen kodu kontrol et.";return}
       localStorage.setItem(PRO_KEY,"yes");localStorage.setItem(PRO_KEY+"_hash",h);
-      activationMsg.textContent="Pro aktif edildi. Sınırsız kullanım ve Pro modları açıldı.";
+      if(msgEl)msgEl.textContent="Pro aktif edildi. Sınırsız kullanım ve Pro modları açıldı.";
       applyProUI();setTimeout(()=>location.reload(),700);
-    }catch(e){activationMsg.textContent="Tarayıcı kodu doğrulayamadı. Sayfayı yenileyip tekrar dene."}
+    }catch(e){if(msgEl)msgEl.textContent="Tarayıcı kodu doğrulayamadı. Sayfayı yenileyip tekrar dene."}
   }
 
   function beep(freq,dur,vol){
@@ -260,8 +260,8 @@
     mode=b.dataset.mode;modeButtons.forEach(x=>x.classList.toggle("active",x===b));introForMode();
   }));
   openActivate.addEventListener("click",()=>{activationPanel.hidden=false;activationPanel.scrollIntoView({behavior:"smooth",block:"center"})});
-  activatePro.addEventListener("click",activate);
-  activationCode.addEventListener("keydown",e=>{if(e.key==="Enter")activate()});
+  activateTopBtn.addEventListener("click",()=>activateFrom(activationCode,activationMsg));
+  activationCode.addEventListener("keydown",e=>{if(e.key==="Enter")activateFrom(activationCode,activationMsg)});
 
   function robotSize(){
     const w=arena.getBoundingClientRect().width;
@@ -383,8 +383,8 @@
     }
   });
 
-  proBtn.addEventListener("click",activatePro);
-  proInput.addEventListener("keydown",e=>{if(e.key==="Enter")activatePro()});
+  proBtn.addEventListener("click",()=>activateFrom(proInput,proMessage));
+  proInput.addEventListener("keydown",e=>{if(e.key==="Enter")activateFrom(proInput,proMessage)});
   startBtn.addEventListener("pointerup",e=>{e.preventDefault();e.stopPropagation();start()});
   startBtn.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();start()});
   againBtn.addEventListener("pointerup",e=>{e.preventDefault();e.stopPropagation();start()});
