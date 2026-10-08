@@ -1,8 +1,26 @@
 {
-  "name": "OyunOpti",
+  "name": "OyunOpti – Oyuncu Araçları & Aim Trainer",
   "short_name": "OyunOpti",
+  "id": "./",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#080b14",
-  "theme_color": "#0b1020"
+  "theme_color": "#0b1020",
+  "description": "Valorant, CS2, Apex ve Overwatch 2 sensitivity/eDPI araçları, FPS hesaplayıcıları ve Aim Range.",
+  "lang": "tr",
+  "categories": ["games", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {"name":"Aim Range","short_name":"Aim Range","url":"aim-challenge.html","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Sens Dönüştürücü","short_name":"Sens","url":"valorant-cs2-sens.html","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"eDPI & cm/360","short_name":"eDPI","url":"edpi-hesaplama.html","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml"}]}
+  ]
 }
