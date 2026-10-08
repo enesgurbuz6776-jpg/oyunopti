@@ -211,3 +211,27 @@ footer{width:min(1180px,calc(100% - 32px));margin:50px auto 0;border-top:1px sol
 /* PRODUCT PRICE MOBILE CLARITY */
 .product-price small{display:block;margin-top:4px;line-height:1.25}
 .product-note b{color:#fff}
+
+
+/* ===== V13 PRO PLAYER SETTINGS ===== */
+.pro-settings-hero{max-width:900px}
+.pro-settings-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pro-settings-card{background:linear-gradient(180deg,#11192c,#0c1221);border:1px solid var(--line);border-radius:22px;padding:20px;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+.pro-settings-card:hover{transform:translateY(-3px);border-color:rgba(25,211,174,.45);box-shadow:0 18px 42px rgba(0,0,0,.25)}
+.pro-settings-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.pro-settings-head h2{margin:5px 0 3px;font-size:29px;letter-spacing:-.03em}
+.pro-settings-head p{margin:0;color:var(--muted);font-size:13px}
+.pro-badge{border:1px solid rgba(25,211,174,.28);background:rgba(25,211,174,.08);color:var(--accent2);border-radius:999px;padding:7px 10px;font-size:11px;font-weight:900}
+.pro-metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:18px 0}
+.pro-metrics>div{background:#0b1020;border:1px solid var(--line);border-radius:13px;padding:11px}
+.pro-metrics small{display:block;color:var(--muted);font-size:11px;margin-bottom:3px}
+.pro-metrics b{font-size:19px}
+.crosshair-box{padding:13px;border:1px solid rgba(124,92,255,.26);background:rgba(124,92,255,.06);border-radius:15px}
+.crosshair-box small{display:block;color:var(--muted);margin-bottom:7px}
+.crosshair-box code{display:block;overflow-wrap:anywhere;color:#eaf0ff;font-size:12px;line-height:1.55;margin-bottom:10px}
+.copy-code{width:100%;border:1px solid rgba(25,211,174,.28);background:rgba(25,211,174,.09);color:var(--accent2);border-radius:11px;padding:10px 12px;font-weight:900;cursor:pointer;transition:transform .12s ease,background .12s ease}
+.copy-code:active{transform:scale(.98)}
+.copy-code.copied{background:rgba(25,211,174,.18)}
+.pro-source{color:#73809d!important;font-size:11px!important;margin:12px 0 0!important;line-height:1.5!important}
+@media(max-width:900px){.pro-settings-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.pro-settings-grid{grid-template-columns:1fr}}
