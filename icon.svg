@@ -1,6 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-<defs><linearGradient id="g" x1="72" y1="52" x2="440" y2="460" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#7c5cff"/><stop offset="1" stop-color="#19d3ae"/></linearGradient><radialGradient id="r" cx="0" cy="0" r="1" gradientTransform="translate(168 112) rotate(48) scale(390)"><stop stop-color="#18213b"/><stop offset="1" stop-color="#080b14"/></radialGradient></defs>
-<rect width="512" height="512" rx="116" fill="url(#r)"/><rect x="28" y="28" width="456" height="456" rx="100" fill="none" stroke="url(#g)" stroke-width="18"/>
-<circle cx="256" cy="256" r="142" fill="none" stroke="#26324f" stroke-width="10"/><path d="M256 84v48M256 380v48M84 256h48M380 256h48" stroke="#19d3ae" stroke-width="16" stroke-linecap="round"/><circle cx="256" cy="256" r="20" fill="#19d3ae"/>
-<text x="256" y="286" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="112" font-weight="900" fill="#eef2ff" letter-spacing="-10">OO</text>
+<defs>
+  <linearGradient id="edge" x1="55" y1="42" x2="466" y2="472" gradientUnits="userSpaceOnUse"><stop stop-color="#8b6cff"/><stop offset=".52" stop-color="#19d3ae"/><stop offset="1" stop-color="#ff6b7d"/></linearGradient>
+  <radialGradient id="bg" cx="0" cy="0" r="1" gradientTransform="translate(176 110) rotate(48) scale(430)"><stop stop-color="#1b2745"/><stop offset=".55" stop-color="#0b1222"/><stop offset="1" stop-color="#070a12"/></radialGradient>
+  <filter id="glow"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="512" height="512" rx="116" fill="url(#bg)"/>
+<path d="M256 38 430 104 474 278 390 432 214 474 60 390 38 214 104 82Z" fill="none" stroke="url(#edge)" stroke-width="18" opacity=".95"/>
+<circle cx="256" cy="256" r="118" fill="none" stroke="#263653" stroke-width="10"/>
+<circle cx="256" cy="256" r="58" fill="none" stroke="#19d3ae" stroke-width="7" opacity=".75" filter="url(#glow)"/>
+<path d="M256 104v60M256 348v60M104 256h60M348 256h60" stroke="#eef6ff" stroke-width="16" stroke-linecap="round" opacity=".92"/>
+<path d="M194 226c0-37 26-66 62-66s62 29 62 66v60c0 37-26 66-62 66s-62-29-62-66Z" fill="none" stroke="url(#edge)" stroke-width="24"/>
+<circle cx="256" cy="256" r="13" fill="#19d3ae" filter="url(#glow)"/>
 </svg>
