@@ -39,6 +39,42 @@
 </div>
 </section>
 
+
+<section class="sens-quiz-card" id="sensQuiz">
+  <div class="section-head">
+    <span class="eyebrow">Ücretsiz Mini Test</span>
+    <h2>Sens yönünü 30 saniyede bul</h2>
+    <p>3 kısa soruya cevap ver; sana düşük, dengeli veya daha yüksek sens tarafında hangi yönden test etmeye başlamanın daha mantıklı olabileceğini gösterelim.</p>
+  </div>
+  <div class="sens-quiz-grid">
+    <label>Nasıl aim alıyorsun?
+      <select id="quizAim">
+        <option value="arm">Daha çok kol ile</option>
+        <option value="hybrid" selected>Kol + bilek karışık</option>
+        <option value="wrist">Daha çok bilek ile</option>
+      </select>
+    </label>
+    <label>Mousepad alanın nasıl?
+      <select id="quizPad">
+        <option value="large">Geniş (45 cm+)</option>
+        <option value="medium" selected>Orta (35–44 cm)</option>
+        <option value="small">Dar (34 cm ve altı)</option>
+      </select>
+    </label>
+    <label>En çok nerede zorlanıyorsun?
+      <select id="quizProblem">
+        <option value="micro">Mikro düzeltme / küçük hedef</option>
+        <option value="balanced" selected>Karışık / emin değilim</option>
+        <option value="turn">Hızlı dönüş / 180 derece</option>
+      </select>
+    </label>
+  </div>
+  <div class="sens-quiz-actions">
+    <button class="btn primary" id="runSensQuiz" type="button">Sens Yönümü Bul</button>
+  </div>
+  <div class="sens-quiz-result" id="sensQuizResult" hidden aria-live="polite"></div>
+</section>
+
 <section class="order-card">
 <h2>Analiz bilgilerini hazırla</h2>
 <p>Önce oyunu seç; form ona göre açılır. Ödeme bağlantısı aktif olduğunda bu bilgiler kişisel analizin hazırlanmasında kullanılacak.</p>
@@ -147,6 +183,50 @@
     localStorage.setItem("oyunopti_personal_sens_order",JSON.stringify({game:g,dpi,valorantSens:v,cs2Sens:c,text}));
     if(window.gtag) gtag("event","product_form_ready",{"product":"personal_sens","game":g});
   });
+
+
+  const quizBtn=document.getElementById("runSensQuiz");
+  const quizResult=document.getElementById("sensQuizResult");
+  if(quizBtn&&quizResult){
+    quizBtn.addEventListener("click",function(){
+      const aim=document.getElementById("quizAim").value;
+      const pad=document.getElementById("quizPad").value;
+      const problem=document.getElementById("quizProblem").value;
+      let score=0;
+      if(aim==="arm")score--; else if(aim==="wrist")score++;
+      if(pad==="large")score--; else if(pad==="small")score++;
+      if(problem==="micro")score--; else if(problem==="turn")score++;
+
+      let title,body,styleValue;
+      if(score<=-2){
+        title="Daha düşük sens tarafını test et";
+        body="Geniş hareket alanın ve kontrol odaklı kullanımın düşük sens tarafını denemeye uygun görünüyor. Mevcut ayarından küçük adımlarla aşağı inip 2–3 tur Aim Range ile test et.";
+        styleValue="Düşük sens / kol aim";
+      }else if(score>=2){
+        title="Biraz daha yüksek sens tarafını test et";
+        body="Daha dar alan veya hızlı dönüş ihtiyacın yüksek sens tarafını denemeyi mantıklı kılıyor. Büyük sıçrama yapmadan küçük artışlarla test et ve mikro düzeltmeler bozuluyorsa geri dön.";
+        styleValue="Yüksek sens / bilek aim";
+      }else{
+        title="Dengeli sens bandından başla";
+        body="Cevapların tek bir uca gitmiyor. En mantıklı başlangıç mevcut ayarına yakın, dengeli bir sens; sonra mikro düzeltme ve 180° dönüş testlerine göre küçük değişiklikler yap.";
+        styleValue="Dengeli";
+      }
+
+      quizResult.hidden=false;
+      quizResult.innerHTML='<span class="eyebrow">Test Sonucu</span><h3>'+title+'</h3><p>'+body+'</p><div class="sens-quiz-next"><button class="btn ghost" id="useQuizResult" type="button">Bu sonucu analiz formuna aktar</button><a class="btn ghost" href="aim-challenge.html">Aim Range ile dene</a></div><small>Bu mini test kesin bir “ideal sens” vermez; sadece hangi yönde denemeye başlamanın daha mantıklı olabileceğini gösterir.</small>';
+
+      const useBtn=document.getElementById("useQuizResult");
+      if(useBtn){
+        useBtn.addEventListener("click",function(){
+          const style=document.getElementById("orderStyle");
+          if(style)style.value=styleValue;
+          const formCard=document.querySelector(".order-card");
+          if(formCard)formCard.scrollIntoView({behavior:"smooth",block:"start"});
+        });
+      }
+      if(window.gtag)gtag("event","sens_quiz_complete",{"direction":score<=-2?"low":score>=2?"high":"balanced"});
+    });
+  }
 
   copy.addEventListener("click",async function(){
     try{await navigator.clipboard.writeText(preview.textContent);copy.textContent="Kopyalandı ✓";}
