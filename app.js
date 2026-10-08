@@ -173,3 +173,24 @@ document.querySelectorAll("[data-copy]").forEach(btn=>{
     }
   });
 });
+
+
+/* ===== OYUNOPTI PWA ===== */
+(function(){
+  if(!document.querySelector('link[rel="manifest"]')){
+    const l=document.createElement("link");l.rel="manifest";l.href="site.webmanifest";document.head.appendChild(l);
+  }
+  if(!document.querySelector('link[rel="icon"]')){
+    const l=document.createElement("link");l.rel="icon";l.type="image/svg+xml";l.href="icon.svg";document.head.appendChild(l);
+  }
+  if("serviceWorker" in navigator){
+    window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(()=>{}));
+  }
+  let deferredInstallPrompt=null;
+  const installBtn=document.getElementById("installApp");
+  const standalone=window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches;
+  if(installBtn&&standalone)installBtn.hidden=true;
+  window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstallPrompt=e;if(installBtn&&!standalone)installBtn.hidden=false});
+  if(installBtn)installBtn.addEventListener("click",async()=>{if(!deferredInstallPrompt)return;installBtn.disabled=true;deferredInstallPrompt.prompt();try{await deferredInstallPrompt.userChoice}catch(e){}deferredInstallPrompt=null;installBtn.hidden=true;installBtn.disabled=false;if(window.gtag)gtag("event","pwa_install_prompt")});
+  window.addEventListener("appinstalled",()=>{deferredInstallPrompt=null;if(installBtn)installBtn.hidden=true;if(window.gtag)gtag("event","pwa_installed")});
+})();
