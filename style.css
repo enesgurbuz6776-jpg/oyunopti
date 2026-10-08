@@ -435,3 +435,64 @@ footer{width:min(1180px,calc(100% - 32px));margin:50px auto 0;border-top:1px sol
 @media(prefers-reduced-motion:reduce){
   .hero-particles span{animation:none!important}
 }
+
+
+/* ===== V18 SITE BACKDROP ===== */
+body{
+  position:relative;
+  overflow-x:hidden;
+  background-color:#070a12!important;
+  background-image:
+    radial-gradient(circle at 10% 8%,rgba(124,92,255,.24) 0%,rgba(124,92,255,.08) 22%,transparent 38%),
+    radial-gradient(circle at 92% 14%,rgba(255,111,66,.18) 0%,rgba(255,111,66,.06) 22%,transparent 38%),
+    radial-gradient(circle at 76% 72%,rgba(67,103,255,.10) 0%,transparent 34%),
+    linear-gradient(135deg,#070a12 0%,#0a1020 48%,#080b12 100%)!important;
+  background-attachment:fixed!important;
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background:
+    repeating-linear-gradient(122deg,transparent 0 78px,rgba(139,154,190,.035) 79px 80px),
+    repeating-linear-gradient(0deg,transparent 0 42px,rgba(255,255,255,.018) 43px 44px);
+  opacity:.78;
+  mask-image:linear-gradient(to bottom,#000 0 82%,transparent 100%);
+}
+body:after{
+  content:"";
+  position:fixed;
+  width:46vw;
+  height:46vw;
+  min-width:520px;
+  min-height:520px;
+  right:-18vw;
+  top:18vh;
+  z-index:0;
+  pointer-events:none;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 46% 46%,rgba(255,126,62,.11) 0%,rgba(124,92,255,.07) 28%,transparent 66%);
+  filter:blur(10px);
+  animation:siteBackdropDrift 14s ease-in-out infinite alternate;
+}
+main,footer{position:relative;z-index:1}
+@keyframes siteBackdropDrift{
+  from{transform:translate3d(0,0,0) scale(1)}
+  to{transform:translate3d(-28px,24px,0) scale(1.06)}
+}
+@media(max-width:760px){
+  body{
+    background-image:
+      radial-gradient(circle at 15% 6%,rgba(124,92,255,.19) 0%,transparent 32%),
+      radial-gradient(circle at 90% 16%,rgba(255,111,66,.12) 0%,transparent 30%),
+      linear-gradient(150deg,#070a12 0%,#0a1020 52%,#080b12 100%)!important;
+  }
+  body:before{opacity:.42}
+  body:after{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  body:after{animation:none!important}
+}
