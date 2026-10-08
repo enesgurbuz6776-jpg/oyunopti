@@ -235,3 +235,19 @@ footer{width:min(1180px,calc(100% - 32px));margin:50px auto 0;border-top:1px sol
 .pro-source{color:#73809d!important;font-size:11px!important;margin:12px 0 0!important;line-height:1.5!important}
 @media(max-width:900px){.pro-settings-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:620px){.pro-settings-grid{grid-template-columns:1fr}}
+
+
+/* ===== V14 SENS QUIZ ===== */
+.sens-quiz-card{margin:28px 0;padding:24px;border:1px solid rgba(124,92,255,.28);border-radius:22px;background:linear-gradient(135deg,rgba(124,92,255,.08),rgba(25,211,174,.05))}
+.sens-quiz-card .section-head{margin-bottom:16px}
+.sens-quiz-card .section-head h2{margin:6px 0 8px}
+.sens-quiz-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.sens-quiz-grid label{display:grid;gap:7px;font-weight:800;color:#eaf0ff}
+.sens-quiz-grid select{width:100%;background:#0b1020;color:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 12px;font:inherit}
+.sens-quiz-actions{margin-top:14px}
+.sens-quiz-result{margin-top:16px;padding:18px;border:1px solid rgba(25,211,174,.3);border-radius:16px;background:#0b1320}
+.sens-quiz-result h3{margin:6px 0 8px;font-size:22px}
+.sens-quiz-result p{color:var(--muted);line-height:1.65;margin:0 0 12px}
+.sens-quiz-result small{display:block;color:#7f8ca8;line-height:1.5;margin-top:10px}
+.sens-quiz-next{display:flex;gap:10px;flex-wrap:wrap}
+@media(max-width:760px){.sens-quiz-grid{grid-template-columns:1fr}}
