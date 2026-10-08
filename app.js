@@ -143,3 +143,26 @@ if(btnAspect) btnAspect.addEventListener("click",()=>{
   <div class="metric"><small>Ondalık oran</small><b>${v3fmt(decimal,3)}</b></div>
   <div class="metric"><small>Toplam piksel</small><b>${v3fmt((w*h)/1e6,2)} MP</b></div></div>`);
 });
+
+
+/* ===== PRO SETTINGS COPY ===== */
+document.querySelectorAll("[data-copy]").forEach(btn=>{
+  btn.addEventListener("click",async()=>{
+    const value=btn.dataset.copy||"";
+    const done=()=>{
+      const old=btn.dataset.oldLabel||btn.textContent;
+      btn.dataset.oldLabel=old;
+      btn.textContent="Kod Kopyalandı ✓";
+      btn.classList.add("copied");
+      setTimeout(()=>{btn.textContent=old;btn.classList.remove("copied")},1600);
+    };
+    try{
+      await navigator.clipboard.writeText(value);
+      done();
+    }catch{
+      const ta=document.createElement("textarea");
+      ta.value=value;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();
+      done();
+    }
+  });
+});
