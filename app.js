@@ -1,6 +1,6 @@
 
-const yaw={valorant:.07,cs2:.022,apex:.022};
-const names={valorant:"Valorant",cs2:"CS2",apex:"Apex Legends"};
+const yaw={valorant:.07,cs2:.022,apex:.022,overwatch2:.0066};
+const names={valorant:"Valorant",cs2:"CS2",apex:"Apex Legends",overwatch2:"Overwatch 2"};
 const $=s=>document.querySelector(s);
 const fmt=(n,d=3)=>Number(n).toLocaleString("tr-TR",{maximumFractionDigits:d});
 function show(el,html){if(!el)return;el.innerHTML=html;el.classList.add("show")}
@@ -33,12 +33,19 @@ function updateSensLive(){
 });
 if($("#sensResult"))updateSensLive();
 
-if($("#calcEdpi"))$("#calcEdpi").addEventListener("click",()=>{
- const game=$("#edpiGame").value,dpi=parseFloat($("#edpiDpi").value),sens=parseFloat($("#edpiSens").value);
- if(!(dpi>0&&sens>0))return show($("#edpiResult"),"Geçerli DPI ve sensitivity gir.");
+function updateEdpiLive(){
+ const game=$("#edpiGame")?.value,dpi=parseFloat($("#edpiDpi")?.value),sens=parseFloat($("#edpiSens")?.value);
+ const result=$("#edpiResult");
+ if(!result)return;
+ if(!(dpi>0&&sens>0)||!yaw[game])return show(result,"Geçerli DPI ve sensitivity gir.");
  const edpi=dpi*sens,cm=360/(sens*yaw[game])/dpi*2.54;
- show($("#edpiResult"),`<div class="result-grid"><div class="result-item"><small>eDPI</small><b>${fmt(edpi,1)}</b></div><div class="result-item"><small>cm/360</small><b>${fmt(cm,2)} cm</b></div><div class="result-item"><small>Oyun</small><b>${names[game]}</b></div></div>`);
+ show(result,`<div class="result-grid"><div class="result-item"><small>eDPI</small><b>${fmt(edpi,1)}</b></div><div class="result-item"><small>cm/360</small><b>${fmt(cm,2)} cm</b></div><div class="result-item"><small>Oyun</small><b>${names[game]}</b></div></div><div class="sub">eDPI = DPI × sensitivity. Oyunlar arasında fiziksel hissi karşılaştırırken cm/360 daha anlamlıdır.</div>`);
+}
+["#edpiGame","#edpiDpi","#edpiSens"].forEach(sel=>{
+ const el=$(sel);
+ if(el)el.addEventListener(el.tagName==="SELECT"?"change":"input",updateEdpiLive);
 });
+if($("#edpiResult"))updateEdpiLive();
 
 if($("#calcPpi"))$("#calcPpi").addEventListener("click",()=>{
  const size=parseFloat($("#ppiSize").value),w=parseFloat($("#ppiW").value),h=parseFloat($("#ppiH").value);
