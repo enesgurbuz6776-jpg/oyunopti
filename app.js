@@ -194,3 +194,30 @@ document.querySelectorAll("[data-copy]").forEach(btn=>{
   if(installBtn)installBtn.addEventListener("click",async()=>{if(!deferredInstallPrompt)return;installBtn.disabled=true;deferredInstallPrompt.prompt();try{await deferredInstallPrompt.userChoice}catch(e){}deferredInstallPrompt=null;installBtn.hidden=true;installBtn.disabled=false;if(window.gtag)gtag("event","pwa_install_prompt")});
   window.addEventListener("appinstalled",()=>{deferredInstallPrompt=null;if(installBtn)installBtn.hidden=true;if(window.gtag)gtag("event","pwa_installed")});
 })();
+
+/* ===== HERO CURSOR GLOW ===== */
+(function(){
+  const hero=document.querySelector(".hero-fps");
+  const glow=document.getElementById("heroCursorGlow");
+  if(!hero||!glow||window.matchMedia("(pointer: coarse)").matches)return;
+
+  let raf=0,targetX=0,targetY=0,currentX=0,currentY=0;
+  const animate=()=>{
+    currentX+=(targetX-currentX)*.16;
+    currentY+=(targetY-currentY)*.16;
+    glow.style.left=currentX+"px";
+    glow.style.top=currentY+"px";
+    if(Math.abs(targetX-currentX)>.2||Math.abs(targetY-currentY)>.2)raf=requestAnimationFrame(animate);
+    else raf=0;
+  };
+
+  hero.addEventListener("pointermove",e=>{
+    const r=hero.getBoundingClientRect();
+    targetX=e.clientX-r.left;
+    targetY=e.clientY-r.top;
+    glow.style.opacity=".82";
+    if(!raf)raf=requestAnimationFrame(animate);
+  });
+  hero.addEventListener("pointerleave",()=>{glow.style.opacity=".42"});
+  hero.addEventListener("pointerenter",()=>{glow.style.opacity=".72"});
+})();
