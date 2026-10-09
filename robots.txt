@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://enesgurbuz6776-jpg.github.io/oyunopti/sitemap.xml
-Sitemap: https://enesgurbuz6776-jpg.github.io/oyunopti/sitemap.txt
+Sitemap: https://oyunopti.com/sitemap.xml
