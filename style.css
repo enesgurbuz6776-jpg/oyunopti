@@ -522,3 +522,14 @@ main,footer{position:relative;z-index:1}
   transform:translateY(-1px) scale(1.03);
   filter:drop-shadow(0 8px 20px rgba(124,92,255,.22));
 }
+
+/* OyunOpti — Kinguin gelir ortaklığı vitrini */
+.kinguin-feature{position:relative;overflow:hidden;border-color:rgba(25,211,174,.32);background:linear-gradient(120deg,rgba(25,211,174,.095),rgba(124,92,255,.14) 55%,rgba(12,18,33,.94))}
+.kinguin-feature .affiliate-note{max-width:700px;color:#a8b5d1;margin-top:15px}
+.kinguin-feature .btn.primary{background:linear-gradient(100deg,#19d3ae,#557bff);color:#07111d}
+.kinguin-side{display:flex;flex-direction:column;gap:11px;padding:22px;border:1px solid rgba(25,211,174,.23);border-radius:21px;background:rgba(7,13,28,.72)}
+.kinguin-emoji{font-size:34px;line-height:1}
+.kinguin-side strong{color:#e9f6ff;font-size:19px}
+.kinguin-side span{color:#adbad7;font-size:14px;line-height:1.55}
+.kinguin-side ul{list-style:none;padding:0;margin:5px 0 0;display:grid;gap:11px;color:#dbe5fa;font-size:13px}
+.kinguin-side li{line-height:1.5}

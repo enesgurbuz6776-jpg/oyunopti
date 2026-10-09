@@ -3,6 +3,7 @@ window.OYUNOPTI_CONFIG = {
   GA_MEASUREMENT_ID: "G-06TDBEDK5W",
 
   AFFILIATE: {
+    kinguin: "https://ficca2021.com/g/ai7w5urbciec67be00a273f469699a/",
     gaming_mouse: "https://rzekl.com/g/1e8d114494ec67be00a216525dc3e8/?subid=gaming_mouse&ulp=https%3A%2F%2Ftr.aliexpress.com%2Fw%2Fwholesale-gamingmouse.html",
     mousepad: "https://rzekl.com/g/1e8d114494ec67be00a216525dc3e8/?subid=mousepad&ulp=https%3A%2F%2Ftr.aliexpress.com%2Fw%2Fwholesale-mousepad.html",
     monitor: "https://rzekl.com/g/1e8d114494ec67be00a216525dc3e8/?subid=monitor&ulp=https%3A%2F%2Ftr.aliexpress.com%2Fw%2Fwholesale-monitor.html",
