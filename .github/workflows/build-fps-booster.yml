@@ -7,6 +7,7 @@ on:
       - 'icon.svg'
       - 'scripts/build_windows_icon.py'
       - 'scripts/smoke_test_windows.py'
+      - 'scripts/verify_exe_logo.py'
       - '.github/workflows/build-fps-booster.yml'
   workflow_dispatch:
 permissions:
@@ -56,26 +57,28 @@ jobs:
       - name: Smoke test actual Tkinter app startup and polling
         run: python scripts/smoke_test_windows.py
       - name: Build branded Windows executable
-        run: python -m PyInstaller --onefile --windowed --clean --noconfirm --name OyunOpti-FPS-Booster --icon desktop/assets/oyunopti.ico --add-data "desktop/assets/oyunopti.ico;assets" desktop/oyunopti_booster.py
+        run: python -m PyInstaller --onefile --windowed --clean --noconfirm --name OyunOpti-FPS-Booster-v0.5.2 --icon desktop/assets/oyunopti.ico --add-data "desktop/assets/oyunopti.ico;assets" desktop/oyunopti_booster.py
+      - name: Inspect embedded Windows EXE icons
+        run: python scripts/verify_exe_logo.py dist/OyunOpti-FPS-Booster-v0.5.2.exe
       - name: Verify EXE and generate checksum
         shell: pwsh
         run: |
-          if (!(Test-Path "dist/OyunOpti-FPS-Booster.exe")) {
+          if (!(Test-Path "dist/OyunOpti-FPS-Booster-v0.5.2.exe")) {
             throw "Windows executable missing"
           }
-          $hash=(Get-FileHash 'dist/OyunOpti-FPS-Booster.exe' -Algorithm SHA256).Hash.ToLower()
-          "$hash  OyunOpti-FPS-Booster.exe" | Out-File 'dist/SHA256SUMS.txt' -Encoding ascii
+          $hash=(Get-FileHash 'dist/OyunOpti-FPS-Booster-v0.5.2.exe' -Algorithm SHA256).Hash.ToLower()
+          "$hash  OyunOpti-FPS-Booster-v0.5.2.exe" | Out-File 'dist/SHA256SUMS.txt' -Encoding ascii
       - name: Publish branded release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: fps-booster-v0.5.1-beta
-          name: OyunOpti FPS Booster v0.5.1
+          tag_name: fps-booster-v0.5.2-beta
+          name: OyunOpti FPS Booster v0.5.2
           prerelease: true
           body: |
-            Yeni sürüm: OyunOpti'nin orijinal logosuyla Windows EXE, pencere ve görev çubuğu simgeleri.
+            Yeni sürüm: Windows EXE içinde OyunOpti'nin gerçek logosu kaynak dosyayla byte düzeyinde doğrulanır. Yeni dosya adı ikon önbelleği çakışmasını azaltır.
             Manuel FPS karşılaştırma, Pro beta PresentMon takibi ve geri alınabilir optimizasyon içerir.
             Beta özellikleri ücretsiz testtedir; abonelik satışı aktif değildir.
             FPS artışı garanti edilmez. Dosyanın bütünlüğünü SHA256SUMS.txt ile doğrulayın.
           files: |
-            dist/OyunOpti-FPS-Booster.exe
+            dist/OyunOpti-FPS-Booster-v0.5.2.exe
             dist/SHA256SUMS.txt
