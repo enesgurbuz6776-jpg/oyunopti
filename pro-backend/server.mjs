@@ -11,7 +11,7 @@ const ORIGIN = process.env.SITE_ORIGIN || "https://oyunopti.com";
 const PRICE = process.env.PRO_PRICE || "10.00";
 const CURRENCY = (process.env.PRO_CURRENCY || "USD").toUpperCase();
 const PRICE_CENTS = moneyCents(PRICE);
-const EXPECTED_PUBLIC_KEY = "lFsWonl0lL6WBlf8bcGKcY0rIOvKj6CBC4wJ6fEclQc=";
+const EXPECTED_PUBLIC_KEY = "FEKnWKC6Cmbxug94tk2TIYsavieXw2mUoc8JRpAzlkY=";
 const SIGNING_PEM = (process.env.LICENSE_PRIVATE_KEY_PEM || "").replace(/\\n/g, "\n");
 function isValidSigningKey() {
   try {
