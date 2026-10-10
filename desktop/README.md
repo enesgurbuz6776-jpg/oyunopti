@@ -1,4 +1,4 @@
-# OyunOpti Pro v1.0.0 — Lisanslı Windows Uygulaması
+# OyunOpti Pro v1.2.0 — Lisanslı Windows Uygulaması
 
 **Windows 10/11** için lisans doğrulamalı oyun performans uygulaması. **Ücretsiz kullanım veya deneme lisansı yoktur.**
 
@@ -25,3 +25,13 @@ GitHub Actions: .github/workflows/build-fps-booster.yml Windows PyInstaller EXE'
 
 ## Güvenlik kısıtlamaları
 Bu sürüm **offline lisans doğrulaması** kullanır. Ürün dosyasını değiştirebilen veya eski sürümleri saklayan kişiler için mutlak korsan koruması sunmaz. Özellikle önceki GitHub yayınları hâlâ indirilebiliyorsa kaldırılması gerekir. Daha güçlü üyelik ve otomatik ödeme yönetimi için sunucu tarafı doğrulama/ödeme entegrasyonu önerilir.
+
+## Önemli: İmzalama anahtarı yenileme (2026-10-10)
+
+Eski lisans imzalama anahtarı bir ekran görüntüsünde ifşa edildiğinden kullanılmamalıdır.
+Yeni Pro v1.2.0 uygulaması yenilenen açık doğrulama anahtarını taşır.
+Özel PEM dosyası ve içerikleri yalnızca sahipte ve Render ortam değişkeninde
+tutulmalıdır; GitHub deposuna, ekran görüntülerine veya sohbete yüklenmemelidir.
+Eski EXE sürümleri çevrimdışı olduğundan geçmiş kopyalar uzaktan kapatılamaz.
+Eski sürümler GitHub Releases üzerinden ayrıca kaldırılmalı, tek başına
+uygulama sürümünü değiştirmek geçmiş lisansları iptal etmez.
