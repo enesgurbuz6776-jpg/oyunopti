@@ -1,0 +1,36 @@
+name: Check OyunOpti Pro API
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'pro-config.js'
+      - '.github/workflows/check-pro-api.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check live health and disabled payments
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, time, urllib.request
+          url = "https://oyunopti-pro-api.onrender.com/api/health"
+          last_error = None
+          for retry in range(3):
+              try:
+                  with urllib.request.urlopen(url, timeout=75) as response:
+                      obj = json.load(response)
+                  assert obj.get("service") == "OyunOpti Pro", obj
+                  assert obj.get("paymentsEnabled") is False, "Safety alert: payments turned on unexpectedly"
+                  print("PASS:", obj)
+                  break
+              except Exception as exc:
+                  last_error = exc
+                  print("Health check attempt failed:", str(exc))
+                  if retry < 2: time.sleep(10)
+          else:
+              raise RuntimeError("Render API health not verified") from last_error
+          PY
