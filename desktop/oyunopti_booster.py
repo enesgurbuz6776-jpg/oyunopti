@@ -146,7 +146,7 @@ class App(tk.Tk):
         self.pm_game=tk.StringVar(value="TslGame.exe")
         self.live_fps=tk.StringVar(value="— FPS")
         self.low_fps=tk.StringVar(value="—")
-        self.monitor_state=tk.StringVar(value="FPS ölçümü kapalı. PresentMon CLI ile test edilebilir.")
+        self.monitor_state=tk.StringVar(value="FPS ölçümü kapalı. PresentMon CLI ile ölçüm için kullanılabilir.")
         self.pm_samples=deque(maxlen=2000)
         self.pm_process=None
         self.pm_last_frame=0
@@ -282,15 +282,15 @@ class App(tk.Tk):
         self.text(c,"●  FPS değerleri kullanıcı tarafından girilir; otomatik ölçülmez.",11,MUTED).pack(anchor="w",pady=6)
         c=self.card(f)
         self.text(c,"✦  OYUNOPTI PRO • $10 / ay (hedef)",15,PURPLE,True).pack(anchor="w")
-        self.text(c,"Gerçek FPS takibi, Pro optimizasyon ve detaylı raporlar. Pro testine ücretsiz katıl; ödeme henüz kapalı.",10,MUTED).pack(anchor="w",pady=(9,14))
+        self.text(c,"Gerçek FPS takibi, Pro optimizasyon ve detaylı raporlar. Aktif Pro lisansı gerekir. Abonelik ödemesi henüz sisteme bağlanmadı.",10,MUTED).pack(anchor="w",pady=(9,14))
         tk.Button(c,text="Pro Özelliklerini Gör →",command=lambda:self.show("OyunOpti Pro"),
                   bg="#564384",fg=WHITE,activebackground="#6b56a2",relief="flat",
                   font=("Segoe UI",10,"bold"),padx=15,pady=11).pack(anchor="w")
     def opt(self):
-        f=self.page("✦ PRO PRO • TEST ERİŞİMİ","Gelişmiş optimizasyon",
+        f=self.page("✦ OYUNOPTI PRO • LİSANSLI","Gelişmiş optimizasyon",
                     "Yalnızca seçtiğin ayarlar değiştirilir ve orijinal değerleri önce kaydedilir.")
         c=self.card(f)
-        self.text(c,"PRO PRO ÖNİZLEMESİ • BU SÜRÜMDE ÜCRETSİZ TEST",10,PURPLE,True).pack(anchor="w",pady=(0,10))
+        self.text(c,"OYUNOPTI PRO • LİSANSLI OPTİMİZASYON",10,PURPLE,True).pack(anchor="w",pady=(0,10))
         self.text(c,"Seçtiğin Windows ayarlarını uygula; cihazına göre sonuç değişebilir.",10,MUTED).pack(anchor="w",pady=(0,14))
         self.text(c,"DEĞİŞTİRİLECEK AYARLAR",11,AQUA,True).pack(anchor="w",pady=(0,12))
         for var,title,note in [(self.mode,"Windows Oyun Modu → Açık","Mevcutsa açılır; zaten açıksa değişmez."),
@@ -449,7 +449,7 @@ class App(tk.Tk):
         self.button(f,"Lisansım",lambda:self.show("Lisansım")).pack(anchor="w",pady=10)
     def monitor_page(self):
         f=self.page("✦ PRO PRO • CANLI FPS","Canlı FPS Göstergesi",
-                    "Gerçek FPS takibi için Intel PresentMon konsol aracı gerekir. Bu pro sürümünde ücretsiz test edilebilir.")
+                    "Gerçek FPS takibi için Intel PresentMon konsol aracı gerekir. Bu özellik yalnızca aktif Pro lisansıyla kullanılabilir.")
         c=self.card(f)
         self.text(c,"FPS ÖLÇÜMÜ • PRESENTMON ENTEGRASYONU",11,PURPLE,True).pack(anchor="w")
         self.text(c,"PresentMon CLI sürümünü resmi kaynaktan indir ve aşağıdan EXE'yi göster.",10,MUTED).pack(anchor="w",pady=(10,4))
