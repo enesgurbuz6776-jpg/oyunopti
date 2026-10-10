@@ -5,7 +5,7 @@ from datetime import datetime
 from pathlib import Path
 from collections import deque
 
-VERSION="0.4.0-beta"
+VERSION="0.5.0-beta"
 BASE=Path(os.environ.get("APPDATA",str(Path.home()))) / "OyunOptiFPSBooster"
 FILE=BASE/"state.json"
 REG_KEY=r"Software\Microsoft\GameBar"
@@ -62,8 +62,21 @@ def undo_mode(d):
 
 class App(tk.Tk):
     def __init__(self):
+        if sys.platform == "win32":
+            try:
+                import ctypes
+                ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("OyunOpti.FPSBooster")
+            except (AttributeError, OSError):
+                pass
         super().__init__()
-        self.title("OyunOpti FPS Booster — Beta")
+        self.title("OyunOpti FPS Booster")
+        icon_dir = Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parent))
+        icon_file = icon_dir / "assets" / "oyunopti.ico"
+        if icon_file.is_file():
+            try:
+                self.iconbitmap(default=str(icon_file))
+            except tk.TclError:
+                pass
         self.geometry("1120x780"); self.minsize(900,650); self.configure(bg=BG)
         self.data=load(); self.profile=tk.StringVar(value=self.data["profile"])
         self.mode=tk.BooleanVar(value=True); self.plan=tk.BooleanVar(value=False)
@@ -83,7 +96,7 @@ class App(tk.Tk):
         self.after(650,self.poll_monitor)
         nav=tk.Frame(self,bg=NAV,width=218); nav.pack(side="left",fill="y"); nav.pack_propagate(False)
         self.text(nav,"◇  OyunOpti",22,WHITE,True).pack(anchor="w",padx=16,pady=(32,4))
-        self.text(nav,"FPS BOOSTER  /  v0.3 BETA",9,AQUA,True).pack(anchor="w",padx=20,pady=(0,24))
+        self.text(nav,"FPS BOOSTER  /  v0.5 PRO",9,AQUA,True).pack(anchor="w",padx=20,pady=(0,24))
         tk.Frame(nav,bg=BORDER,height=1).pack(fill="x",padx=16,pady=(0,17))
         self.text(nav,"KONTROL MERKEZİ",9,BLUE,True).pack(anchor="w",padx=20,pady=(0,9))
         for p in ["Genel Bakış","FPS Ölçümü","Oyun Profilleri","Pro Optimizasyon","Canlı FPS Pro","Geri Al","OyunOpti Pro","Hakkında"]:
