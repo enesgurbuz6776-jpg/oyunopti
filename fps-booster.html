@@ -16,12 +16,12 @@
 <link rel="stylesheet" href="style.css?v=13">
 <style>
 .booster-layout{max-width:1120px;margin:0 auto;padding:30px 0 64px}
-.booster-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;padding:55px 0}
+.booster-hero{display:block;max-width:850px;margin:auto;text-align:center;padding:65px 0 48px}
 .booster-pill{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(25,211,174,.4);border-radius:999px;padding:9px 14px;color:#19d3ae;background:rgba(25,211,174,.08);font-weight:750;font-size:13px}
 .booster-hero h1{font-size:clamp(36px,6vw,69px);letter-spacing:-.055em;line-height:1.04;margin:23px 0}
 .booster-hero h1 em{color:#19d3ae;font-style:normal}
 .booster-hero p{font-size:18px;color:#aebbd5;line-height:1.75}
-.booster-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:27px}
+.booster-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:27px}
 .booster-actions .btn{display:inline-block}
 .booster-fine{font-size:12px!important;color:#9aacc9!important}
 .booster-window{background:#0a1020;border:1px solid #334d76;border-radius:18px;overflow:hidden;box-shadow:0 25px 80px rgba(0,0,0,.35)}
@@ -57,27 +57,16 @@
 <div class="booster-layout">
 <section class="booster-hero">
 <div>
-<span class="booster-pill">⚡ Windows 10/11 · Ücretsiz beta</span>
+<span class="booster-pill">⚡ Windows 10/11 · Oyun performans araçları</span>
 <h1>OyunOpti <em>FPS Booster</em></h1>
 <p>Tek noktadan oyun modu ve güç planını yönet, PUBG ve diğer oyunlarda önce/sonra FPS değerlerini kaydet. Her değişikliği geri alabilirsin.</p>
 <div class="booster-actions">
-<a class="btn primary" id="boosterDownload" href="https://github.com/enesgurbuz6776-jpg/oyunopti/releases" target="_blank" rel="noopener noreferrer">Windows indirmelerini gör ↗</a>
-<a class="btn ghost" href="https://github.com/enesgurbuz6776-jpg/oyunopti/blob/main/desktop/oyunopti_booster.py" target="_blank" rel="noopener noreferrer">Kaynak kodu incele</a>
+<a class="btn primary" id="boosterDownload" href="https://github.com/enesgurbuz6776-jpg/oyunopti/releases" target="_blank" rel="noopener noreferrer">Windows Uygulamasını İndir ↓</a>
 </div>
 <p id="boosterStatus" class="booster-status" role="status" aria-live="polite">Windows EXE sürümünün yayın durumu kontrol ediliyor…</p>
 <p class="booster-fine">Beta sürümü bağımsız testlerden geçmemiştir. FPS artışı garanti edilmez. İndirilen EXE imzasız olabilir; yayıncıyı ve dosya bütünlüğünü doğrulayın.</p>
 </div>
-<div class="booster-window" role="img" aria-label="OyunOpti masaüstü uygulaması örnek arayüzü: oyun modu, yüksek performans, geri al">
-<div class="booster-window-top">◇ OyunOpti FPS Booster — Beta</div>
-<div class="booster-window-body">
-<div class="booster-window-head">GÜVENLİ VE GERİ ALINABİLİR</div>
-<h2>Windows optimizasyonu</h2>
-<div class="booster-setting"><span>☑</span> Windows Oyun Modu → Açık</div>
-<div class="booster-setting"><span>☐</span> Güç Planı → Yüksek Performans</div>
-<div class="booster-window-foot"><span class="booster-button">Seçilenleri Uygula</span><span class="booster-button booster-button-alt">Geri Al</span></div>
-<p class="booster-fine">Temsili arayüz • Ayarlar kullanıcının seçimine bağlıdır</p>
-</div>
-</div>
+
 </section>
 <section class="booster-grid" aria-label="Uygulama özellikleri">
 <div class="booster-card"><span class="icon">🛡️</span><h3>Güvenli ayarlar</h3><p>Oyun dosyası değişikliği veya gizli kayıt defteri temizliği yok. Yalnızca iki açıkça belirtilmiş Windows ayarı.</p></div>
@@ -124,7 +113,7 @@
 (function(){
   var status=document.getElementById('boosterStatus'),link=document.getElementById('boosterDownload');
   (async function(){
-      var versions=['fps-booster-v0.4.0-beta','fps-booster-v0.3.0-beta','fps-booster-v0.2.0-beta'];
+      var versions=['fps-booster-v0.5.0-beta','fps-booster-v0.4.0-beta','fps-booster-v0.3.0-beta','fps-booster-v0.2.0-beta'];
       for (var i=0;i<versions.length;i++){
         var response=await fetch('https://api.github.com/repos/enesgurbuz6776-jpg/oyunopti/releases/tags/'+versions[i]);
         if(response.ok){
@@ -137,7 +126,7 @@
     })()
     .then(function(data){
       var asset=(data.assets||[]).find(function(a){return a.name==='OyunOpti-FPS-Booster.exe';});
-      if(asset){link.href=asset.browser_download_url;link.textContent='Windows EXE İndir ↓';status.textContent='İndirilebilir sürüm: '+(data.tag_name||'Windows beta')+'. En güncel Pro beta: v0.4.';}
+      if(asset){link.href=asset.browser_download_url;link.textContent='Windows Uygulamasını İndir ↓';status.textContent='İndirilebilir sürüm: '+(data.tag_name||'Windows')+'.';}
       else{status.textContent='Windows derlemesi henüz yayınlanmadı. Kaynak kodu incelenebilir.';}
     })
     .catch(function(){status.textContent='Sürüm bilgisini otomatik doğrulayamadık. GitHub sürümlerini kontrol edin.';});
