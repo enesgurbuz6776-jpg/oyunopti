@@ -448,7 +448,7 @@ class App(tk.Tk):
             self.text(c,body,10,MUTED).pack(anchor="w",pady=(0,12))
         self.button(f,"Lisansım",lambda:self.show("Lisansım")).pack(anchor="w",pady=10)
     def monitor_page(self):
-        f=self.page("✦ PRO PRO • CANLI FPS","Canlı FPS Göstergesi",
+        f=self.page("✦ OYUNOPTI PRO • CANLI FPS","Canlı FPS Göstergesi",
                     "Gerçek FPS takibi için Intel PresentMon konsol aracı gerekir. Bu özellik yalnızca aktif Pro lisansıyla kullanılabilir.")
         c=self.card(f)
         self.text(c,"FPS ÖLÇÜMÜ • PRESENTMON ENTEGRASYONU",11,PURPLE,True).pack(anchor="w")
@@ -606,7 +606,7 @@ class App(tk.Tk):
         c=self.card(f)
         for s in ["✓ Windows Oyun Modu","✓ İsteğe bağlı Yüksek Performans güç planı",
                   "✓ Eski ayarların yedeği ve geri alma","✓ Manuel FPS kaydı ve karşılaştırma",
-                  "✓ PresentMon CLI ile Pro pro canlı FPS takip","✕ Sahte FPS sayacı yok","✕ FPS artış garantisi yok","✕ Oyun dosyalarına müdahale yok"]:
+                  "✓ PresentMon CLI ile Pro canlı FPS takip","✕ Sahte FPS sayacı yok","✕ FPS artış garantisi yok","✕ Oyun dosyalarına müdahale yok"]:
             self.text(c,s,11,MUTED).pack(anchor="w",pady=7)
 
 if __name__=="__main__":App().mainloop()
