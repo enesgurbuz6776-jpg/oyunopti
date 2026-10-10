@@ -123,17 +123,21 @@
 <script>
 (function(){
   var status=document.getElementById('boosterStatus'),link=document.getElementById('boosterDownload');
-  fetch('https://api.github.com/repos/enesgurbuz6776-jpg/oyunopti/releases/tags/fps-booster-v0.3.0-beta')
-    .then(function(r){
-      if(r.ok)return r.json();
-      return fetch('https://api.github.com/repos/enesgurbuz6776-jpg/oyunopti/releases/tags/fps-booster-v0.2.0-beta').then(function(previous){
-        if(!previous.ok)throw new Error('no-release');
-        return previous.json();
-      });
-    })
+  (async function(){
+      var versions=['fps-booster-v0.4.0-beta','fps-booster-v0.3.0-beta','fps-booster-v0.2.0-beta'];
+      for (var i=0;i<versions.length;i++){
+        var response=await fetch('https://api.github.com/repos/enesgurbuz6776-jpg/oyunopti/releases/tags/'+versions[i]);
+        if(response.ok){
+          var release=await response.json();
+          if((release.assets||[]).some(function(a){return a.name==='OyunOpti-FPS-Booster.exe';}))
+            return release;
+        }
+      }
+      throw new Error('no-release');
+    })()
     .then(function(data){
       var asset=(data.assets||[]).find(function(a){return a.name==='OyunOpti-FPS-Booster.exe';});
-      if(asset){link.href=asset.browser_download_url;link.textContent='Windows EXE İndir ↓';status.textContent='Windows beta dosyası GitHub sürümlerinde mevcut. İndirmeden önce sürüm numarasını kontrol edin.';}
+      if(asset){link.href=asset.browser_download_url;link.textContent='Windows EXE İndir ↓';status.textContent='İndirilebilir sürüm: '+(data.tag_name||'Windows beta')+'. En güncel Pro beta: v0.4.';}
       else{status.textContent='Windows derlemesi henüz yayınlanmadı. Kaynak kodu incelenebilir.';}
     })
     .catch(function(){status.textContent='Sürüm bilgisini otomatik doğrulayamadık. GitHub sürümlerini kontrol edin.';});
