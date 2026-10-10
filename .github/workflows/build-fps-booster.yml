@@ -7,6 +7,7 @@ on:
       - 'icon.svg'
       - 'scripts/build_windows_icon.py'
       - 'scripts/smoke_test_windows.py'
+      - 'scripts/test_pro_licensing.py'
       - 'scripts/verify_exe_logo.py'
       - '.github/workflows/build-fps-booster.yml'
   workflow_dispatch:
@@ -51,34 +52,40 @@ jobs:
           }
           Write-Host "OyunOpti icon found"
       - name: Install packaging tool
-        run: python -m pip install --disable-pip-version-check pyinstaller
+        run: python -m pip install --disable-pip-version-check pyinstaller cryptography
       - name: Validate Python source
         run: python -m py_compile desktop/oyunopti_booster.py
+      - name: Verify Pro license signatures and paywall
+        run: python scripts/test_pro_licensing.py
       - name: Smoke test actual Tkinter app startup and polling
         run: python scripts/smoke_test_windows.py
       - name: Build branded Windows executable
-        run: python -m PyInstaller --onefile --windowed --clean --noconfirm --name OyunOpti-FPS-Booster-v0.5.2 --icon desktop/assets/oyunopti.ico --add-data "desktop/assets/oyunopti.ico;assets" desktop/oyunopti_booster.py
+        run: python -m PyInstaller --onefile --windowed --clean --noconfirm --name OyunOpti-Pro-v1.0.0 --icon desktop/assets/oyunopti.ico --add-data "desktop/assets/oyunopti.ico;assets" desktop/oyunopti_booster.py
       - name: Inspect embedded Windows EXE icons
-        run: python scripts/verify_exe_logo.py dist/OyunOpti-FPS-Booster-v0.5.2.exe
+        run: python scripts/verify_exe_logo.py dist/OyunOpti-Pro-v1.0.0.exe
       - name: Verify EXE and generate checksum
         shell: pwsh
         run: |
-          if (!(Test-Path "dist/OyunOpti-FPS-Booster-v0.5.2.exe")) {
+          if (!(Test-Path "dist/OyunOpti-Pro-v1.0.0.exe")) {
             throw "Windows executable missing"
           }
-          $hash=(Get-FileHash 'dist/OyunOpti-FPS-Booster-v0.5.2.exe' -Algorithm SHA256).Hash.ToLower()
-          "$hash  OyunOpti-FPS-Booster-v0.5.2.exe" | Out-File 'dist/SHA256SUMS.txt' -Encoding ascii
+          $hash=(Get-FileHash 'dist/OyunOpti-Pro-v1.0.0.exe' -Algorithm SHA256).Hash.ToLower()
+          "$hash  OyunOpti-Pro-v1.0.0.exe" | Out-File 'dist/SHA256SUMS.txt' -Encoding ascii
       - name: Publish branded release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: fps-booster-v0.5.2-beta
-          name: OyunOpti FPS Booster v0.5.2
+          tag_name: oyunopti-pro-v1.0.0
+          name: OyunOpti Pro v1.0.0
           prerelease: true
           body: |
-            Yeni sürüm: Windows EXE içinde OyunOpti'nin gerçek logosu kaynak dosyayla byte düzeyinde doğrulanır. Yeni dosya adı ikon önbelleği çakışmasını azaltır.
-            Manuel FPS karşılaştırma, Pro beta PresentMon takibi ve geri alınabilir optimizasyon içerir.
-            Beta özellikleri ücretsiz testtedir; abonelik satışı aktif değildir.
+            OyunOpti Pro v1.0.0. Aktif cihaz-bağlı Ed25519 imzalı lisans olmadan
+            FPS ölçümü, optimizasyon, performans analizi veya oyun profilleri açılamaz.
+            İlk açılışta cihaz kodu ve lisans doğrulama ekranı görünür.
+            Güvenlik gereği yalnızca orijinal Windows ayarlarına geri dönüş lisanssız da kullanılabilir.
+            Windows EXE logosu imza öncesi kaynak logo ile karşılaştırılır.
+            Otomatik ödeme ve lisans teslimi henüz entegre edilmedi.
+            $10/ay hedef fiyat, ödeme entegrasyonu tamamlanınca satışa açılacak.
             FPS artışı garanti edilmez. Dosyanın bütünlüğünü SHA256SUMS.txt ile doğrulayın.
           files: |
-            dist/OyunOpti-FPS-Booster-v0.5.2.exe
+            dist/OyunOpti-Pro-v1.0.0.exe
             dist/SHA256SUMS.txt
