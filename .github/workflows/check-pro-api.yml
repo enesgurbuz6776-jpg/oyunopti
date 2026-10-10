@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - 'pro-config.js'
+      - 'pro-backend/server.mjs'
       - '.github/workflows/check-pro-api.yml'
   workflow_dispatch:
 permissions:
@@ -33,4 +34,28 @@ jobs:
                   if retry < 2: time.sleep(10)
           else:
               raise RuntimeError("Render API health not verified") from last_error
+          PY
+      - name: Confirm forged webhook rejected at deployed Render API
+        shell: bash
+        run: |
+          python - <<'PY'
+          import time, urllib.error, urllib.request
+          url = "https://oyunopti-pro-api.onrender.com/api/shopier/webhook"
+          request = urllib.request.Request(url, method="POST",
+              data=b'{"id":"diagnostic-only"}',
+              headers={"Content-Type":"application/json",
+                       "Shopier-Event":"order.created",
+                       "Shopier-Signature":"0"*64})
+          for attempt in range(6):
+              try:
+                  urllib.request.urlopen(request,timeout=75)
+                  raise RuntimeError("Unexpectedly accepted a forged webhook!")
+              except urllib.error.HTTPError as err:
+                  if err.code == 401:
+                      print("PASS: deployed webhook checks signature before processing, sale remains closed.")
+                      break
+                  print("Deployed webhook returned",err.code,"expected 401 after update")
+              if attempt == 5:
+                  raise RuntimeError("Updated safe webhook endpoint has not been deployed.")
+              time.sleep(15)
           PY
