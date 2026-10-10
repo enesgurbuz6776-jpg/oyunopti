@@ -76,7 +76,7 @@ jobs:
         with:
           tag_name: oyunopti-pro-v1.0.0
           name: OyunOpti Pro v1.0.0
-          prerelease: true
+          prerelease: false
           body: |
             OyunOpti Pro v1.0.0. Aktif cihaz-bağlı Ed25519 imzalı lisans olmadan
             FPS ölçümü, optimizasyon, performans analizi veya oyun profilleri açılamaz.
