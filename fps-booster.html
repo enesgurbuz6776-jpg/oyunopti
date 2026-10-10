@@ -111,25 +111,28 @@
 <footer><a href="index.html">OyunOpti Ana Sayfa</a> · <a href="gizlilik.html">Gizlilik</a> · <a href="iletisim.html">İletişim</a><p>© OyunOpti. Windows ve oyun markaları ilgili hak sahiplerine aittir.</p></footer>
 <script>
 (function(){
-  var status=document.getElementById('boosterStatus'),link=document.getElementById('boosterDownload');
-  (async function(){
-      var versions=['fps-booster-v0.5.1-beta','fps-booster-v0.3.0-beta','fps-booster-v0.2.0-beta'];
-      for (var i=0;i<versions.length;i++){
-        var response=await fetch('https://api.github.com/repos/enesgurbuz6776-jpg/oyunopti/releases/tags/'+versions[i]);
-        if(response.ok){
-          var release=await response.json();
-          if((release.assets||[]).some(function(a){return a.name==='OyunOpti-FPS-Booster.exe';}))
-            return release;
-        }
-      }
-      throw new Error('no-release');
-    })()
+  const button=document.getElementById('boosterDownload');
+  const status=document.getElementById('boosterStatus');
+  const tag='fps-booster-v0.5.2-beta';
+  const filename='OyunOpti-FPS-Booster-v0.5.2.exe';
+  const repository='https://github.com/enesgurbuz6776-jpg/oyunopti';
+  const releaseUrl=repository+'/releases/tag/'+tag;
+  button.href=releaseUrl;
+  button.textContent='Windows Uygulamasını İndir ↓';
+  status.textContent='Güncel OyunOpti sürümü doğrulanıyor…';
+  fetch('https://api.github.com/repos/enesgurbuz6776-jpg/oyunopti/releases/tags/'+tag)
+    .then(function(response){ if(!response.ok)throw new Error('release-not-ready'); return response.json(); })
     .then(function(data){
-      var asset=(data.assets||[]).find(function(a){return a.name==='OyunOpti-FPS-Booster.exe';});
-      if(asset){link.href=asset.browser_download_url;link.textContent='Windows Uygulamasını İndir ↓';status.textContent='İndirilebilir sürüm: '+(data.tag_name||'Windows')+'.';}
-      else{status.textContent='İndirme dosyası henüz yayınlanmadı. GitHub sürümlerini kontrol edin.';}
+      const asset=(data.assets||[]).find(function(item){return item.name===filename;});
+      if(!asset)throw new Error('exe-not-ready');
+      button.href=asset.browser_download_url;
+      status.textContent='OyunOpti v0.5.2 • Windows EXE • Resmî logo dosya içine doğrulandı.';
     })
-    .catch(function(){status.textContent='Sürüm bilgisini otomatik doğrulayamadık. GitHub sürümlerini kontrol edin.';});
+    .catch(function(){
+      status.textContent='Yeni sürüm hazırlanıyor. Güncel sürüm için GitHub sayfasını kontrol edin.';
+      button.textContent='Sürümleri Gör ↗';
+      button.href=repository+'/releases';
+    });
 })();
 </script>
 </body>
