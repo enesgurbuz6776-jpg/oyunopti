@@ -7,7 +7,7 @@ from collections import deque
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 from cryptography.exceptions import InvalidSignature
 
-VERSION="1.0.0 Pro"
+VERSION="1.1.0 Pro"
 BASE=Path(os.environ.get("APPDATA",str(Path.home()))) / "OyunOptiFPSBooster"
 FILE=BASE/"state.json"
 LICENSE_FILE=BASE/"license.txt"
@@ -220,6 +220,10 @@ class App(tk.Tk):
         self.text(c,"CİHAZ KODUN",11,AQUA,True).pack(anchor="w")
         self.text(c,self.device_id,15,WHITE,True).pack(anchor="w",pady=(9,10))
         self.button(c,"Cihaz Kodunu Kopyala",lambda:self.copy_device()).pack(anchor="w",pady=(0,12))
+        tk.Button(c,text="Pro Lisans Satın Al ↗",
+                  command=lambda:webbrowser.open("https://oyunopti.com/pro-satin-al.html?device="+self.device_id),
+                  bg="#554280",fg=WHITE,activebackground="#675297",relief="flat",
+                  font=("Segoe UI",10,"bold"),padx=14,pady=10).pack(anchor="w",pady=(0,12))
         self.text(c,"Satın alma sonrasında cihaz koduna özel lisans verilir. Cihaz kodu kişisel dosya ya da ham Windows GUID değildir.",10,MUTED).pack(anchor="w")
         c=self.card(f)
         self.text(c,"PRO LİSANS ANAHTARI",11,AQUA,True).pack(anchor="w",pady=(0,9))
@@ -231,7 +235,7 @@ class App(tk.Tk):
         self.button(c,"Lisansı Doğrula ve Etkinleştir",self.activate).pack(anchor="w")
         c=self.card(f)
         self.text(c,"OYUNOPTI PRO · $10 / AY",16,WHITE,True).pack(anchor="w")
-        self.text(c,"Ödeme ve otomatik lisans teslimi henüz bağlanmadı. Satış açılana kadar ücretli üyelik tahsil edilmiyor.",10,MUTED).pack(anchor="w",pady=(11,10))
+        self.text(c,"Ödeme onayından sonra lisans otomatik üretilir. Satış sayfası aktif değilse henüz ödeme alınmaz; bu ekrandan durumunu kontrol edebilirsin.",10,MUTED).pack(anchor="w",pady=(11,10))
         tk.Button(c,text="İletişim Sayfasını Aç ↗",command=lambda:webbrowser.open("https://oyunopti.com/iletisim.html"),
                   bg="#294569",fg=WHITE,relief="flat",font=("Segoe UI",10,"bold"),padx=15,pady=11).pack(anchor="w")
     def copy_device(self):
