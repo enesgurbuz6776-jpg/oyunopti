@@ -70,13 +70,13 @@ export function extractOrderId(body) {
 export function inspectShopierOrder(response) {
   const o = unwrapOrder(response);
   if (!o || typeof o !== "object") return null;
-  const paymentStatus = String(o.paymentStatus ?? o.payment_status ?? o.payment?.status ?? o.status ?? "").toLowerCase();
+  const paymentStatus = String(o.paymentStatus ?? o.payment_status ?? o.payment?.status ?? "").trim().toLowerCase();
   const amount = o.totals?.total ?? o.total ?? o.totalAmount ?? o.total_amount ?? o.amount;
   const currency = String(o.currency ?? o.totals?.currency ?? o.priceData?.currency ?? "").toUpperCase();
   const lines = o.items ?? o.lineItems ?? o.line_items ?? o.orderItems ?? o.order_items ?? o.products;
   if (!Array.isArray(lines)) return null;
   const items = lines.map(item => ({
-    productId: String(item.productId ?? item.product_id ?? item.product?.id ?? item.id ?? ""),
+    productId: String(item?.productId ?? item?.product_id ?? item?.product?.id ?? ""),
     quantity: Number(item.quantity ?? item.qty ?? 1),
   }));
   return { orderId: extractOrderId(o), paymentStatus, amountCents: moneyCents(amount), currency, items,
