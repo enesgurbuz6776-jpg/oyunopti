@@ -104,7 +104,7 @@ app.post("/api/checkout", express.json({ limit: "12kb" }), checkoutLimit, requir
     });
     const productId = String(pay.productId ?? "");
     const url = String(pay.paymentUrl ?? "");
-    if (!/^\d{1,32}$/.test(productId) || !/^https:\/\/(?:www\.)?shopier\.com\//i.test(url))
+    if (!/^[A-Za-z0-9_-]{1,120}$/.test(productId) || !/^https:\/\/(?:www\.)?shopier\.com\//i.test(url))
       throw new Error("Shopier ürün kaydı/ödeme bağlantısı eksik");
     await pool.query("UPDATE pro_orders SET product_id=$1,payment_url=$2,status='awaiting_payment' WHERE id=$3",
       [productId, url, session]);
@@ -167,7 +167,7 @@ app.post("/api/shopier/webhook", express.raw({ type: "*/*", limit: "70kb" }), as
   try {
     const order = inspectShopierOrder(await retrieveOrder(shopierId));
     if (!order || order.orderId !== shopierId || order.items.length !== 1 ||
-        !/^\d{1,32}$/.test(order.items[0].productId)) {
+        !/^[A-Za-z0-9_-]{1,120}$/.test(order.items[0].productId)) {
       console.error("Unrecognized Shopier order schema:", shopierId);
       return safeResponse(res, 422, "Sipariş ürünü doğrulanamadı.");
     }
