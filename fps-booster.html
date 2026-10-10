@@ -91,14 +91,15 @@
 <div class="booster-card" style="background:#171d36"><h3>⚡ Pro Optimizasyon</h3><p>Windows Oyun Modu ve güç planını seçerek uygula. Önce ayarlar yedeklenir, sonra geri alınabilir.</p></div>
 <div class="booster-card" style="background:#171d36"><h3>📈 Performans Analizi</h3><p>Önce-sonra FPS karşılaştırmaları, sonuç grafiği ve CSV rapor.</p></div>
 </div>
-<p style="color:#dfd4f1"><strong>Tüm FPS ölçümü ve optimizasyon özellikleri Pro lisansı gerektirir.</strong> Ücretsiz kullanım veya deneme erişimi yoktur. Ödeme ve otomatik lisans teslimi henüz bağlanmadığından satış başlamadı. Canlı FPS için PresentMon ayrıca gerekir; her oyunda çalışması garanti edilmez.</p>
+<p style="color:#dfd4f1"><strong>Tüm FPS ölçümü ve optimizasyon özellikleri Pro lisansı gerektirir.</strong> Ücretsiz kullanım veya deneme erişimi yoktur. Otomatik ödeme ve lisans teslim sayfası hazırlandı; Shopier hesabı ve ödeme sunucusu bağlanana kadar satış kapalıdır. Canlı FPS için PresentMon ayrıca gerekir; her oyunda çalışması garanti edilmez.</p>
+<p><a class="btn primary" href="pro-satin-al.html" style="display:inline-block">Pro Lisans Satın Al ↗</a></p>
 <p style="font-size:13px">Türkiye'de ücretli satış başlamadan önce vergiler dahil TL fiyatı, ödeme ve iptal/yenileme koşulları gösterilecek. Buradaki $10 yalnızca planlanan aylık fiyatı belirtir.</p>
 </section>
 <section class="booster-info">
 <h2>Nasıl kullanılır?</h2>
 <ol>
 <li>Windows uygulamasını indir. İlk açılışta cihaz kodun ve lisans aktivasyonu görünür.</li>
-<li>Ödeme onayından sonra cihaz koduna özel verilen lisans anahtarını uygulamaya gir.</li>
+<li>Shopier ödemesi sunucuda doğrulandıktan sonra üretilen lisans anahtarını satın alma sayfasından alıp uygulamaya gir.</li>
 <li>OyunOpti'de istediğin ayarı seçip uygula.</li>
 <li>Oyunu aynı grafik ayarlarında tekrar ölç; FPS değerlerini gir ve karşılaştır.</li>
 <li>İstersen <strong>Geri Al</strong> ile Windows ayarlarını eski haline döndür.</li>
@@ -113,19 +114,19 @@
 (function(){
  const button=document.getElementById('boosterDownload');
  const status=document.getElementById('boosterStatus');
- const tag='oyunopti-pro-v1.0.0';
- const name='OyunOpti-Pro-v1.0.0.exe';
+ const tag='oyunopti-pro-v1.1.0';
+ const name='OyunOpti-Pro-v1.1.0.exe';
  const base='https://github.com/enesgurbuz6776-jpg/oyunopti';
  button.href=base+'/releases';
  button.textContent='Pro Uygulamasını İndir';
- status.textContent='Pro v1.0.0 lisanslı sürüm kontrol ediliyor. Kullanım için geçerli lisans gerekir.';
+ status.textContent='Pro v1.1.0 lisanslı sürüm kontrol ediliyor. Kullanım için geçerli lisans gerekir.';
  fetch('https://api.github.com/repos/enesgurbuz6776-jpg/oyunopti/releases/tags/'+tag)
   .then(function(r){if(!r.ok)throw Error('missing-release');return r.json()})
   .then(function(data){
    const asset=(data.assets||[]).find(function(x){return x.name===name});
    if(!asset)throw Error('missing-exe');
    button.href=asset.browser_download_url;
-   status.textContent='Windows Pro v1.0.0 hazır. Kullanmak için kişisel lisans anahtarı gerekir.';
+   status.textContent='Windows Pro v1.1.0 hazır. Kullanmak için kişisel lisans anahtarı gerekir.';
   })
   .catch(function(){
    button.href=base+'/releases';
