@@ -1,4 +1,4 @@
-# OyunOpti FPS Booster – Windows Beta
+# OyunOpti FPS Booster – Windows Beta v0.3
 
 **Windows 10/11** için ücretsiz, açık kaynak, manuel FPS karşılaştırma ve güvenli Windows ayarları uygulaması.
 
@@ -9,6 +9,8 @@
 - Orijinal ayarları değiştirmeden önce `%APPDATA%\\OyunOptiFPSBooster\\state.json` içinde saklama.
 - Geri Al ile saklanan ayarları geri yükleme.
 - PUBG, CS2 ve diğer oyunlarda kullanıcının girdiği ortalama FPS değerlerini karşılaştırma.
+- Son testlerin karşılaştırma grafiği ve CSV rapor dışa aktarımı.
+- Pro bölümü: otomatik FPS ölçümü, gelişmiş analiz ve oyun profilleri için **planlanan** özelliklerin ön izlemesi. Pro henüz aktif/satışta değildir; lisans ya da ödeme alınmaz.
 - İnternet bağlantısı, veri aktarımı, yönetici yetkisi veya oyun dosyası değişikliği gerektirmez.
 
 ## Dikkat
