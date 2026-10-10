@@ -1,7 +1,8 @@
 import express from "express";
 import pg from "pg";
 import { ShopierApiClient, ShopierPaymentFlow } from "@nopeion/shopier";
-import { createHash, randomBytes } from "node:crypto";
+import { createHash, randomBytes, createPrivateKey, createPublicKey } from "node:crypto";
+import { readFile } from "node:fs/promises";
 import { createSignedLicense, extractOrderId, inspectShopierOrder, moneyCents,
   plusUtcDays, utcDay, validDevice, verifiedPaidPurchase, verifyShopierHmac } from "./core.mjs";
 
@@ -10,10 +11,23 @@ const ORIGIN = process.env.SITE_ORIGIN || "https://oyunopti.com";
 const PRICE = process.env.PRO_PRICE || "10.00";
 const CURRENCY = (process.env.PRO_CURRENCY || "USD").toUpperCase();
 const PRICE_CENTS = moneyCents(PRICE);
-const READY = !!(process.env.SALE_ENABLED === "true" && process.env.DATABASE_URL &&
+const EXPECTED_PUBLIC_KEY = "lFsWonl0lL6WBlf8bcGKcY0rIOvKj6CBC4wJ6fEclQc=";
+const SIGNING_PEM = (process.env.LICENSE_PRIVATE_KEY_PEM || "").replace(/\\n/g, "\n");
+function isValidSigningKey() {
+  try {
+    const spki = createPublicKey(createPrivateKey(SIGNING_PEM)).export({
+      format: "der", type: "spki"
+    });
+    return spki.subarray(-32).toString("base64") === EXPECTED_PUBLIC_KEY;
+  } catch { return false; }
+}
+const KEY_OK = isValidSigningKey();
+let databaseReady = false;
+const CONFIGURED = !!(process.env.SALE_ENABLED === "true" && process.env.DATABASE_URL &&
   process.env.SHOPIER_PAT && process.env.SHOPIER_WEBHOOK_TOKEN &&
-  process.env.SHOPIER_SHOP_SLUG && process.env.LICENSE_PRIVATE_KEY_PEM &&
+  process.env.SHOPIER_SHOP_SLUG && KEY_OK &&
   PRICE_CENTS > 0 && ["USD", "TRY", "EUR"].includes(CURRENCY));
+const salesReady = () => CONFIGURED && databaseReady;
 
 const pool = process.env.DATABASE_URL ? new pg.Pool({
   connectionString: process.env.DATABASE_URL, max: 6,
@@ -51,7 +65,7 @@ function limiter(maxPerHour) {
 const checkoutLimit = limiter(10);
 const claimLimit = limiter(240);
 function required(req, res, next) {
-  if (!READY) return res.status(503).json({ error: "Ödeme bağlantısı henüz açılmadı." });
+  if (!salesReady()) return res.status(503).json({ error: "Ödeme bağlantısı henüz açılmadı." });
   next();
 }
 function safeResponse(res, status, msg) { return res.status(status).json({ error: msg }); }
@@ -60,7 +74,7 @@ const rand = size => randomBytes(size).toString("base64url");
 
 app.get("/api/health", (req, res) => {
   res.setHeader("Cache-Control", "no-store");
-  res.json({ service: "OyunOpti Pro", paymentsEnabled: READY, currency: CURRENCY,
+  res.json({ service: "OyunOpti Pro", paymentsEnabled: salesReady(), currency: CURRENCY,
     price: PRICE, termDays: 30, recurringCharge: false });
 });
 
@@ -170,7 +184,7 @@ app.post("/api/shopier/webhook", express.raw({ type: "*/*", limit: "70kb" }), re
         "SELECT MAX(expires_on)::text AS end_day FROM pro_orders WHERE device=$1 AND status='paid'", [row.device]);
       const base = existing.rows[0]?.end_day > utcDay() ? existing.rows[0].end_day : utcDay();
       const expiry = plusUtcDays(base, 30);
-      const key = createSignedLicense(process.env.LICENSE_PRIVATE_KEY_PEM.replace(/\\n/g,"\n"), {
+      const key = createSignedLicense(SIGNING_PEM, {
         device: row.device, expires: expiry, order: shopierId,
       });
       await db.query(
@@ -193,4 +207,22 @@ app.use((err, req, res, next) => {
   console.error("HTTP error", err?.message || "unknown");
   safeResponse(res, 400, "İstek işlenemedi.");
 });
-app.listen(PORT, () => console.log("OyunOpti Pro payment automation on port", PORT, "| payments enabled:", READY));
+async function initialize() {
+  if (!pool) return;
+  try {
+    const schema = await readFile(new URL("./schema.sql", import.meta.url), "utf8");
+    await pool.query(schema);
+    await pool.query("SELECT 1");
+    databaseReady = true;
+  } catch (err) {
+    databaseReady = false;
+    console.error("Database initialization unsuccessful. Sales disabled:", err?.code || "unknown");
+  }
+}
+await initialize();
+app.listen(PORT, () => console.log(
+  "OyunOpti Pro API listening on", PORT,
+  "| paid sales:", salesReady() ? "enabled" : "disabled",
+  "| signing key:", KEY_OK ? "valid" : "unavailable/mismatch",
+  "| database:", databaseReady ? "ready" : "unavailable"
+));
