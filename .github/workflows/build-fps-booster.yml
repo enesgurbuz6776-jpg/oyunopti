@@ -60,26 +60,26 @@ jobs:
       - name: Smoke test actual Tkinter app startup and polling
         run: python scripts/smoke_test_windows.py
       - name: Build branded Windows executable
-        run: python -m PyInstaller --onefile --windowed --clean --noconfirm --name OyunOpti-Pro-v1.1.0 --icon desktop/assets/oyunopti.ico --add-data "desktop/assets/oyunopti.ico;assets" desktop/oyunopti_booster.py
+        run: python -m PyInstaller --onefile --windowed --clean --noconfirm --name OyunOpti-Pro-v1.2.0 --icon desktop/assets/oyunopti.ico --add-data "desktop/assets/oyunopti.ico;assets" desktop/oyunopti_booster.py
       - name: Inspect embedded Windows EXE icons
-        run: python scripts/verify_exe_logo.py dist/OyunOpti-Pro-v1.1.0.exe
+        run: python scripts/verify_exe_logo.py dist/OyunOpti-Pro-v1.2.0.exe
       - name: Verify EXE and generate checksum
         shell: pwsh
         run: |
-          if (!(Test-Path "dist/OyunOpti-Pro-v1.1.0.exe")) {
+          if (!(Test-Path "dist/OyunOpti-Pro-v1.2.0.exe")) {
             throw "Windows executable missing"
           }
-          $hash=(Get-FileHash 'dist/OyunOpti-Pro-v1.1.0.exe' -Algorithm SHA256).Hash.ToLower()
-          "$hash  OyunOpti-Pro-v1.1.0.exe" | Out-File 'dist/SHA256SUMS.txt' -Encoding ascii
+          $hash=(Get-FileHash 'dist/OyunOpti-Pro-v1.2.0.exe' -Algorithm SHA256).Hash.ToLower()
+          "$hash  OyunOpti-Pro-v1.2.0.exe" | Out-File 'dist/SHA256SUMS.txt' -Encoding ascii
       - name: Publish branded release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: oyunopti-pro-v1.1.0
-          name: OyunOpti Pro v1.1.0
+          tag_name: oyunopti-pro-v1.2.0
+          name: OyunOpti Pro v1.2.0
           prerelease: false
           body: |
-            OyunOpti Pro v1.1.0. Lisans aktivasyonunda cihaz koduyla
-            otomatik Shopier lisans sayfasına geçiş butonu eklendi. Aktif cihaz-bağlı Ed25519 imzalı lisans olmadan
+            OyunOpti Pro v1.2.0. Lisans aktivasyonunda cihaz koduyla
+            otomatik Shopier lisans sayfasına geçiş butonu eklendi. Lisans doğrulama anahtarı güvenlik nedeniyle yenilendi; eski anahtar artık kullanılmamalıdır. Aktif cihaz-bağlı Ed25519 imzalı lisans olmadan
             FPS ölçümü, optimizasyon, performans analizi veya oyun profilleri açılamaz.
             İlk açılışta cihaz kodu ve lisans doğrulama ekranı görünür.
             Güvenlik gereği yalnızca orijinal Windows ayarlarına geri dönüş lisanssız da kullanılabilir.
@@ -88,5 +88,5 @@ jobs:
             $10/ay hedef fiyat, ödeme entegrasyonu tamamlanınca satışa açılacak.
             FPS artışı garanti edilmez. Dosyanın bütünlüğünü SHA256SUMS.txt ile doğrulayın.
           files: |
-            dist/OyunOpti-Pro-v1.1.0.exe
+            dist/OyunOpti-Pro-v1.2.0.exe
             dist/SHA256SUMS.txt
