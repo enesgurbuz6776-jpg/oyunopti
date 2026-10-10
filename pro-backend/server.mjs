@@ -146,13 +146,19 @@ async function retrieveOrder(id) {
   } finally { clearTimeout(t); }
 }
 
-app.post("/api/shopier/webhook", express.raw({ type: "*/*", limit: "70kb" }), required, async (req, res) => {
+app.post("/api/shopier/webhook", express.raw({ type: "*/*", limit: "70kb" }), async (req, res) => {
   const raw = req.body;
   const signature = req.get("shopier-signature");
   if (!verifyShopierHmac(raw, signature, process.env.SHOPIER_WEBHOOK_TOKEN))
     return safeResponse(res, 401, "Geçersiz Shopier imzası.");
   const event = String(req.get("shopier-event") || "").toLowerCase();
   if (event !== "order.created") return res.status(200).send("ignored");
+  // Verify Shopier delivery without permitting checkout, DB writes or license issuance.
+  // This is safe while SALE_ENABLED=false. Never log raw payloads, tokens or signatures.
+  if (!salesReady()) {
+    console.log("Verified Shopier webhook received; sales disabled, no license issued.");
+    return res.status(200).send("verified; sales disabled");
+  }
   let body;
   try { body = JSON.parse(raw.toString("utf8")); }
   catch { return safeResponse(res, 400, "Bozuk Shopier verisi."); }
