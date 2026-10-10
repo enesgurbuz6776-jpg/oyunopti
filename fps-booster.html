@@ -7,10 +7,10 @@
 <link rel="canonical" href="https://oyunopti.com/fps-booster.html">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#090f1e">
-<title>OyunOpti FPS Booster – Windows FPS Optimizasyonu (Beta)</title>
+<title>OyunOpti FPS Booster – Windows FPS Optimizasyonu</title>
 <meta name="description" content="OyunOpti FPS Booster ile Windows Oyun Modu ve güç planını güvenli şekilde yönet. PUBG, CS2 ve diğer oyunlarda manuel FPS önce/sonra karşılaştırması yap.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="OyunOpti FPS Booster – Windows Beta">
+<meta property="og:title" content="OyunOpti FPS Booster – Windows Uygulaması">
 <meta property="og:description" content="Ücretsiz Windows oyun optimizasyonu, FPS ölçüm günlüğü ve ayarları geri alma. FPS artışı garanti edilmez.">
 <meta property="og:url" content="https://oyunopti.com/fps-booster.html">
 <link rel="stylesheet" href="style.css?v=13">
@@ -64,7 +64,7 @@
 <a class="btn primary" id="boosterDownload" href="https://github.com/enesgurbuz6776-jpg/oyunopti/releases" target="_blank" rel="noopener noreferrer">Windows Uygulamasını İndir ↓</a>
 </div>
 <p id="boosterStatus" class="booster-status" role="status" aria-live="polite">Windows EXE sürümünün yayın durumu kontrol ediliyor…</p>
-<p class="booster-fine">Beta sürümü bağımsız testlerden geçmemiştir. FPS artışı garanti edilmez. İndirilen EXE imzasız olabilir; yayıncıyı ve dosya bütünlüğünü doğrulayın.</p>
+<p class="booster-fine">Uygulama henüz bağımsız performans testlerinden geçmemiştir. FPS artışı garanti edilmez. İndirilen EXE imzasız olabilir; yayıncıyı ve dosya bütünlüğünü doğrulayın.</p>
 </div>
 
 </section>
@@ -127,7 +127,7 @@
     .then(function(data){
       var asset=(data.assets||[]).find(function(a){return a.name==='OyunOpti-FPS-Booster.exe';});
       if(asset){link.href=asset.browser_download_url;link.textContent='Windows Uygulamasını İndir ↓';status.textContent='İndirilebilir sürüm: '+(data.tag_name||'Windows')+'.';}
-      else{status.textContent='Windows derlemesi henüz yayınlanmadı. Kaynak kodu incelenebilir.';}
+      else{status.textContent='İndirme dosyası henüz yayınlanmadı. GitHub sürümlerini kontrol edin.';}
     })
     .catch(function(){status.textContent='Sürüm bilgisini otomatik doğrulayamadık. GitHub sürümlerini kontrol edin.';});
 })();
