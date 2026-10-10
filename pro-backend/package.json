@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@nopeion/shopier": "^2.1.0",
-    "express": "^4.21.2",
+    "express": "^5.1.0",
     "pg": "^8.14.0"
   }
 }
