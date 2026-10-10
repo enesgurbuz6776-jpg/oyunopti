@@ -1,0 +1,29 @@
+name: Test OyunOpti Pro Payments
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'pro-backend/**'
+      - '.github/workflows/test-pro-payments.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pro-backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install backend dependencies
+        run: npm install --no-audit --no-fund
+      - name: Validate Node source syntax
+        run: |
+          node --check core.mjs
+          node --check server.mjs
+      - name: Test webhook and license safeguards
+        run: npm test
