@@ -114,19 +114,19 @@
 (function(){
  const button=document.getElementById('boosterDownload');
  const status=document.getElementById('boosterStatus');
- const tag='oyunopti-pro-v1.1.0';
- const name='OyunOpti-Pro-v1.1.0.exe';
+ const tag='oyunopti-pro-v1.2.0';
+ const name='OyunOpti-Pro-v1.2.0.exe';
  const base='https://github.com/enesgurbuz6776-jpg/oyunopti';
  button.href=base+'/releases';
  button.textContent='Pro Uygulamasını İndir';
- status.textContent='Pro v1.1.0 lisanslı sürüm kontrol ediliyor. Kullanım için geçerli lisans gerekir.';
+ status.textContent='Pro v1.2.0 lisanslı sürüm kontrol ediliyor. Kullanım için geçerli lisans gerekir.';
  fetch('https://api.github.com/repos/enesgurbuz6776-jpg/oyunopti/releases/tags/'+tag)
   .then(function(r){if(!r.ok)throw Error('missing-release');return r.json()})
   .then(function(data){
    const asset=(data.assets||[]).find(function(x){return x.name===name});
    if(!asset)throw Error('missing-exe');
    button.href=asset.browser_download_url;
-   status.textContent='Windows Pro v1.1.0 hazır. Kullanmak için kişisel lisans anahtarı gerekir.';
+   status.textContent='Windows Pro v1.2.0 hazır. Kullanmak için kişisel lisans anahtarı gerekir.';
   })
   .catch(function(){
    button.href=base+'/releases';
