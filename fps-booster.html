@@ -84,6 +84,12 @@
 <div class="booster-card"><span class="icon">📊</span><h3>FPS önce / sonra</h3><p>Oyunda ölçtüğün ortalama FPS ve isteğe bağlı %1 düşük FPS değerlerini kaydet, yüzdelik değişimi gör.</p></div>
 <div class="booster-card"><span class="icon">↩️</span><h3>Tek adımda geri al</h3><p>Uygulama, değişikliklerden önce orijinal ayarları yerel kaydeder. Geri Al menüsünden dönebilirsin.</p></div>
 </section>
+<section class="booster-info" id="oyunopti-pro" style="border-color:#5a467c;background:linear-gradient(135deg,#171a35,#1d1a33)">
+<span class="booster-pill" style="border-color:#8462b9;color:#d4b5ff;background:#332448">✦ OyunOpti Pro · Yakında</span>
+<h2 style="font-size:30px;margin:20px 0 12px">Daha gelişmiş performans analizi</h2>
+<p>Windows uygulamasına özel bir Pro bölümü ekledik. Gelecek sürümler için otomatik FPS ölçümü, detaylı kare süresi analizi, oyuna özel profiller ve kapsamlı raporlar planlıyoruz.</p>
+<p><strong>Pro henüz satışta değil.</strong> Ödeme ve abonelik alınmıyor; gelişmiş özellikler şu anda aktif değil. Mevcut ücretsiz uygulama kullanılmaya devam edebilir.</p>
+</section>
 <section class="booster-info">
 <h2>Nasıl kullanılır?</h2>
 <ol>
@@ -102,11 +108,17 @@
 <script>
 (function(){
   var status=document.getElementById('boosterStatus'),link=document.getElementById('boosterDownload');
-  fetch('https://api.github.com/repos/enesgurbuz6776-jpg/oyunopti/releases/tags/fps-booster-v0.2.0-beta')
-    .then(function(r){if(!r.ok)throw new Error('no-release');return r.json()})
+  fetch('https://api.github.com/repos/enesgurbuz6776-jpg/oyunopti/releases/tags/fps-booster-v0.3.0-beta')
+    .then(function(r){
+      if(r.ok)return r.json();
+      return fetch('https://api.github.com/repos/enesgurbuz6776-jpg/oyunopti/releases/tags/fps-booster-v0.2.0-beta').then(function(previous){
+        if(!previous.ok)throw new Error('no-release');
+        return previous.json();
+      });
+    })
     .then(function(data){
       var asset=(data.assets||[]).find(function(a){return a.name==='OyunOpti-FPS-Booster.exe';});
-      if(asset){link.href=asset.browser_download_url;link.textContent='Windows EXE İndir ↓';status.textContent='Beta Windows dosyası GitHub sürümlerinde yayınlandı.';}
+      if(asset){link.href=asset.browser_download_url;link.textContent='Windows EXE İndir ↓';status.textContent='Windows beta dosyası GitHub sürümlerinde mevcut. İndirmeden önce sürüm numarasını kontrol edin.';}
       else{status.textContent='Windows derlemesi henüz yayınlanmadı. Kaynak kodu incelenebilir.';}
     })
     .catch(function(){status.textContent='Sürüm bilgisini otomatik doğrulayamadık. GitHub sürümlerini kontrol edin.';});
