@@ -5,7 +5,7 @@ from datetime import datetime
 from pathlib import Path
 from collections import deque
 
-VERSION="0.5.1-beta"
+VERSION="0.5.2-beta"
 BASE=Path(os.environ.get("APPDATA",str(Path.home()))) / "OyunOptiFPSBooster"
 FILE=BASE/"state.json"
 REG_KEY=r"Software\Microsoft\GameBar"
@@ -96,7 +96,7 @@ class App(tk.Tk):
         self.after(650,self.poll_monitor)
         nav=tk.Frame(self,bg=NAV,width=218); nav.pack(side="left",fill="y"); nav.pack_propagate(False)
         self.text(nav,"◇  OyunOpti",22,WHITE,True).pack(anchor="w",padx=16,pady=(32,4))
-        self.text(nav,"FPS BOOSTER  /  v0.5.1 PRO",9,AQUA,True).pack(anchor="w",padx=20,pady=(0,24))
+        self.text(nav,"FPS BOOSTER  /  v0.5.2 PRO",9,AQUA,True).pack(anchor="w",padx=20,pady=(0,24))
         tk.Frame(nav,bg=BORDER,height=1).pack(fill="x",padx=16,pady=(0,17))
         self.text(nav,"KONTROL MERKEZİ",9,BLUE,True).pack(anchor="w",padx=20,pady=(0,9))
         for p in ["Genel Bakış","FPS Ölçümü","Oyun Profilleri","Pro Optimizasyon","Canlı FPS Pro","Geri Al","OyunOpti Pro","Hakkında"]:
