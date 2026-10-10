@@ -113,7 +113,7 @@
 (function(){
   var status=document.getElementById('boosterStatus'),link=document.getElementById('boosterDownload');
   (async function(){
-      var versions=['fps-booster-v0.5.0-beta','fps-booster-v0.4.0-beta','fps-booster-v0.3.0-beta','fps-booster-v0.2.0-beta'];
+      var versions=['fps-booster-v0.5.1-beta','fps-booster-v0.3.0-beta','fps-booster-v0.2.0-beta'];
       for (var i=0;i<versions.length;i++){
         var response=await fetch('https://api.github.com/repos/enesgurbuz6776-jpg/oyunopti/releases/tags/'+versions[i]);
         if(response.ok){
