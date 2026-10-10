@@ -1,10 +1,11 @@
 """OyunOpti FPS Booster Beta — conservative Windows tuning and manual FPS log."""
-import csv, json, os, re, subprocess, sys, tkinter as tk, webbrowser
+import csv, json, os, re, subprocess, sys, tkinter as tk, webbrowser, threading, time, math
 from tkinter import messagebox, ttk, filedialog
 from datetime import datetime
 from pathlib import Path
+from collections import deque
 
-VERSION="0.3.0-beta"
+VERSION="0.4.0-beta"
 BASE=Path(os.environ.get("APPDATA",str(Path.home()))) / "OyunOptiFPSBooster"
 FILE=BASE/"state.json"
 REG_KEY=r"Software\Microsoft\GameBar"
@@ -68,13 +69,25 @@ class App(tk.Tk):
         self.mode=tk.BooleanVar(value=True); self.plan=tk.BooleanVar(value=False)
         self.before=tk.StringVar(); self.after=tk.StringVar()
         self.low1=tk.StringVar(); self.low2=tk.StringVar()
+        self.pm_binary=tk.StringVar(value="")
+        self.pm_game=tk.StringVar(value="TslGame.exe")
+        self.live_fps=tk.StringVar(value="— FPS")
+        self.low_fps=tk.StringVar(value="—")
+        self.monitor_state=tk.StringVar(value="FPS ölçümü kapalı. PresentMon CLI ile test edilebilir.")
+        self.pm_samples=deque(maxlen=2000)
+        self.pm_process=None
+        self.pm_last_frame=0
+        self.pm_overlay=None
+        self.pm_token=0
+        self.protocol("WM_DELETE_WINDOW",self.shutdown)
+        self.after(650,self.poll_monitor)
         nav=tk.Frame(self,bg=NAV,width=218); nav.pack(side="left",fill="y"); nav.pack_propagate(False)
         self.text(nav,"◇  OyunOpti",22,WHITE,True).pack(anchor="w",padx=16,pady=(32,4))
         self.text(nav,"FPS BOOSTER  /  v0.3 BETA",9,AQUA,True).pack(anchor="w",padx=20,pady=(0,24))
         tk.Frame(nav,bg=BORDER,height=1).pack(fill="x",padx=16,pady=(0,17))
         self.text(nav,"KONTROL MERKEZİ",9,BLUE,True).pack(anchor="w",padx=20,pady=(0,9))
-        for p in ["Genel Bakış","Optimizasyon","Oyun Profilleri","FPS Ölçümü","Geri Al","OyunOpti Pro","Hakkında"]:
-            tk.Button(nav,text=("  ✦  " if p=="OyunOpti Pro" else "  ◇  ")+p,anchor="w",bg=NAV,fg=PURPLE if p=="OyunOpti Pro" else WHITE,activebackground=PANEL,activeforeground=AQUA,
+        for p in ["Genel Bakış","FPS Ölçümü","Oyun Profilleri","Pro Optimizasyon","Canlı FPS Pro","Geri Al","OyunOpti Pro","Hakkında"]:
+            tk.Button(nav,text=("  ✦  " if "Pro" in p else "  ◇  ")+p,anchor="w",bg=NAV,fg=PURPLE if "Pro" in p else WHITE,activebackground=PANEL,activeforeground=AQUA,
                 relief="flat",font=("Segoe UI",11,"bold"),pady=15,command=lambda page=p:self.show(page)).pack(fill="x",padx=6)
         right=tk.Frame(self,bg=BG);right.pack(side="right",fill="both",expand=True)
         scrollbar=tk.Scrollbar(right)
@@ -111,7 +124,7 @@ class App(tk.Tk):
         c=tk.Frame(f,bg=PANEL,padx=20,pady=18,highlightthickness=1,highlightbackground=BORDER);c.pack(fill="x",pady=8)
         return c
     def show(self,p):
-        {"Genel Bakış":self.home,"Optimizasyon":self.opt,"Oyun Profilleri":self.profiles,
+        {"Genel Bakış":self.home,"Pro Optimizasyon":self.opt,"Canlı FPS Pro":self.monitor_page,"Oyun Profilleri":self.profiles,
          "FPS Ölçümü":self.fps,"Geri Al":self.back,"OyunOpti Pro":self.pro,"Hakkında":self.about}[p]()
     def home(self):
         f=self.page("PERFORMANS MERKEZİ","OyunOpti FPS Booster","Oyun profilin, Windows ayarların ve gerçek FPS karşılaştırmaların tek kontrol panelinde.")
@@ -129,7 +142,7 @@ class App(tk.Tk):
         self.text(c,"Oyun Modu ve isteğe bağlı güç planı ayarlarını kontrol et.",13,WHITE,True).pack(anchor="w",pady=(15,6))
         self.text(c,"Oyun dosyalarını değiştirmez. FPS artışı garanti edilmez. Ayarlar geri alınabilir.",10,MUTED).pack(anchor="w",pady=(0,16))
         actions=tk.Frame(c,bg=PANEL);actions.pack(anchor="w")
-        self.button(actions,"Optimizasyona Git →",lambda:self.show("Optimizasyon")).pack(side="left",padx=(0,11))
+        self.button(actions,"Pro Optimizasyon →",lambda:self.show("Pro Optimizasyon")).pack(side="left",padx=(0,11))
         tk.Button(actions,text="FPS Testi Kaydet",command=lambda:self.show("FPS Ölçümü"),bg="#294569",fg=WHITE,
                   relief="flat",font=("Segoe UI",10,"bold"),padx=16,pady=12).pack(side="left")
         c=self.card(f)
@@ -138,15 +151,17 @@ class App(tk.Tk):
         self.text(c,f"●  Oyun profili: {self.profile.get()}",11,MUTED).pack(anchor="w",pady=6)
         self.text(c,"●  FPS değerleri kullanıcı tarafından girilir; otomatik ölçülmez.",11,MUTED).pack(anchor="w",pady=6)
         c=self.card(f)
-        self.text(c,"✦  OYUNOPTI PRO",15,PURPLE,True).pack(anchor="w")
-        self.text(c,"Gelişmiş analiz, otomatik ölçüm ve oyun profilleri için planlanan özelliklere göz at.",10,MUTED).pack(anchor="w",pady=(9,14))
+        self.text(c,"✦  OYUNOPTI PRO • $10 / ay (hedef)",15,PURPLE,True).pack(anchor="w")
+        self.text(c,"Gerçek FPS takibi, Pro optimizasyon ve detaylı raporlar. Beta testine ücretsiz katıl; ödeme henüz kapalı.",10,MUTED).pack(anchor="w",pady=(9,14))
         tk.Button(c,text="Pro Özelliklerini Gör →",command=lambda:self.show("OyunOpti Pro"),
                   bg="#564384",fg=WHITE,activebackground="#6b56a2",relief="flat",
                   font=("Segoe UI",10,"bold"),padx=15,pady=11).pack(anchor="w")
     def opt(self):
-        f=self.page("GÜVENLİ VE GERİ ALINABİLİR","Windows optimizasyonu",
+        f=self.page("✦ PRO BETA • TEST ERİŞİMİ","Gelişmiş optimizasyon",
                     "Yalnızca seçtiğin ayarlar değiştirilir ve orijinal değerleri önce kaydedilir.")
         c=self.card(f)
+        self.text(c,"PRO BETA ÖNİZLEMESİ • BU SÜRÜMDE ÜCRETSİZ TEST",10,PURPLE,True).pack(anchor="w",pady=(0,10))
+        self.text(c,"Seçtiğin Windows ayarlarını uygula; cihazına göre sonuç değişebilir.",10,MUTED).pack(anchor="w",pady=(0,14))
         self.text(c,"DEĞİŞTİRİLECEK AYARLAR",11,AQUA,True).pack(anchor="w",pady=(0,12))
         for var,title,note in [(self.mode,"Windows Oyun Modu → Açık","Mevcutsa açılır; zaten açıksa değişmez."),
                                (self.plan,"Güç Planı → Yüksek Performans","Elektrik tüketimi ve sıcaklık artabilir; mevcut plan gereklidir.")]:
@@ -284,36 +299,187 @@ class App(tk.Tk):
             messagebox.showinfo("Tamam","FPS ölçüm raporu kaydedildi.")
         except OSError as exc:messagebox.showerror("Hata",str(exc))
     def pro(self):
-        f=self.page("✦ PRO / ERKEN TANITIM","OyunOpti Pro",
-            "Daha gelişmiş analiz özellikleri için yol haritamız. Pro şu anda satışta değil; ödeme veya abonelik alınmıyor.")
-        hero=tk.Frame(f,bg="#211d39",padx=22,pady=22,highlightthickness=1,highlightbackground="#514776")
-        hero.pack(fill="x",pady=9)
-        self.text(hero,"✦  OYUNOPTI PRO  •  YAKINDA",13,PURPLE,True).pack(anchor="w")
-        self.text(hero,"Daha güçlü performans analizleri",20,WHITE,True).pack(anchor="w",pady=(15,10))
-        self.text(hero,"Henüz Pro lisans ve ödeme sistemi yok. Bu ekrandaki gelişmiş özellikler planlama aşamasındadır.",10,"#C5B5E7").pack(anchor="w")
+        f=self.page("✦ PREMIUM DENEYİM","OyunOpti Pro","Oyun performansını ölç, değişiklikleri karşılaştır. Pro şu anda ücretsiz beta testinde; ödeme alınmıyor.")
+        hero=tk.Frame(f,bg="#201b39",padx=25,pady=23,highlightthickness=1,highlightbackground="#68508f")
+        hero.pack(fill="x",pady=(4,12))
+        self.text(hero,"✦  OYUNOPTI PRO  /  PREMIUM",12,PURPLE,True).pack(anchor="w")
+        price=tk.Frame(hero,bg="#201b39");price.pack(anchor="w",fill="x",pady=(13,10))
+        self.text(price,"$10",33,WHITE,True).pack(side="left")
+        self.text(price,"  / ay · hedef abonelik fiyatı",11,"#CBBBE4",True).pack(side="left",pady=(14,0))
+        self.text(hero,"Bu fiyat teklifidir; aktif bir abonelik veya ödeme bağlantısı yoktur.",10,"#CABAE7").pack(anchor="w")
+        self.text(hero,"Türkiye'de satış açılmadan önce TL fiyatı, vergi ve yenileme koşulları ayrıca açıklanacak.",9,"#B2A1CD").pack(anchor="w",pady=(6,0))
         c=self.card(f)
-        self.text(c,"ÜCRETSİZ • ŞU ANDA AKTİF",12,AQUA,True).pack(anchor="w",pady=(0,12))
-        for title in ["✓ Windows Oyun Modu ve isteğe bağlı güç planı","✓ Manuel FPS önce / sonra karşılaştırma",
-                      "✓ Performans geçmişi grafiği ve CSV rapor","✓ Windows ayarlarını geri alma"]:
-            self.text(c,title,11,WHITE).pack(anchor="w",pady=8)
+        self.text(c,"PRO İLE NELER GELİYOR?",12,PURPLE,True).pack(anchor="w",pady=(0,14))
+        for title,detail,status in [
+            ("Canlı FPS göstergesi","PresentMon CLI ile gerçek kare zamanlarını ölç, isteğe bağlı masaüstü FPS penceresi göster.","BETA"),
+            ("Gelişmiş Windows optimizasyonu","Oyun Modu ve isteğe bağlı yüksek performans planı, otomatik yedek ve geri al.","BETA"),
+            ("FPS geçmişi ve raporlar","Önce-sonra karşılaştırması, grafik ve CSV çıktısı.","BETA"),
+            ("Oyun bazlı gelişmiş optimizasyon","Donanıma göre şeffaf ve geri alınabilir oyun ayar önerileri.","PLANLANIYOR"),
+            ("Otomatik profil ve lisans aktivasyonu","Hesaba bağlı, sunucu doğrulamalı abonelik ve Pro erişimi.","PLANLANIYOR")]:
+            b=tk.Frame(c,bg="#192941",padx=12,pady=10);b.pack(fill="x",pady=5)
+            self.text(b,title+"  ·  "+status,11,PURPLE if status=="PLANLANIYOR" else AQUA,True).pack(anchor="w")
+            t=self.text(b,detail,10,MUTED);t.configure(wraplength=630);t.pack(anchor="w",pady=(6,0))
+        actions=tk.Frame(f,bg=BG);actions.pack(anchor="w",pady=(13,10))
+        self.button(actions,"Canlı FPS Beta'yı Aç",lambda:self.show("Canlı FPS Pro")).pack(side="left",padx=(0,10))
+        tk.Button(actions,text="Optimizasyon Beta",command=lambda:self.show("Pro Optimizasyon"),bg="#58447c",fg=WHITE,
+                  relief="flat",font=("Segoe UI",10,"bold"),padx=13,pady=12).pack(side="left")
+        self.text(f,"Ücretsiz sürüm: manuel FPS karşılaştırması ve mevcut ayarları geri alma. Pro özellikleri beta süresince test için açık.",10,MUTED).pack(anchor="w",pady=(7,0))
+    def monitor_page(self):
+        f=self.page("✦ PRO BETA • CANLI FPS","Canlı FPS Göstergesi",
+                    "Gerçek FPS takibi için Intel PresentMon konsol aracı gerekir. Bu beta sürümünde ücretsiz test edilebilir.")
         c=self.card(f)
-        self.text(c,"PRO • PLANLANAN ÖZELLİKLER",12,PURPLE,True).pack(anchor="w",pady=(0,12))
-        planned=[
-          ("Otomatik FPS ölçümü","Güvenilir ölçüm araçlarıyla veri toplama entegrasyonu"),
-          ("Gelişmiş kare süresi analizi","%1 düşük FPS ve kare süresi istatistikleri"),
-          ("Oyuna özel optimizasyon profilleri","Şeffaf, test edilebilir ve geri alınabilir öneriler"),
-          ("Ayrıntılı performans raporları","Uzun süreli ölçüm geçmişi ve karşılaştırmalar")]
-        for title,desc in planned:
-            item=tk.Frame(c,bg="#192941",padx=13,pady=11);item.pack(fill="x",pady=5)
-            self.text(item,"✦ "+title+"  [PLANLANIYOR]",11,PURPLE,True).pack(anchor="w")
-            self.text(item,desc,10,MUTED).pack(anchor="w",pady=(5,0))
-        self.text(f,"Pro özellikleri hazır olmadığı için herhangi bir satın alma veya aktivasyon butonu bulunmaz.",10,MUTED).pack(anchor="w",pady=10)
+        self.text(c,"FPS ÖLÇÜMÜ • PRESENTMON ENTEGRASYONU",11,PURPLE,True).pack(anchor="w")
+        self.text(c,"PresentMon CLI sürümünü resmi kaynaktan indir ve aşağıdan EXE'yi göster.",10,MUTED).pack(anchor="w",pady=(10,4))
+        tk.Button(c,text="Intel PresentMon Kaynağını Aç ↗",command=lambda:webbrowser.open("https://github.com/GameTechDev/PresentMon/releases"),
+                  bg="#2A3B60",fg=WHITE,relief="flat",font=("Segoe UI",9,"bold"),padx=12,pady=8).pack(anchor="w",pady=8)
+        row=tk.Frame(c,bg=PANEL);row.pack(fill="x",pady=5)
+        tk.Entry(row,textvariable=self.pm_binary,state="readonly",readonlybackground="#0D1B30",fg=WHITE,
+                 font=("Segoe UI",10),relief="flat").pack(side="left",fill="x",expand=True,ipady=10,padx=(0,8))
+        tk.Button(row,text="EXE Seç",command=self.select_presentmon,bg="#294569",fg=WHITE,
+                  relief="flat",font=("Segoe UI",9,"bold"),padx=14,pady=10).pack(side="left")
+        self.text(c,"İZLENECEK OYUN İŞLEMİ",9,BLUE,True).pack(anchor="w",pady=(14,5))
+        ttk.Combobox(c,textvariable=self.pm_game,values=[
+            "TslGame.exe","cs2.exe","VALORANT-Win64-Shipping.exe",
+            "r5apex.exe","FortniteClient-Win64-Shipping.exe"],width=36).pack(anchor="w")
+        self.text(c,"Oyunu aç, doğru işlem adını seç; özellikle tam ekran modunda FPS penceresi görünmeyebilir.",10,MUTED).pack(anchor="w",pady=(12,8))
+        stats=tk.Frame(c,bg="#0C192D",padx=15,pady=15);stats.pack(fill="x",pady=12)
+        self.text(stats,"CANLI FPS • SON KARELER",10,BLUE,True).pack(anchor="w")
+        tk.Label(stats,textvariable=self.live_fps,bg="#0C192D",fg=AQUA,
+                 font=("Segoe UI",30,"bold")).pack(anchor="w")
+        lows=tk.Frame(stats,bg="#0C192D");lows.pack(anchor="w")
+        self.text(lows,"%1 LOW (TAHMİNİ): ",10,MUTED).pack(side="left")
+        tk.Label(lows,textvariable=self.low_fps,bg="#0C192D",fg=WHITE,
+                 font=("Segoe UI",10,"bold")).pack(side="left")
+        actions=tk.Frame(c,bg=PANEL);actions.pack(anchor="w",pady=(8,12))
+        self.button(actions,"Ölçümü Başlat",self.start_monitor).pack(side="left",padx=(0,9))
+        tk.Button(actions,text="Durdur",command=self.stop_monitor,bg="#294569",fg=WHITE,relief="flat",
+                  font=("Segoe UI",10,"bold"),padx=16,pady=12).pack(side="left",padx=(0,9))
+        tk.Button(actions,text="FPS Penceresi",command=self.toggle_overlay,bg="#58447c",fg=WHITE,relief="flat",
+                  font=("Segoe UI",10,"bold"),padx=12,pady=12).pack(side="left")
+        label=tk.Label(c,textvariable=self.monitor_state,bg=PANEL,fg=MUTED,
+                       font=("Segoe UI",10),wraplength=640,justify="left",anchor="w")
+        label.pack(anchor="w")
+        self.text(f,"Not: FPS tahmini kare sunum aralıklarından hesaplanır; gerçek oyun testi gerekir. Tam ekran overlay desteği oyuna göre değişir.",10,MUTED).pack(anchor="w",pady=10)
+    def select_presentmon(self):
+        path=filedialog.askopenfilename(title="Resmi PresentMon konsol EXE dosyasını seç",
+                                       filetypes=[("EXE files","*.exe")])
+        if path:self.pm_binary.set(path)
+    def start_monitor(self):
+        if sys.platform!="win32":
+            return messagebox.showerror("Windows gerekli","Canlı FPS ölçümü Windows üzerinde çalışır.")
+        if self.pm_process and self.pm_process.poll() is None:
+            return messagebox.showinfo("Çalışıyor","Ölçüm zaten çalışıyor.")
+        binary=Path(self.pm_binary.get().strip())
+        if not binary.is_file() or not (binary.name.lower().startswith("presentmon") and binary.suffix.lower()==".exe"):
+            return messagebox.showerror("PresentMon bulunamadı","Resmi PresentMon konsol EXE dosyasını seç.")
+        process_name=self.pm_game.get().strip()
+        if not re.fullmatch(r"[A-Za-z0-9_.-]{3,100}\.exe",process_name,re.I):
+            return messagebox.showerror("Oyun seç","Geçerli oyun EXE adı gir: örn. TslGame.exe")
+        self.pm_token+=1
+        token=self.pm_token
+        self.pm_samples.clear()
+        self.pm_last_frame=0
+        self.live_fps.set("— FPS")
+        self.low_fps.set("—")
+        cmd=[str(binary),"--process_name",process_name,"--output_stdout","--no_console_stats","--exclude_dropped"]
+        try:
+            self.pm_process=subprocess.Popen(cmd,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,
+                                             text=True,encoding="utf-8-sig",errors="replace",bufsize=1,
+                                             creationflags=getattr(subprocess,"CREATE_NO_WINDOW",0))
+        except OSError as exc:
+            return messagebox.showerror("Başlatılamadı",str(exc))
+        self.monitor_state.set("Ölçüm başladı. Oyunu aç ve birkaç saniye bekle; sadece gerçek kareler gösterilir.")
+        threading.Thread(target=self.read_presentmon,args=(self.pm_process,token),
+                         daemon=True).start()
+    def read_presentmon(self,process,token):
+        index=None
+        try:
+            for line in process.stdout:
+                if token!=self.pm_token:break
+                try:fields=next(csv.reader([line]))
+                except (csv.Error,StopIteration):continue
+                if index is None:
+                    for key in ("MsBetweenPresents","MsBetweenDisplayChange"):
+                        if key in fields:
+                            index=fields.index(key)
+                            break
+                    continue
+                if len(fields)<=index:continue
+                try:millis=float(fields[index])
+                except (ValueError,TypeError):continue
+                if math.isfinite(millis) and 0.5<millis<1000:
+                    self.pm_samples.append((time.monotonic(),millis))
+        except (OSError,ValueError):pass
+    def poll_monitor(self):
+        try:
+            samples=list(self.pm_samples)
+            current=time.monotonic()
+            fresh=[v for when,v in samples[-500:] if current-when<3]
+            if len(fresh)>4:
+                tail=fresh[-180:]
+                mean_ms=sum(tail)/len(tail)
+                self.live_fps.set(f"{1000/mean_ms:.0f} FPS")
+                if len(tail)>=100:
+                    quantile=sorted(tail)[min(len(tail)-1,int(len(tail)*0.99))]
+                    self.low_fps.set(f"{1000/quantile:.0f} FPS")
+                else:self.low_fps.set("Yeterli veri yok")
+            else:
+                self.live_fps.set("— FPS")
+                self.low_fps.set("—")
+            if self.pm_process and self.pm_process.poll() is not None:
+                self.pm_process=None
+                self.monitor_state.set("Ölçüm sona erdi. FPS görünmediyse oyun işlemini, PresentMon sürümünü ve erişim izinlerini kontrol et.")
+        finally:
+            self.after(700,self.poll_monitor)
+    def stop_monitor(self):
+        self.pm_token+=1
+        p=self.pm_process
+        self.pm_process=None
+        if p and p.poll() is None:
+            try:p.terminate()
+            except OSError:pass
+        self.monitor_state.set("FPS ölçümü durduruldu.")
+        self.live_fps.set("— FPS")
+        self.low_fps.set("—")
+    def toggle_overlay(self):
+        if self.pm_overlay and self.pm_overlay.winfo_exists():
+            self.pm_overlay.destroy()
+            self.pm_overlay=None
+            return
+        overlay=tk.Toplevel(self)
+        overlay.overrideredirect(True)
+        overlay.attributes("-topmost",True)
+        try:overlay.attributes("-alpha",0.92)
+        except tk.TclError:pass
+        overlay.configure(bg="#071423")
+        overlay.geometry("178x76+80+80")
+        label=tk.Label(overlay,textvariable=self.live_fps,bg="#071423",fg=AQUA,
+                       font=("Segoe UI",22,"bold"),padx=10,pady=6)
+        label.pack()
+        close=tk.Button(overlay,text="Kapat ×",bg="#071423",fg=MUTED,relief="flat",
+                        command=lambda:self.toggle_overlay())
+        close.pack()
+        xy={}
+        def press(e):
+            xy["x"],xy["y"]=e.x_root-overlay.winfo_x(),e.y_root-overlay.winfo_y()
+        def drag(e):
+            overlay.geometry(f"+{e.x_root-xy.get('x',0)}+{e.y_root-xy.get('y',0)}")
+        for item in (overlay,label):
+            item.bind("<Button-1>",press)
+            item.bind("<B1-Motion>",drag)
+        self.pm_overlay=overlay
+    def shutdown(self):
+        self.stop_monitor()
+        if self.pm_overlay:
+            try:self.pm_overlay.destroy()
+            except tk.TclError:pass
+        self.destroy()
     def about(self):
         f=self.page("ŞEFFAF OPTİMİZASYON","Hakkında",f"OyunOpti FPS Booster {VERSION}")
         c=self.card(f)
         for s in ["✓ Windows Oyun Modu","✓ İsteğe bağlı Yüksek Performans güç planı",
                   "✓ Eski ayarların yedeği ve geri alma","✓ Manuel FPS kaydı ve karşılaştırma",
-                  "✕ Sahte FPS sayacı yok","✕ FPS artış garantisi yok","✕ Oyun dosyalarına müdahale yok"]:
+                  "✓ PresentMon CLI ile Pro beta canlı FPS takip","✕ Sahte FPS sayacı yok","✕ FPS artış garantisi yok","✕ Oyun dosyalarına müdahale yok"]:
             self.text(c,s,11,MUTED).pack(anchor="w",pady=7)
 
 if __name__=="__main__":App().mainloop()
