@@ -35,16 +35,21 @@ app.use((req, res, next) => {
   next();
 });
 const ipHits = new Map();
-function throttle(req, res, next) {
-  const ip = req.ip || "unknown";
-  const now = Date.now();
-  const recent = (ipHits.get(ip) || []).filter(t => now - t < 60 * 60 * 1000);
-  if (recent.length >= 10) return res.status(429).json({ error: "Çok fazla deneme. Sonra tekrar deneyin." });
-  recent.push(now);
-  ipHits.set(ip, recent);
-  if (ipHits.size > 5000) ipHits.clear();
-  next();
+function limiter(maxPerHour) {
+ return (req, res, next) => {
+   const ip = req.ip || "unknown";
+   const key = ip + ":" + maxPerHour;
+   const now = Date.now();
+   const recent = (ipHits.get(key) || []).filter(t => now - t < 60 * 60 * 1000);
+   if (recent.length >= maxPerHour) return res.status(429).json({ error: "Çok fazla deneme. Sonra tekrar deneyin." });
+   recent.push(now);
+   ipHits.set(key, recent);
+   if (ipHits.size > 5000) ipHits.clear();
+   next();
+ };
 }
+const checkoutLimit = limiter(10);
+const claimLimit = limiter(240);
 function required(req, res, next) {
   if (!READY) return res.status(503).json({ error: "Ödeme bağlantısı henüz açılmadı." });
   next();
@@ -64,7 +69,7 @@ app.get("/api/health", (req, res) => {
  * We create a unique temporary Shopier product for this payment so the webhook
  * can reconcile a specific paid item with exactly one device / checkout session.
  */
-app.post("/api/checkout", express.json({ limit: "12kb" }), throttle, required, async (req, res) => {
+app.post("/api/checkout", express.json({ limit: "12kb" }), checkoutLimit, required, async (req, res) => {
   const device = String(req.body?.device || "").trim().toUpperCase();
   const email = String(req.body?.email || "").trim().toLowerCase();
   if (!validDevice(device)) return safeResponse(res, 400, "Geçerli 32 karakterli cihaz kodu girin.");
@@ -98,7 +103,7 @@ app.post("/api/checkout", express.json({ limit: "12kb" }), throttle, required, a
   }
 });
 
-app.post("/api/claim", express.json({ limit: "12kb" }), throttle, required, async (req, res) => {
+app.post("/api/claim", express.json({ limit: "12kb" }), claimLimit, required, async (req, res) => {
   const session = String(req.body?.session || "");
   const secret = String(req.body?.secret || "");
   if (!/^OO-[a-f0-9]{36}$/.test(session) || !/^[\w-]{35,100}$/.test(secret))
