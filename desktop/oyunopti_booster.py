@@ -7,11 +7,11 @@ from collections import deque
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 from cryptography.exceptions import InvalidSignature
 
-VERSION="1.1.0 Pro"
+VERSION="1.2.0 Pro"
 BASE=Path(os.environ.get("APPDATA",str(Path.home()))) / "OyunOptiFPSBooster"
 FILE=BASE/"state.json"
 LICENSE_FILE=BASE/"license.txt"
-PUBLIC_KEY_B64="lFsWonl0lL6WBlf8bcGKcY0rIOvKj6CBC4wJ6fEclQc="
+PUBLIC_KEY_B64="FEKnWKC6Cmbxug94tk2TIYsavieXw2mUoc8JRpAzlkY="
 REG_KEY=r"Software\Microsoft\GameBar"
 REG_VALUE="AutoGameModeEnabled"
 GUID=re.compile(r"\b[0-9a-fA-F]{8}-(?:[0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}\b")
