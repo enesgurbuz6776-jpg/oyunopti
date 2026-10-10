@@ -1,13 +1,17 @@
-"""OyunOpti FPS Booster Beta — conservative Windows tuning and manual FPS log."""
-import csv, json, os, re, subprocess, sys, tkinter as tk, webbrowser, threading, time, math
+"""OyunOpti FPS Booster Pro — conservative Windows tuning and manual FPS log."""
+import csv, json, os, re, subprocess, sys, tkinter as tk, webbrowser, threading, time, math, hashlib, base64, binascii
 from tkinter import messagebox, ttk, filedialog
-from datetime import datetime
+from datetime import datetime, date, timezone, timedelta
 from pathlib import Path
 from collections import deque
+from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
+from cryptography.exceptions import InvalidSignature
 
-VERSION="0.5.2-beta"
+VERSION="1.0.0 Pro"
 BASE=Path(os.environ.get("APPDATA",str(Path.home()))) / "OyunOptiFPSBooster"
 FILE=BASE/"state.json"
+LICENSE_FILE=BASE/"license.txt"
+PUBLIC_KEY_B64="lFsWonl0lL6WBlf8bcGKcY0rIOvKj6CBC4wJ6fEclQc="
 REG_KEY=r"Software\Microsoft\GameBar"
 REG_VALUE="AutoGameModeEnabled"
 GUID=re.compile(r"\b[0-9a-fA-F]{8}-(?:[0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}\b")
@@ -60,6 +64,57 @@ def undo_mode(d):
                 winreg.DeleteValue(k,REG_VALUE)
         except FileNotFoundError: pass
 
+
+def device_code():
+    """A one-way local device code. MachineGuid never leaves the computer."""
+    if sys.platform != "win32":
+        return "WINDOWS-REQUIRED"
+    import winreg
+    try:
+        with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,r"SOFTWARE\Microsoft\Cryptography",
+                            0,winreg.KEY_READ | getattr(winreg,"KEY_WOW64_64KEY",0)) as handle:
+            guid=str(winreg.QueryValueEx(handle,"MachineGuid")[0])
+    except OSError:
+        return "DEVICE-ID-UNAVAILABLE"
+    return hashlib.sha256(("OyunOpti-Pro-Device-v1|"+guid).encode("utf-8")).hexdigest()[:32].upper()
+
+def _unb64(value):
+    return base64.urlsafe_b64decode(value+"="*((-len(value))%4))
+
+def validate_license(token, machine=None, current=None):
+    """Fail closed. Verify Ed25519 issuer signature, machine binding, and UTC expiry."""
+    machine=device_code() if machine is None else machine
+    if not machine or machine in ("WINDOWS-REQUIRED","DEVICE-ID-UNAVAILABLE"):
+        raise ValueError("Bu bilgisayarda cihaz kodu okunamıyor.")
+    token=(token or "").strip()
+    if len(token)>4096:
+        raise ValueError("Lisans anahtarı çok uzun.")
+    try:
+        segments=token.split(".")
+        if len(segments)!=2:raise ValueError()
+        payload_raw=_unb64(segments[0])
+        signature=_unb64(segments[1])
+        if len(payload_raw)>1024 or len(signature)!=64:raise ValueError()
+        public=Ed25519PublicKey.from_public_bytes(base64.b64decode(PUBLIC_KEY_B64))
+        public.verify(signature,payload_raw)
+        data=json.loads(payload_raw.decode("utf-8"))
+        if data.get("version")!=1 or data.get("plan")!="pro":raise ValueError()
+        if data.get("device")!=machine:raise ValueError("Bu lisans farklı bir bilgisayar için.")
+        expiry=date.fromisoformat(data["expires"])
+        if expiry.year<2026 or expiry.year>2040:raise ValueError()
+        now=current or datetime.now(timezone.utc).date()
+        if now>expiry:raise ValueError("Lisansın süresi dolmuş. Yenileme gerekiyor.")
+        return data
+    except InvalidSignature:
+        raise ValueError("Lisansın dijital imzası geçersiz.") from None
+    except (ValueError,KeyError,TypeError,UnicodeError,json.JSONDecodeError,OverflowError,
+            binascii.Error,AttributeError):
+        raise ValueError("Lisans geçersiz, süresi dolmuş veya bu cihaza ait değil.") from None
+
+def stored_license():
+    try:return LICENSE_FILE.read_text(encoding="utf-8").strip()
+    except OSError:return ""
+
 class App(tk.Tk):
     def __init__(self):
         if sys.platform == "win32":
@@ -69,7 +124,7 @@ class App(tk.Tk):
             except (AttributeError, OSError):
                 pass
         super().__init__()
-        self.title("OyunOpti FPS Booster")
+        self.title("OyunOpti FPS Booster Pro")
         icon_dir = Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parent))
         icon_file = icon_dir / "assets" / "oyunopti.ico"
         if icon_file.is_file():
@@ -79,6 +134,11 @@ class App(tk.Tk):
                 pass
         self.geometry("1120x780"); self.minsize(900,650); self.configure(bg=BG)
         self.data=load(); self.profile=tk.StringVar(value=self.data["profile"])
+        self.license_data=None
+        self.device_id=device_code()
+        try:self.license_data=validate_license(stored_license(),self.device_id)
+        except ValueError:pass
+        self.license_status=tk.StringVar(value="Lisans doğrulanmadı.")
         self.mode=tk.BooleanVar(value=True); self.plan=tk.BooleanVar(value=False)
         self.before=tk.StringVar(); self.fps_after=tk.StringVar()
         self.low1=tk.StringVar(); self.low2=tk.StringVar()
@@ -96,10 +156,10 @@ class App(tk.Tk):
         self.after(650,self.poll_monitor)
         nav=tk.Frame(self,bg=NAV,width=218); nav.pack(side="left",fill="y"); nav.pack_propagate(False)
         self.text(nav,"◇  OyunOpti",22,WHITE,True).pack(anchor="w",padx=16,pady=(32,4))
-        self.text(nav,"FPS BOOSTER  /  v0.5.2 PRO",9,AQUA,True).pack(anchor="w",padx=20,pady=(0,24))
+        self.text(nav,"PRO  /  LİSANSLI SÜRÜM",9,AQUA,True).pack(anchor="w",padx=20,pady=(0,24))
         tk.Frame(nav,bg=BORDER,height=1).pack(fill="x",padx=16,pady=(0,17))
         self.text(nav,"KONTROL MERKEZİ",9,BLUE,True).pack(anchor="w",padx=20,pady=(0,9))
-        for p in ["Genel Bakış","FPS Ölçümü","Oyun Profilleri","Pro Optimizasyon","Canlı FPS Pro","Geri Al","OyunOpti Pro","Hakkında"]:
+        for p in ["Genel Bakış","FPS Ölçümü","Oyun Profilleri","Pro Optimizasyon","Canlı FPS Pro","Geri Al","Lisansım","OyunOpti Pro","Hakkında"]:
             tk.Button(nav,text=("  ✦  " if "Pro" in p else "  ◇  ")+p,anchor="w",bg=NAV,fg=PURPLE if "Pro" in p else WHITE,activebackground=PANEL,activeforeground=AQUA,
                 relief="flat",font=("Segoe UI",11,"bold"),pady=15,command=lambda page=p:self.show(page)).pack(fill="x",padx=6)
         right=tk.Frame(self,bg=BG);right.pack(side="right",fill="both",expand=True)
@@ -136,9 +196,66 @@ class App(tk.Tk):
     def card(self,f):
         c=tk.Frame(f,bg=PANEL,padx=20,pady=18,highlightthickness=1,highlightbackground=BORDER);c.pack(fill="x",pady=8)
         return c
+    def license_active(self):
+        try:
+            self.license_data=validate_license(stored_license(),self.device_id)
+            return True
+        except ValueError:
+            self.license_data=None
+            return False
+    def require_license(self):
+        if self.license_active():return True
+        messagebox.showwarning("Pro lisans gerekli","Bu özelliği kullanabilmek için aktif OyunOpti Pro lisansı gerekiyor.")
+        self.show("Lisansım")
+        return False
     def show(self,p):
+        if p not in ("Lisansım","Hakkında","Geri Al") and not self.license_active():
+            p="Lisansım"
         {"Genel Bakış":self.home,"Pro Optimizasyon":self.opt,"Canlı FPS Pro":self.monitor_page,"Oyun Profilleri":self.profiles,
-         "FPS Ölçümü":self.fps,"Geri Al":self.back,"OyunOpti Pro":self.pro,"Hakkında":self.about}[p]()
+         "FPS Ölçümü":self.fps,"Geri Al":self.back,"Lisansım":self.activation,"OyunOpti Pro":self.pro,"Hakkında":self.about}[p]()
+    def activation(self):
+        f=self.page("OYUNOPTI PRO • LİSANS","Lisans Aktivasyonu",
+            "OyunOpti'nin FPS ölçümü, optimizasyonu ve performans araçları aktif Pro lisansı gerektirir.")
+        c=self.card(f)
+        self.text(c,"CİHAZ KODUN",11,AQUA,True).pack(anchor="w")
+        self.text(c,self.device_id,15,WHITE,True).pack(anchor="w",pady=(9,10))
+        self.button(c,"Cihaz Kodunu Kopyala",lambda:self.copy_device()).pack(anchor="w",pady=(0,12))
+        self.text(c,"Satın alma sonrasında cihaz koduna özel lisans verilir. Cihaz kodu kişisel dosya ya da ham Windows GUID değildir.",10,MUTED).pack(anchor="w")
+        c=self.card(f)
+        self.text(c,"PRO LİSANS ANAHTARI",11,AQUA,True).pack(anchor="w",pady=(0,9))
+        self.license_entry=tk.Text(c,height=5,bg=BG,fg=WHITE,insertbackground=WHITE,wrap="word",
+                                   font=("Consolas",10),relief="flat",padx=10,pady=10)
+        self.license_entry.pack(fill="x",pady=(0,13))
+        if self.license_active():
+            self.text(c,"✓ Aktif Pro lisansı · Son gün: "+self.license_data["expires"],11,AQUA,True).pack(anchor="w",pady=(0,10))
+        self.button(c,"Lisansı Doğrula ve Etkinleştir",self.activate).pack(anchor="w")
+        c=self.card(f)
+        self.text(c,"OYUNOPTI PRO · $10 / AY",16,WHITE,True).pack(anchor="w")
+        self.text(c,"Ödeme ve otomatik lisans teslimi henüz bağlanmadı. Satış açılana kadar ücretli üyelik tahsil edilmiyor.",10,MUTED).pack(anchor="w",pady=(11,10))
+        tk.Button(c,text="İletişim Sayfasını Aç ↗",command=lambda:webbrowser.open("https://oyunopti.com/iletisim.html"),
+                  bg="#294569",fg=WHITE,relief="flat",font=("Segoe UI",10,"bold"),padx=15,pady=11).pack(anchor="w")
+    def copy_device(self):
+        self.clipboard_clear()
+        self.clipboard_append(self.device_id)
+        self.update()
+        messagebox.showinfo("Kopyalandı","Cihaz kodu panoya kopyalandı.")
+    def activate(self):
+        token=self.license_entry.get("1.0","end").strip()
+        try:data=validate_license(token,self.device_id)
+        except ValueError as exc:
+            messagebox.showerror("Lisans doğrulanamadı",str(exc))
+            return
+        try:
+            BASE.mkdir(parents=True,exist_ok=True)
+            temp=LICENSE_FILE.with_suffix(".tmp")
+            temp.write_text(token,encoding="utf-8")
+            os.replace(temp,LICENSE_FILE)
+        except OSError as exc:
+            messagebox.showerror("Kayıt hatası",str(exc))
+            return
+        self.license_data=data
+        messagebox.showinfo("OyunOpti Pro Aktif","Lisans etkin. Geçerlilik sonu: "+data["expires"])
+        self.show("Genel Bakış")
     def home(self):
         f=self.page("PERFORMANS MERKEZİ","OyunOpti FPS Booster","Oyun profilin, Windows ayarların ve gerçek FPS karşılaştırmaların tek kontrol panelinde.")
         summary=tk.Frame(f,bg=BG);summary.pack(fill="x",pady=(4,15))
@@ -165,15 +282,15 @@ class App(tk.Tk):
         self.text(c,"●  FPS değerleri kullanıcı tarafından girilir; otomatik ölçülmez.",11,MUTED).pack(anchor="w",pady=6)
         c=self.card(f)
         self.text(c,"✦  OYUNOPTI PRO • $10 / ay (hedef)",15,PURPLE,True).pack(anchor="w")
-        self.text(c,"Gerçek FPS takibi, Pro optimizasyon ve detaylı raporlar. Beta testine ücretsiz katıl; ödeme henüz kapalı.",10,MUTED).pack(anchor="w",pady=(9,14))
+        self.text(c,"Gerçek FPS takibi, Pro optimizasyon ve detaylı raporlar. Pro testine ücretsiz katıl; ödeme henüz kapalı.",10,MUTED).pack(anchor="w",pady=(9,14))
         tk.Button(c,text="Pro Özelliklerini Gör →",command=lambda:self.show("OyunOpti Pro"),
                   bg="#564384",fg=WHITE,activebackground="#6b56a2",relief="flat",
                   font=("Segoe UI",10,"bold"),padx=15,pady=11).pack(anchor="w")
     def opt(self):
-        f=self.page("✦ PRO BETA • TEST ERİŞİMİ","Gelişmiş optimizasyon",
+        f=self.page("✦ PRO PRO • TEST ERİŞİMİ","Gelişmiş optimizasyon",
                     "Yalnızca seçtiğin ayarlar değiştirilir ve orijinal değerleri önce kaydedilir.")
         c=self.card(f)
-        self.text(c,"PRO BETA ÖNİZLEMESİ • BU SÜRÜMDE ÜCRETSİZ TEST",10,PURPLE,True).pack(anchor="w",pady=(0,10))
+        self.text(c,"PRO PRO ÖNİZLEMESİ • BU SÜRÜMDE ÜCRETSİZ TEST",10,PURPLE,True).pack(anchor="w",pady=(0,10))
         self.text(c,"Seçtiğin Windows ayarlarını uygula; cihazına göre sonuç değişebilir.",10,MUTED).pack(anchor="w",pady=(0,14))
         self.text(c,"DEĞİŞTİRİLECEK AYARLAR",11,AQUA,True).pack(anchor="w",pady=(0,12))
         for var,title,note in [(self.mode,"Windows Oyun Modu → Açık","Mevcutsa açılır; zaten açıksa değişmez."),
@@ -185,6 +302,7 @@ class App(tk.Tk):
         self.text(c,"FPS artışı garanti edilmez; oyun içinde tekrar ölç.",10,MUTED).pack(anchor="w",pady=(15,12))
         self.button(c,"Seçilenleri Uygula",self.apply).pack(anchor="w")
     def apply(self):
+        if not self.require_license():return
         if sys.platform!="win32":return messagebox.showerror("Hata","Windows 10/11 gereklidir.")
         if self.data["backup"]:return messagebox.showinfo("Yedek var","Yeni işlem için önce Geri Al kullan.")
         if not(self.mode.get() or self.plan.get()):return messagebox.showinfo("Seçim yok","En az bir ayar seç.")
@@ -207,6 +325,7 @@ class App(tk.Tk):
             "PUBG","CS2","Valorant","Apex Legends","Fortnite","Diğer"]).pack(anchor="w",pady=(0,18))
         self.button(c,"Profili Kaydet",self.saveprofile).pack(anchor="w")
     def saveprofile(self):
+        if not self.require_license():return
         self.data["profile"]=self.profile.get();save(self.data)
         messagebox.showinfo("Kaydedildi",self.profile.get()+" seçildi.")
     def fps(self):
@@ -231,6 +350,7 @@ class App(tk.Tk):
         for r in self.data["history"][-4:][::-1]:
             self.text(f,f"{r['profile']} • {r['date']}    {r['before']:g} → {r['after']:g} FPS    {r['change']:+.2f}%",10).pack(anchor="w",pady=4)
     def record(self):
+        if not self.require_license():return
         try:
             a=float(self.before.get().replace(",","."));b=float(self.fps_after.get().replace(",","."))
             if not(0<a<=10000 and 0<b<=10000):raise ValueError()
@@ -297,6 +417,7 @@ class App(tk.Tk):
                 chart.create_oval(x-4,y-4,x+4,y+4,fill=AQUA,outline=PANEL)
         chart.bind("<Configure>",paint)
     def export_csv(self):
+        if not self.require_license():return
         if not self.data["history"]:return messagebox.showinfo("Bilgi","Önce FPS ölçümü kaydet.")
         path=filedialog.asksaveasfilename(defaultextension=".csv",initialfile="oyunopti-fps-raporu.csv",
                                           filetypes=[("CSV dosyası","*.csv")])
@@ -312,34 +433,23 @@ class App(tk.Tk):
             messagebox.showinfo("Tamam","FPS ölçüm raporu kaydedildi.")
         except OSError as exc:messagebox.showerror("Hata",str(exc))
     def pro(self):
-        f=self.page("✦ PREMIUM DENEYİM","OyunOpti Pro","Oyun performansını ölç, değişiklikleri karşılaştır. Pro şu anda ücretsiz beta testinde; ödeme alınmıyor.")
-        hero=tk.Frame(f,bg="#201b39",padx=25,pady=23,highlightthickness=1,highlightbackground="#68508f")
-        hero.pack(fill="x",pady=(4,12))
-        self.text(hero,"✦  OYUNOPTI PRO  /  PREMIUM",12,PURPLE,True).pack(anchor="w")
-        price=tk.Frame(hero,bg="#201b39");price.pack(anchor="w",fill="x",pady=(13,10))
-        self.text(price,"$10",33,WHITE,True).pack(side="left")
-        self.text(price,"  / ay · hedef abonelik fiyatı",11,"#CBBBE4",True).pack(side="left",pady=(14,0))
-        self.text(hero,"Bu fiyat teklifidir; aktif bir abonelik veya ödeme bağlantısı yoktur.",10,"#CABAE7").pack(anchor="w")
-        self.text(hero,"Türkiye'de satış açılmadan önce TL fiyatı, vergi ve yenileme koşulları ayrıca açıklanacak.",9,"#B2A1CD").pack(anchor="w",pady=(6,0))
+        f=self.page("OYUNOPTI PRO • ÜYELİK","OyunOpti Pro",
+            "Lisanslı performans yazılımı. FPS ve optimizasyon özelliklerine yalnızca geçerli lisansla erişilir.")
         c=self.card(f)
-        self.text(c,"PRO İLE NELER GELİYOR?",12,PURPLE,True).pack(anchor="w",pady=(0,14))
-        for title,detail,status in [
-            ("Canlı FPS göstergesi","PresentMon CLI ile gerçek kare zamanlarını ölç, isteğe bağlı masaüstü FPS penceresi göster.","BETA"),
-            ("Gelişmiş Windows optimizasyonu","Oyun Modu ve isteğe bağlı yüksek performans planı, otomatik yedek ve geri al.","BETA"),
-            ("FPS geçmişi ve raporlar","Önce-sonra karşılaştırması, grafik ve CSV çıktısı.","BETA"),
-            ("Oyun bazlı gelişmiş optimizasyon","Donanıma göre şeffaf ve geri alınabilir oyun ayar önerileri.","PLANLANIYOR"),
-            ("Otomatik profil ve lisans aktivasyonu","Hesaba bağlı, sunucu doğrulamalı abonelik ve Pro erişimi.","PLANLANIYOR")]:
-            b=tk.Frame(c,bg="#192941",padx=12,pady=10);b.pack(fill="x",pady=5)
-            self.text(b,title+"  ·  "+status,11,PURPLE if status=="PLANLANIYOR" else AQUA,True).pack(anchor="w")
-            t=self.text(b,detail,10,MUTED);t.configure(wraplength=630);t.pack(anchor="w",pady=(6,0))
-        actions=tk.Frame(f,bg=BG);actions.pack(anchor="w",pady=(13,10))
-        self.button(actions,"Canlı FPS Beta'yı Aç",lambda:self.show("Canlı FPS Pro")).pack(side="left",padx=(0,10))
-        tk.Button(actions,text="Optimizasyon Beta",command=lambda:self.show("Pro Optimizasyon"),bg="#58447c",fg=WHITE,
-                  relief="flat",font=("Segoe UI",10,"bold"),padx=13,pady=12).pack(side="left")
-        self.text(f,"Ücretsiz sürüm: manuel FPS karşılaştırması ve mevcut ayarları geri alma. Pro özellikleri beta süresince test için açık.",10,MUTED).pack(anchor="w",pady=(7,0))
+        self.text(c,"PRO ABONELİK",12,PURPLE,True).pack(anchor="w")
+        self.text(c,"$10 / ay",29,WHITE,True).pack(anchor="w",pady=(8,8))
+        self.text(c,"Ödeme bağlantısı ve otomatik üyelik sistemi henüz açılmadı. Aktif lisansı olanlar özellikleri kullanabilir.",11,MUTED).pack(anchor="w")
+        c=self.card(f)
+        for title,body in [
+            ("CANLI FPS","PresentMon CLI üzerinden gerçek FPS ve yaklaşık %1 düşük kare hızı"),
+            ("WINDOWS OPTİMİZASYONU","Geri alınabilir, açıkça belirtilmiş Windows ayarları"),
+            ("PERFORMANS ANALİZİ","Manuel karşılaştırmalar, grafik, CSV ve oyun profilleri")]:
+            self.text(c,"✦ "+title,12,AQUA,True).pack(anchor="w",pady=(9,3))
+            self.text(c,body,10,MUTED).pack(anchor="w",pady=(0,12))
+        self.button(f,"Lisansım",lambda:self.show("Lisansım")).pack(anchor="w",pady=10)
     def monitor_page(self):
-        f=self.page("✦ PRO BETA • CANLI FPS","Canlı FPS Göstergesi",
-                    "Gerçek FPS takibi için Intel PresentMon konsol aracı gerekir. Bu beta sürümünde ücretsiz test edilebilir.")
+        f=self.page("✦ PRO PRO • CANLI FPS","Canlı FPS Göstergesi",
+                    "Gerçek FPS takibi için Intel PresentMon konsol aracı gerekir. Bu pro sürümünde ücretsiz test edilebilir.")
         c=self.card(f)
         self.text(c,"FPS ÖLÇÜMÜ • PRESENTMON ENTEGRASYONU",11,PURPLE,True).pack(anchor="w")
         self.text(c,"PresentMon CLI sürümünü resmi kaynaktan indir ve aşağıdan EXE'yi göster.",10,MUTED).pack(anchor="w",pady=(10,4))
@@ -378,6 +488,7 @@ class App(tk.Tk):
                                        filetypes=[("EXE files","*.exe")])
         if path:self.pm_binary.set(path)
     def start_monitor(self):
+        if not self.require_license():return
         if sys.platform!="win32":
             return messagebox.showerror("Windows gerekli","Canlı FPS ölçümü Windows üzerinde çalışır.")
         if self.pm_process and self.pm_process.poll() is None:
@@ -424,6 +535,8 @@ class App(tk.Tk):
                     self.pm_samples.append((time.monotonic(),millis))
         except (OSError,ValueError):pass
     def poll_monitor(self):
+        if self.pm_process and not self.license_active():
+            self.stop_monitor()
         try:
             samples=list(self.pm_samples)
             current=time.monotonic()
@@ -455,6 +568,7 @@ class App(tk.Tk):
         self.live_fps.set("— FPS")
         self.low_fps.set("—")
     def toggle_overlay(self):
+        if not self.require_license():return
         if self.pm_overlay and self.pm_overlay.winfo_exists():
             self.pm_overlay.destroy()
             self.pm_overlay=None
@@ -492,7 +606,7 @@ class App(tk.Tk):
         c=self.card(f)
         for s in ["✓ Windows Oyun Modu","✓ İsteğe bağlı Yüksek Performans güç planı",
                   "✓ Eski ayarların yedeği ve geri alma","✓ Manuel FPS kaydı ve karşılaştırma",
-                  "✓ PresentMon CLI ile Pro beta canlı FPS takip","✕ Sahte FPS sayacı yok","✕ FPS artış garantisi yok","✕ Oyun dosyalarına müdahale yok"]:
+                  "✓ PresentMon CLI ile Pro pro canlı FPS takip","✕ Sahte FPS sayacı yok","✕ FPS artış garantisi yok","✕ Oyun dosyalarına müdahale yok"]:
             self.text(c,s,11,MUTED).pack(anchor="w",pady=7)
 
 if __name__=="__main__":App().mainloop()
