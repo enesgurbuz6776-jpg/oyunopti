@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OyunOpti Pro | Lisans Satın Al</title><meta name="description" content="OyunOpti Pro Windows uygulaması için 30 günlük cihaz lisansı. Doğrulanmış ödeme sonrası otomatik teslimat.">
+<link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="canonical" href="https://oyunopti.com/pro-satin-al.html">
+<link rel="stylesheet" href="style.css?v=13">
+<style>
+.purchase-wrap{max-width:940px;margin:36px auto 80px}
+.purchase-hero{margin:24px 0 30px;max-width:760px}
+.purchase-hero h1{font-size:clamp(35px,6vw,63px);line-height:1.1}
+.purchase-hero p,.purchase-muted{color:#aebbd5;line-height:1.7}
+.purchase-card{padding:28px;border:1px solid #394867;background:linear-gradient(150deg,#13203a,#15162a);border-radius:24px}
+.purchase-card h2{font-size:25px}
+.purchase-price{font-size:41px;font-weight:850;margin:8px 0}.purchase-price small{font-size:14px;color:#aebbd5}
+.purchase-form{display:grid;gap:15px;margin-top:20px}
+.purchase-form label{color:#cbd8f4;font-size:14px;font-weight:700}
+.purchase-form input{display:block;width:100%;padding:14px 15px;border:1px solid #405477;border-radius:12px;background:#091427;color:#fff;margin-top:7px;font-size:16px;box-sizing:border-box}
+.purchase-form input:focus{outline:2px solid #19d3ae}
+.purchase-form button,.purchase-checkout{width:100%;border:0;background:#19d3ae;color:#061523;font-weight:800;font-size:15px;border-radius:13px;padding:14px;cursor:pointer;text-align:center;text-decoration:none;display:block}
+.purchase-form button:disabled{background:#3e5265;color:#b0bfd0;cursor:not-allowed}
+.purchase-status{padding:14px 17px;margin:15px 0;background:#101b30;border:1px solid #344665;border-radius:12px;color:#c4d3ed;line-height:1.6}
+.purchase-checkout{background:linear-gradient(135deg,#19d3ae,#6b83fe);margin:17px 0}
+.purchase-license{background:#071221;border:1px solid #446282;padding:15px;color:#d4fef8;font:12px/1.5 Consolas,monospace;overflow-wrap:anywhere;border-radius:12px}
+.purchase-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.purchase-steps{border:1px solid #293a58;padding:22px;border-radius:22px;background:#101a2c}
+.purchase-steps li{color:#aab8d4;margin:13px 0;line-height:1.7}
+.purchase-steps h2{font-size:24px}
+.purchase-caption{font-size:12px;color:#9caecb;line-height:1.6}
+@media(max-width:850px){.purchase-grid{grid-template-columns:1fr}.purchase-wrap{padding:0 6px}}
+</style></head><body>
+<header class="topbar"><a class="brand brand-pro" href="index.html"><img src="icon.svg" width="44" height="44" alt=""><span class="brand-word">Oyun<span>Opti</span></span></a>
+<nav><a href="fps-booster.html">Pro Uygulaması</a><a href="iletisim.html">Destek</a><a class="pill" href="pro-satin-al.html">Lisans</a></nav></header>
+<main class="purchase-wrap">
+<div class="purchase-hero"><span class="eyebrow">✦ OyunOpti Pro · 30 gün</span>
+<h1>Pro lisansını <span>etkinleştir.</span></h1>
+<p>Cihaz kodunla ödeme oluştur. Shopier ödemesi doğrulanınca bu sayfa lisansını otomatik teslim eder; anahtarı Windows uygulamana yapıştırırsın.</p></div>
+<div class="purchase-grid">
+<section class="purchase-card" aria-labelledby="buytitle">
+<h2 id="buytitle">OyunOpti Pro</h2>
+<div class="purchase-price">$10 <small>/ 30 günlük erişim · planlanan tutar</small></div>
+<p class="purchase-muted">Tek seferlik 30 günlük lisans. **Otomatik kart çekimi yapılmaz.** Yenilemek için yeni ödeme gerekir. Ödeme başlamadan önce Shopier ekranındaki gerçek para birimini ve vergiler dahil toplam fiyatı kontrol et.</p>
+<div id="serviceStatus" role="status" class="purchase-status">Güvenli ödeme sistemi kontrol ediliyor…</div>
+<form id="proForm" class="purchase-form" autocomplete="on">
+<label>Cihaz kodu
+<input id="device" name="device" placeholder="OyunOpti uygulamasındaki 32 karakterli kod" pattern="[A-Fa-f0-9]{32}" maxlength="32" required autocomplete="off"></label>
+<label>E-posta adresi
+<input id="email" name="email" type="email" placeholder="ornek@eposta.com" maxlength="240" required autocomplete="email"></label>
+<button id="buyButton" disabled type="submit">Lisans İçin Ödemeye Geç</button>
+</form>
+<div id="receipt" hidden>
+<p class="purchase-muted">Ödeme Shopier'de yeni sekmede yapılır. İşlem sonrası buraya dön.</p>
+<a id="payLink" class="purchase-checkout" target="_blank" rel="noopener noreferrer">Shopier Güvenli Ödeme ↗</a>
+<button id="checkButton" type="button" class="btn ghost" style="width:100%;margin-top:6px">Ödeme Durumunu Kontrol Et</button>
+<p id="purchaseProgress" role="status" class="purchase-status">Ödeme doğrulaması bekleniyor.</p>
+<div id="licenseArea" hidden>
+<h3>Pro lisans anahtarın hazır</h3>
+<p class="purchase-muted">Aşağıdaki anahtarı OyunOpti uygulamasındaki Lisansım bölümüne yapıştır.</p>
+<div id="licenseText" class="purchase-license"></div>
+<button id="copyLicense" class="btn primary" type="button" style="margin-top:12px">Lisansı Kopyala</button>
+<p id="licenseExpiry" class="purchase-muted"></p>
+</div>
+</div>
+</section>
+<aside class="purchase-steps">
+<h2>Nasıl çalışır?</h2>
+<ol>
+<li>Windows'ta OyunOpti Pro uygulamasını aç, <strong>Lisansım</strong> menüsündeki cihaz kodunu kopyala.</li>
+<li>Cihaz kodunu ve e-posta adresini yaz. Açılan Shopier ödeme sayfasında 30 günlük ürünü satın al.</li>
+<li>Ödeme Shopier tarafından doğrulanınca lisans anahtarı aynı sayfada otomatik oluşturulur.</li>
+<li>Lisansı OyunOpti'ye yapıştır. 30 gün dolunca yeniden ödeme yaparak uzatabilirsin.</li>
+</ol>
+<p class="purchase-caption">Satış altyapısı henüz etkin değilse ödeme düğmesi kapalı tutulur. Kullanıcının yalnızca “ödendi” demesi lisans oluşturmaya yetmez. Hatalı siparişler destek incelemesine alınır.</p>
+<p><a href="iletisim.html" style="color:#19d3ae">Lisans veya sipariş desteği →</a></p>
+</aside>
+</div></main>
+<footer><a href="index.html">OyunOpti</a> · <a href="mesafeli-satis.html">Mesafeli Satış</a> · <a href="iade-iptal.html">İptal / İade</a> · <a href="gizlilik.html">Gizlilik</a></footer>
+<script src="pro-config.js?v=1"></script>
+<script>
+(function(){
+ const origin=String(window.OYUNOPTI_PRO_API_URL||"").replace(/\/+$/,"");
+ const status=document.getElementById("serviceStatus");
+ const form=document.getElementById("proForm");
+ const button=document.getElementById("buyButton");
+ const receipt=document.getElementById("receipt");
+ const progress=document.getElementById("purchaseProgress");
+ const licenseBox=document.getElementById("licenseArea");
+ const savedKey="oyunopti_pro_checkout_v1";
+ const params=new URLSearchParams(location.search);
+ const device=params.get("device");
+ if(device && /^[A-Fa-f0-9]{32}$/.test(device))document.getElementById("device").value=device.toUpperCase();
+ let stored;
+ try{stored=JSON.parse(localStorage.getItem(savedKey)||"null")}catch{stored=null}
+ if(stored?.session && stored?.secret) receipt.hidden=false;
+ let enabled=false;
+ async function post(path, payload){
+   const response=await fetch(origin+path,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload),cache:"no-store"});
+   let body={};
+   try{body=await response.json()}catch{}
+   if(!response.ok)throw new Error(body.error||"İşlem başarısız");
+   return body;
+ }
+ async function health(){
+   if(!/^https:\/\/[a-z0-9.-]+(?::\d+)?$/i.test(origin)){
+     status.textContent="Otomatik ödeme altyapısı hazırlanıyor. Henüz ödeme alınmıyor.";
+     return;
+   }
+   try{
+     const res=await fetch(origin+"/api/health",{cache:"no-store"});
+     const d=await res.json();
+     enabled=!!(res.ok && d.paymentsEnabled);
+     button.disabled=!enabled;
+     status.textContent=enabled?
+       "Shopier ödeme bağlantısı aktif. Ödeme ekranındaki kesin tutar/para birimini kontrol et.":
+       "Otomatik ödeme altyapısı henüz açılmadı. Bu sayfadan ödeme alınmıyor.";
+     if(enabled && stored)check();
+   }catch{
+     status.textContent="Ödeme sunucusuna ulaşılamıyor; satış geçici olarak durduruldu.";
+   }
+ }
+ form.addEventListener("submit",async function(ev){
+   ev.preventDefault();
+   if(!enabled)return;
+   const device=document.getElementById("device").value.trim().toUpperCase();
+   const email=document.getElementById("email").value.trim();
+   button.disabled=true;
+   status.textContent="Shopier ödeme oturumu hazırlanıyor…";
+   try{
+     const session=await post("/api/checkout",{device,email});
+     stored={session:session.session,secret:session.secret,paymentUrl:session.paymentUrl};
+     localStorage.setItem(savedKey,JSON.stringify(stored));
+     receipt.hidden=false;
+     document.getElementById("payLink").href=session.paymentUrl;
+     document.getElementById("payLink").hidden=false;
+     status.textContent="Ödeme bağlantısı oluşturuldu. Shopier düğmesine basarak ödemeyi tamamla.";
+   }catch(e){status.textContent=e.message||"Ödeme bağlantısı oluşturulamadı."}
+   finally{button.disabled=!enabled}
+ });
+ async function check(){
+   if(!enabled||!stored)return;
+   try{
+     const d=await post("/api/claim",{session:stored.session,secret:stored.secret});
+     if(d.status==="paid"&&d.license){
+       progress.textContent="Ödeme doğrulandı; lisans otomatik hazırlandı.";
+       licenseBox.hidden=false;
+       document.getElementById("licenseText").textContent=d.license;
+       document.getElementById("licenseExpiry").textContent="Geçerlilik sonu: "+String(d.expires).slice(0,10);
+       document.getElementById("payLink").hidden=true;
+     }else if(d.status==="review"){
+       progress.textContent="Sipariş eşleşmesi incelemede. Tekrar ödeme yapma; destekle iletişime geç.";
+     }else{
+       progress.textContent="Ödeme henüz doğrulanmadı ("+d.status+").";
+     }
+   }catch(e){progress.textContent="Kontrol yapılamadı: "+(e.message||"Bağlantı hatası")}
+ }
+ document.getElementById("checkButton").addEventListener("click",check);
+ document.getElementById("copyLicense").addEventListener("click",async function(){
+   try{await navigator.clipboard.writeText(document.getElementById("licenseText").textContent);
+       this.textContent="Kopyalandı ✓"}catch{this.textContent="Anahtarı elle seçip kopyala"}
+ });
+ if(stored?.paymentUrl)document.getElementById("payLink").href=stored.paymentUrl;
+ setInterval(function(){if(enabled && stored && licenseBox.hidden && !document.hidden)check()},60000);
+ health();
+})();
+</script></body></html>
