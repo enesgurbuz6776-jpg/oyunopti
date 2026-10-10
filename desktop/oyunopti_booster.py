@@ -5,7 +5,7 @@ from datetime import datetime
 from pathlib import Path
 from collections import deque
 
-VERSION="0.5.0-beta"
+VERSION="0.5.1-beta"
 BASE=Path(os.environ.get("APPDATA",str(Path.home()))) / "OyunOptiFPSBooster"
 FILE=BASE/"state.json"
 REG_KEY=r"Software\Microsoft\GameBar"
@@ -80,7 +80,7 @@ class App(tk.Tk):
         self.geometry("1120x780"); self.minsize(900,650); self.configure(bg=BG)
         self.data=load(); self.profile=tk.StringVar(value=self.data["profile"])
         self.mode=tk.BooleanVar(value=True); self.plan=tk.BooleanVar(value=False)
-        self.before=tk.StringVar(); self.after=tk.StringVar()
+        self.before=tk.StringVar(); self.fps_after=tk.StringVar()
         self.low1=tk.StringVar(); self.low2=tk.StringVar()
         self.pm_binary=tk.StringVar(value="")
         self.pm_game=tk.StringVar(value="TslGame.exe")
@@ -96,7 +96,7 @@ class App(tk.Tk):
         self.after(650,self.poll_monitor)
         nav=tk.Frame(self,bg=NAV,width=218); nav.pack(side="left",fill="y"); nav.pack_propagate(False)
         self.text(nav,"◇  OyunOpti",22,WHITE,True).pack(anchor="w",padx=16,pady=(32,4))
-        self.text(nav,"FPS BOOSTER  /  v0.5 PRO",9,AQUA,True).pack(anchor="w",padx=20,pady=(0,24))
+        self.text(nav,"FPS BOOSTER  /  v0.5.1 PRO",9,AQUA,True).pack(anchor="w",padx=20,pady=(0,24))
         tk.Frame(nav,bg=BORDER,height=1).pack(fill="x",padx=16,pady=(0,17))
         self.text(nav,"KONTROL MERKEZİ",9,BLUE,True).pack(anchor="w",padx=20,pady=(0,9))
         for p in ["Genel Bakış","FPS Ölçümü","Oyun Profilleri","Pro Optimizasyon","Canlı FPS Pro","Geri Al","OyunOpti Pro","Hakkında"]:
@@ -216,7 +216,7 @@ class App(tk.Tk):
         self.text(c,"ÖLÇÜM FORMU • "+self.profile.get(),11,AQUA,True).pack(anchor="w",pady=(0,12))
         g=tk.Frame(c,bg=PANEL);g.pack(fill="x")
         for i,(title,var) in enumerate([
-            ("ÖNCE — ORTALAMA FPS",self.before),("SONRA — ORTALAMA FPS",self.after),
+            ("ÖNCE — ORTALAMA FPS",self.before),("SONRA — ORTALAMA FPS",self.fps_after),
             ("ÖNCE — %1 DÜŞÜK (opsiyonel)",self.low1),("SONRA — %1 DÜŞÜK (opsiyonel)",self.low2)]):
             box=tk.Frame(g,bg=PANEL);box.grid(row=i//2,column=i%2,sticky="ew",padx=4,pady=7)
             self.text(box,title,9,MUTED,True).pack(anchor="w",pady=(0,5))
@@ -232,7 +232,7 @@ class App(tk.Tk):
             self.text(f,f"{r['profile']} • {r['date']}    {r['before']:g} → {r['after']:g} FPS    {r['change']:+.2f}%",10).pack(anchor="w",pady=4)
     def record(self):
         try:
-            a=float(self.before.get().replace(",","."));b=float(self.after.get().replace(",","."))
+            a=float(self.before.get().replace(",","."));b=float(self.fps_after.get().replace(",","."))
             if not(0<a<=10000 and 0<b<=10000):raise ValueError()
             lo1=self.low1.get().strip();lo2=self.low2.get().strip()
             if bool(lo1)!=bool(lo2):raise ValueError()
