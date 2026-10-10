@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node server.mjs",
-    "test": "node --test tests/core.test.mjs"
+    "test": "node --test tests/*.test.mjs"
   },
   "dependencies": {
     "@nopeion/shopier": "^2.1.0",
