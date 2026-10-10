@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://oyunopti.com/fps-booster.html">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#090f1e">
+<title>OyunOpti FPS Booster – Windows FPS Optimizasyonu (Beta)</title>
+<meta name="description" content="OyunOpti FPS Booster ile Windows Oyun Modu ve güç planını güvenli şekilde yönet. PUBG, CS2 ve diğer oyunlarda manuel FPS önce/sonra karşılaştırması yap.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="OyunOpti FPS Booster – Windows Beta">
+<meta property="og:description" content="Ücretsiz Windows oyun optimizasyonu, FPS ölçüm günlüğü ve ayarları geri alma. FPS artışı garanti edilmez.">
+<meta property="og:url" content="https://oyunopti.com/fps-booster.html">
+<link rel="stylesheet" href="style.css?v=13">
+<style>
+.booster-layout{max-width:1120px;margin:0 auto;padding:30px 0 64px}
+.booster-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;padding:55px 0}
+.booster-pill{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(25,211,174,.4);border-radius:999px;padding:9px 14px;color:#19d3ae;background:rgba(25,211,174,.08);font-weight:750;font-size:13px}
+.booster-hero h1{font-size:clamp(36px,6vw,69px);letter-spacing:-.055em;line-height:1.04;margin:23px 0}
+.booster-hero h1 em{color:#19d3ae;font-style:normal}
+.booster-hero p{font-size:18px;color:#aebbd5;line-height:1.75}
+.booster-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:27px}
+.booster-actions .btn{display:inline-block}
+.booster-fine{font-size:12px!important;color:#9aacc9!important}
+.booster-window{background:#0a1020;border:1px solid #334d76;border-radius:18px;overflow:hidden;box-shadow:0 25px 80px rgba(0,0,0,.35)}
+.booster-window-top{background:#192843;border-bottom:1px solid #344d70;padding:11px 16px;font-size:12px;color:#d3e0fa}
+.booster-window-body{padding:22px}
+.booster-window-head{color:#1bd6bb;font-size:12px;font-weight:800;letter-spacing:.12em}
+.booster-window-body h2{font-size:30px;margin:10px 0 18px}
+.booster-setting{background:#152440;border:1px solid #263c60;margin:12px 0;padding:15px;border-radius:11px;color:#e8f0ff}
+.booster-setting span{color:#1bd6bb;margin-right:10px}
+.booster-window-foot{display:flex;gap:10px;padding-top:15px}
+.booster-button{padding:12px 15px;background:#1bd6bb;color:#08111c;border-radius:9px;font-size:13px;font-weight:800}
+.booster-button-alt{background:#233653;color:#dce8fa}
+.booster-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:22px 0 50px}
+.booster-card{border:1px solid #263b5b;border-radius:18px;padding:24px;background:#101a2f}
+.booster-card h3{margin:10px 0;font-size:19px}
+.booster-card p,.booster-info p{color:#acb9d2;line-height:1.75}
+.booster-card .icon{font-size:29px}
+.booster-info{border:1px solid #263b5b;border-radius:22px;padding:24px 29px;background:#101a2f;margin:25px 0}
+.booster-info h2{font-size:25px;margin:0 0 15px}
+.booster-info ol{padding-left:22px;color:#acb9d2;line-height:2}
+.booster-info a{color:#1bd6bb;text-decoration:underline}
+.booster-status{color:#9fc8ff;font-size:13px;margin-top:16px;min-height:18px}
+@media(max-width:850px){.booster-hero{grid-template-columns:1fr;padding:36px 0}.booster-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.booster-layout{padding-top:15px}.booster-actions{flex-direction:column}.booster-info{padding:20px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+<a class="brand brand-pro" href="index.html"><img class="brand-logo" src="icon.svg" alt="" width="44" height="44"><span class="brand-word">Oyun<span>Opti</span></span></a>
+<nav><a href="index.html#araclar">Araçlar</a><a href="fps-artirma.html">FPS Rehberi</a><a href="hakkinda.html">Hakkında</a><a class="pill" href="fps-booster.html">FPS Booster</a></nav>
+</header>
+<main>
+<div class="booster-layout">
+<section class="booster-hero">
+<div>
+<span class="booster-pill">⚡ Windows 10/11 · Ücretsiz beta</span>
+<h1>OyunOpti <em>FPS Booster</em></h1>
+<p>Tek noktadan oyun modu ve güç planını yönet, PUBG ve diğer oyunlarda önce/sonra FPS değerlerini kaydet. Her değişikliği geri alabilirsin.</p>
+<div class="booster-actions">
+<a class="btn primary" id="boosterDownload" href="https://github.com/enesgurbuz6776-jpg/oyunopti/releases" target="_blank" rel="noopener noreferrer">Windows indirmelerini gör ↗</a>
+<a class="btn ghost" href="https://github.com/enesgurbuz6776-jpg/oyunopti/blob/main/desktop/oyunopti_booster.py" target="_blank" rel="noopener noreferrer">Kaynak kodu incele</a>
+</div>
+<p id="boosterStatus" class="booster-status" role="status" aria-live="polite">Windows EXE sürümünün yayın durumu kontrol ediliyor…</p>
+<p class="booster-fine">Beta sürümü bağımsız testlerden geçmemiştir. FPS artışı garanti edilmez. İndirilen EXE imzasız olabilir; yayıncıyı ve dosya bütünlüğünü doğrulayın.</p>
+</div>
+<div class="booster-window" role="img" aria-label="OyunOpti masaüstü uygulaması örnek arayüzü: oyun modu, yüksek performans, geri al">
+<div class="booster-window-top">◇ OyunOpti FPS Booster — Beta</div>
+<div class="booster-window-body">
+<div class="booster-window-head">GÜVENLİ VE GERİ ALINABİLİR</div>
+<h2>Windows optimizasyonu</h2>
+<div class="booster-setting"><span>☑</span> Windows Oyun Modu → Açık</div>
+<div class="booster-setting"><span>☐</span> Güç Planı → Yüksek Performans</div>
+<div class="booster-window-foot"><span class="booster-button">Seçilenleri Uygula</span><span class="booster-button booster-button-alt">Geri Al</span></div>
+<p class="booster-fine">Temsili arayüz • Ayarlar kullanıcının seçimine bağlıdır</p>
+</div>
+</div>
+</section>
+<section class="booster-grid" aria-label="Uygulama özellikleri">
+<div class="booster-card"><span class="icon">🛡️</span><h3>Güvenli ayarlar</h3><p>Oyun dosyası değişikliği veya gizli kayıt defteri temizliği yok. Yalnızca iki açıkça belirtilmiş Windows ayarı.</p></div>
+<div class="booster-card"><span class="icon">📊</span><h3>FPS önce / sonra</h3><p>Oyunda ölçtüğün ortalama FPS ve isteğe bağlı %1 düşük FPS değerlerini kaydet, yüzdelik değişimi gör.</p></div>
+<div class="booster-card"><span class="icon">↩️</span><h3>Tek adımda geri al</h3><p>Uygulama, değişikliklerden önce orijinal ayarları yerel kaydeder. Geri Al menüsünden dönebilirsin.</p></div>
+</section>
+<section class="booster-info">
+<h2>Nasıl kullanılır?</h2>
+<ol>
+<li>GitHub'dan yayınlanan Windows beta dosyasını indir. İlk kez çalıştırmadan önce kaynağı ve SHA-256 özetini kontrol et.</li>
+<li>Oyunda aynı haritada ve benzer koşullarda gerçek ortalama FPS değerini ölç.</li>
+<li>OyunOpti'de istediğin ayarı seçip uygula.</li>
+<li>Oyunu aynı grafik ayarlarında tekrar ölç; FPS değerlerini gir ve karşılaştır.</li>
+<li>İstersen <strong>Geri Al</strong> ile Windows ayarlarını eski haline döndür.</li>
+</ol>
+<p>Program otomatik FPS ölçümü yapmaz. Güç planı değişikliği cihazın ısınmasını ve güç tüketimini artırabilir. Bazı Windows kurulumlarında yüksek performans planı bulunmayabilir.</p>
+<p><a href="fps-artirma.html">FPS artırma rehberini oku</a> · <a href="index.html#araclar">Diğer OyunOpti araçları</a></p>
+</section>
+</div>
+</main>
+<footer><a href="index.html">OyunOpti Ana Sayfa</a> · <a href="gizlilik.html">Gizlilik</a> · <a href="iletisim.html">İletişim</a><p>© OyunOpti. Windows ve oyun markaları ilgili hak sahiplerine aittir.</p></footer>
+<script>
+(function(){
+  var status=document.getElementById('boosterStatus'),link=document.getElementById('boosterDownload');
+  fetch('https://api.github.com/repos/enesgurbuz6776-jpg/oyunopti/releases/tags/fps-booster-v0.2.0-beta')
+    .then(function(r){if(!r.ok)throw new Error('no-release');return r.json()})
+    .then(function(data){
+      var asset=(data.assets||[]).find(function(a){return a.name==='OyunOpti-FPS-Booster.exe';});
+      if(asset){link.href=asset.browser_download_url;link.textContent='Windows EXE İndir ↓';status.textContent='Beta Windows dosyası GitHub sürümlerinde yayınlandı.';}
+      else{status.textContent='Windows derlemesi henüz yayınlanmadı. Kaynak kodu incelenebilir.';}
+    })
+    .catch(function(){status.textContent='Sürüm bilgisini otomatik doğrulayamadık. GitHub sürümlerini kontrol edin.';});
+})();
+</script>
+</body>
+</html>
