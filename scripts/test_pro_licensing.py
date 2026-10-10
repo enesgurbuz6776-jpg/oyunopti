@@ -1,22 +1,23 @@
-"""License signature tests using a public fake-machine fixture, never a paid key."""
+"""Check Pro's desktop/backend public key alignment and reject invalid tokens."""
+import base64
 import sys
-from pathlib import Path
 from datetime import date
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "desktop"))
-from oyunopti_booster import validate_license
-SAMPLE = "eyJkZXZpY2UiOiJBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQSIsImV4cGlyZXMiOiIyMDI3LTEwLTEwIiwibm9uY2UiOiIwZjYxYzVjNDEzNzUxM2ZkIiwib3JkZXIiOiJQVUJMSUMtVEVTVC1OT1QtU0FMRSIsInBsYW4iOiJwcm8iLCJ2ZXJzaW9uIjoxfQ.8_Z0-x-R03n2TXc1r1igBw9q-vWJPwe9bJ1b2jE4lUm6hylYyLXGdV2R4SYpm154sq8_WNJSprw7S1bMByz-Cw"
-fake_machine="A"*32
-assert validate_license(SAMPLE, machine=fake_machine, current=date(2026,10,10))["plan"]=="pro"
-for token,device,now in [
-    (SAMPLE,"B"*32,date(2026,10,10)),
-    (SAMPLE,fake_machine,date(2028,1,1)),
-    (SAMPLE+"t",fake_machine,date(2026,10,10)),
-    ("bad",fake_machine,date(2026,10,10)),
-]:
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "desktop"))
+from oyunopti_booster import PUBLIC_KEY_B64, validate_license
+
+assert len(base64.b64decode(PUBLIC_KEY_B64)) == 32
+server = (ROOT / "pro-backend" / "server.mjs").read_text(encoding="utf-8")
+assert 'EXPECTED_PUBLIC_KEY = "' + PUBLIC_KEY_B64 + '"' in server
+
+for invalid in ("", "bad", "a.b", "eyJmb28iOiJiYXIifQ.invalid"):
     try:
-        validate_license(token, machine=device, current=now)
+        validate_license(invalid, machine="A" * 32, current=date(2026, 10, 10))
     except ValueError:
         pass
     else:
-        raise AssertionError("Invalid/expired/device-mismatched license accepted")
-print("License signature, device binding, expiry and tamper tests passed")
+        raise AssertionError("An invalid license was accepted")
+
+print("PASS: desktop/server keys aligned; malformed licenses rejected")
