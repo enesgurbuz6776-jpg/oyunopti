@@ -1,0 +1,40 @@
+name: Build OyunOpti FPS Booster
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'desktop/oyunopti_booster.py'
+      - '.github/workflows/build-fps-booster.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  windows-build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install packaging tool
+        run: python -m pip install pyinstaller
+      - name: Build standalone executable
+        run: python -m PyInstaller --onefile --windowed --clean --noconfirm --name OyunOpti-FPS-Booster desktop/oyunopti_booster.py
+      - name: Generate checksum
+        shell: pwsh
+        run: |
+          $hash=(Get-FileHash 'dist/OyunOpti-FPS-Booster.exe' -Algorithm SHA256).Hash.ToLower()
+          "$hash  OyunOpti-FPS-Booster.exe" | Out-File 'dist/SHA256SUMS.txt' -Encoding ascii
+      - name: Publish beta release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: fps-booster-v0.2.0-beta
+          name: OyunOpti FPS Booster v0.2.0 Beta
+          prerelease: true
+          body: |
+            Windows 10/11 için ücretsiz beta sürümü. Oyun Modu, isteğe bağlı yüksek performans güç planı,
+            manuel FPS karşılaştırması ve geri alma sunar. FPS artışını garanti etmez.
+            Dosyanın bütünlüğü SHA256SUMS.txt ile kontrol edilebilir.
+          files: |
+            dist/OyunOpti-FPS-Booster.exe
+            dist/SHA256SUMS.txt
