@@ -20,6 +20,26 @@ Bu akış, **her yeni ödeme üzerine otomatik 30 günlük lisans düzenler**. S
 müşteri kartından **otomatik tekrarlayan tahsilat** özelliği bu üründe kurulmuş değildir;
 müşteri yenilemek için tekrar Shopier ödemesi yapar.
 
+## Render bağlantısı ve güvenli deneme kurulumu
+
+GitHub kökündeki `render.yaml`, Node.js servisiyle PostgreSQL'i birlikte
+tanımlar ve bağlantı adresini `fromDatabase` üzerinden otomatik geçirir.
+Ödeme **başlangıçta `SALE_ENABLED=false`** olduğu için bu taslağı yüklemek
+müşterilere tahsilat açmaz. Sunucu `schema.sql` tablolarını başlangıçta
+güvenli biçimde oluşturur.
+
+**Uyarı:** Taslakta yalnız kurulum testi için Render **Free** planı kullanılır.
+Render Free PostgreSQL **30 gün sonra sona erer** ve yedek sunmaz; müşterilerle
+gerçekten satış yapmak ve lisans kayıtlarını korumak için kalıcı/ücretli
+veritabanına ve güvenilir çalışan hizmete geçmek gerekir. Bu yükseltme maliyet
+oluşturabilir; onay olmadan açılmaz.
+
+Gizli dört ayar (Shopier PAT, webhook imzası, mağaza slug ve lisans özel anahtarı)
+Render ortamına kullanıcı tarafından güvenli biçimde girilmelidir. **Özel
+imzalama anahtarı hiçbir zaman GitHub dosyalarına veya tarayıcıya konmaz.**
+Özel anahtar, uygulamaya gömülü açık anahtarla eşleşmedikçe backend ödeme
+aktifleştirmeyi reddeder. API ayakta olmadan sitenin satış düğmesi kapalı kalır.
+
 ## Bağlamadan önce gerekli bileşenler
 
 - Shopier satıcı hesabından **PAT (kişisel erişim anahtarı)**, mağaza slug bilgisi ve
