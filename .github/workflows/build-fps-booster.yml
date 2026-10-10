@@ -18,6 +18,8 @@ jobs:
           python-version: '3.12'
       - name: Install packaging tool
         run: python -m pip install pyinstaller
+      - name: Validate Python source
+        run: python -m py_compile desktop/oyunopti_booster.py
       - name: Build standalone executable
         run: python -m PyInstaller --onefile --windowed --clean --noconfirm --name OyunOpti-FPS-Booster desktop/oyunopti_booster.py
       - name: Generate checksum
@@ -28,12 +30,14 @@ jobs:
       - name: Publish beta release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: fps-booster-v0.2.0-beta
-          name: OyunOpti FPS Booster v0.2.0 Beta
+          tag_name: fps-booster-v0.3.0-beta
+          name: OyunOpti FPS Booster v0.3.0 Beta
           prerelease: true
           body: |
             Windows 10/11 için ücretsiz beta sürümü. Oyun Modu, isteğe bağlı yüksek performans güç planı,
-            manuel FPS karşılaştırması ve geri alma sunar. FPS artışını garanti etmez.
+            manuel FPS karşılaştırması ve geri alma sunar. v0.3 ile gelişmiş gösterge paneli,
+            FPS geçmişi grafiği, CSV raporu ve Pro özellikleri ön izlemesi eklendi.
+            Pro henüz satışta veya aktif değil. FPS artışını garanti etmez.
             Dosyanın bütünlüğü SHA256SUMS.txt ile kontrol edilebilir.
           files: |
             dist/OyunOpti-FPS-Booster.exe
