@@ -52,6 +52,21 @@ jobs:
         run: python -m pip install --disable-pip-version-check pyinstaller
       - name: Validate Python source
         run: python -m py_compile desktop/oyunopti_booster.py
+      - name: Smoke test actual Tkinter app startup
+        shell: pwsh
+        run: |
+          @'
+          import sys
+          sys.path.insert(0, 'desktop')
+          from oyunopti_booster import App
+          app = App()
+          app.update()
+          for page in ('FPS Ölçümü', 'OyunOpti Pro', 'Genel Bakış', 'Canlı FPS Pro'):
+              app.show(page)
+              app.update()
+          app.destroy()
+          print('Startup and navigation smoke test OK')
+          '@ | python -
       - name: Build branded Windows executable
         run: python -m PyInstaller --onefile --windowed --clean --noconfirm --name OyunOpti-FPS-Booster --icon desktop/assets/oyunopti.ico --add-data "desktop/assets/oyunopti.ico;assets" desktop/oyunopti_booster.py
       - name: Verify EXE and generate checksum
@@ -65,8 +80,8 @@ jobs:
       - name: Publish branded release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: fps-booster-v0.5.0-beta
-          name: OyunOpti FPS Booster v0.5.0
+          tag_name: fps-booster-v0.5.1-beta
+          name: OyunOpti FPS Booster v0.5.1
           prerelease: true
           body: |
             Yeni sürüm: OyunOpti'nin orijinal logosuyla Windows EXE, pencere ve görev çubuğu simgeleri.
