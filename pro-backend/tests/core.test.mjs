@@ -47,3 +47,19 @@ test("issue a signed Ed25519 license for the desktop's current schema", () => {
   assert.deepEqual({version:claims.version,plan:claims.plan,device:claims.device,expires:claims.expires},
     {version:1,plan:"pro",device,expires:"2026-11-09"});
 });
+
+test("Shopier documented Order model: direct object and JSON-wrapped response", () => {
+  const fixture = {
+    id: "order-20261010", status: "unfulfilled", paymentStatus: "paid",
+    currency: "USD", totals: { subtotal: "10.00", shipping: "0.00", discount: "0.00", total: "10.00" },
+    lineItems: [{ productId: "Pro_ID-abc12", title: "OyunOpti Pro", type: "digital", quantity: 1, price: "10.00", total: "10.00" }],
+  };
+  const expected = { productId: "Pro_ID-abc12", cents: 1000, currency: "USD" };
+  assert.equal(verifiedPaidPurchase(inspectShopierOrder(fixture), expected), true);
+  assert.equal(verifiedPaidPurchase(inspectShopierOrder({data: fixture}), expected), true);
+  assert.equal(verifiedPaidPurchase(inspectShopierOrder({ ...fixture, paymentStatus: undefined, status: "paid" }), expected), false,
+    "fulfillment status must not substitute for payment confirmation");
+  assert.equal(verifiedPaidPurchase(inspectShopierOrder({ ...fixture, lineItems: [{ id: "Pro_ID-abc12", quantity: 1 }] }), expected), false,
+    "generic item id must not stand in for productId");
+  assert.equal(verifiedPaidPurchase(inspectShopierOrder({ ...fixture, totals: { total: "9.99" } }), expected), false);
+});
