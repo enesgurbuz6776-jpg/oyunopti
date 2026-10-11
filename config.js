@@ -27,7 +27,7 @@ window.OYUNOPTI_CONFIG = {
     aim_sens_guide: {
       name: "OyunOpti Aim & Sens Baslangic Paketi - PDF",
       price_try: 29,
-      payment_url: ""
+      payment_url: "https://shopier.com/oyunopti/51724060"
     }
   },
 
