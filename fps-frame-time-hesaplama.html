@@ -1,16 +1,17 @@
 <!doctype html><html lang="tr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FPS Kaç ms? Frame Time Hesaplama — 60 120 144 240 FPS | OyunOpti</title>
-<meta name="description" content="FPS değerini milisaniye frame time'a çevir. 60, 120, 144, 165, 240 ve 360 FPS kaç ms öğren.">
+<title>FPS Kaç ms? Frame Time Hesaplama ve Tablosu | OyunOpti</title>
+<meta name="description" content="FPS değerini ms cinsinden kare süresine çevir. 60, 144, 165, 180, 240 ve 360 FPS tablosunu, hesaplama formülünü ve FPS–Hz farkını öğren.">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta property="og:site_name" content="OyunOpti">
 <meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#0b1020">
 <link rel="canonical" href="https://oyunopti.com/fps-frame-time-hesaplama.html">
-<meta property="og:title" content="FPS Kaç ms? Frame Time Hesaplama — 60 120 144 240 FPS | OyunOpti">
-<meta property="og:description" content="FPS değerini milisaniye frame time'a çevir. 60, 120, 144, 165, 240 ve 360 FPS kaç ms öğren.">
+<meta property="og:title" content="FPS Kaç ms? Frame Time Hesaplama ve Tablosu | OyunOpti">
+<meta property="og:description" content="FPS değerini ms cinsinden kare süresine çevir. 60, 144, 165, 180, 240 ve 360 FPS tablosunu, hesaplama formülünü ve FPS–Hz farkını öğren.">
 <meta property="og:type" content="website"><meta property="og:url" content="https://oyunopti.com/fps-frame-time-hesaplama.html">
-<link rel="stylesheet" href="style.css?v=6">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css?v=13">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"FPS Frame Time Hesaplayıcı","url":"https://oyunopti.com/fps-frame-time-hesaplama.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TRY"}}</script>
 <script src="config.js?v=5"></script>
 </head><body><header class="topbar">
@@ -18,12 +19,57 @@
 <nav><a href="index.html#araclar">Araçlar</a><a href="hakkinda.html">Hakkında</a><a class="pill" href="valorant-cs2-sens.html">Sens Hesapla</a></nav>
 </header><main>
 <div class="breadcrumb"><a href="index.html">OyunOpti</a> › FPS → ms</div>
-<section class="page-hero"><span class="eyebrow">FPS → ms</span><h1>FPS Kaç ms? Frame Time Hesaplama </h1><p>FPS değerini teorik kare süresine (frame time) milisaniye olarak çevir.</p></section>
-<section class="tool-card"><div class="form-grid"><label>FPS<input id="fpsValue" type="number" value="144" min="1"></label></div>
-<button class="btn primary" id="calcFpsMs">Frame Time Hesapla</button><div class="result" id="fpsResult"></div>
-<div class="quick-chips"><button data-fps="60">60 FPS</button><button data-fps="120">120</button><button data-fps="144">144</button><button data-fps="165">165</button><button data-fps="240">240</button><button data-fps="360">360</button></div>
-<div class="table-wrap"><table class="tool-table"><tr><th>FPS</th><th>Frame time</th></tr><tr><td>60</td><td><b>16.67 ms</b></td></tr><tr><td>120</td><td><b>8.33 ms</b></td></tr><tr><td>144</td><td><b>6.94 ms</b></td></tr><tr><td>240</td><td><b>4.17 ms</b></td></tr><tr><td>360</td><td><b>2.78 ms</b></td></tr></table></div></section>
-<section class="article"><h2>FPS ile frame time ilişkisi</h2><p>Teorik frame time 1000 ÷ FPS formülüyle bulunur. FPS yükseldikçe her karenin ekranda hazırlanma süresi kısalır.</p><h2>Frame time input lag midir?</h2><p>Hayır. Frame time yalnızca kare üretim aralığıdır. Gerçek gecikme monitör, oyun motoru, sistem, mouse ve diğer bileşenlerden de etkilenir.</p><div class="guide-link"><span>📘 Rehber</span><div><b>144 FPS ve 240 FPS kaç ms?</b><p>60–500 FPS frame time tablosunu ve 144 vs 240 farkını detaylı incele.</p></div><a href="144-fps-240-fps-kac-ms.html">Oku →</a></div></section>
+<section class="page-hero"><span class="eyebrow">FPS → ms</span><h1>FPS Kaç ms? Frame Time Hesaplama</h1><p>FPS değerini gir, bir karenin teorik süresini milisaniye olarak hesapla. Örneğin 60 FPS ≈ 16,67 ms, 144 FPS ≈ 6,94 ms ve 240 FPS ≈ 4,17 ms.</p></section>
+<section class="tool-card"><div class="form-grid"><label>FPS<input id="fpsValue" type="number" value="144" min="1" step="1" inputmode="numeric" aria-describedby="fpsHelp"></label></div>
+<p id="fpsHelp">Saniyedeki kare sayısını yaz veya aşağıdaki hazır değerlerden birini seç. Bu araç FPS ölçmez; girdiğin değeri kare süresine dönüştürür.</p>
+<button class="btn primary" id="calcFpsMs" type="button">Frame Time Hesapla</button><div class="result" id="fpsResult" role="status" aria-live="polite" aria-atomic="true"></div>
+<div class="quick-chips"><button type="button" data-fps="60">60 FPS</button><button type="button" data-fps="120">120 FPS</button><button type="button" data-fps="144">144 FPS</button><button type="button" data-fps="165">165 FPS</button><button type="button" data-fps="180">180 FPS</button><button type="button" data-fps="240">240 FPS</button><button type="button" data-fps="360">360 FPS</button></div>
+<div class="table-wrap"><table class="tool-table">
+<caption>Yaygın FPS değerlerinin teorik kare süreleri</caption>
+<thead><tr><th scope="col">FPS</th><th scope="col">Kare süresi (frame time)</th></tr></thead>
+<tbody><tr><th scope="row">30 FPS</th><td><b>33,33 ms</b></td></tr>
+<tr><th scope="row">60 FPS</th><td><b>16,67 ms</b></td></tr>
+<tr><th scope="row">75 FPS</th><td><b>13,33 ms</b></td></tr>
+<tr><th scope="row">90 FPS</th><td><b>11,11 ms</b></td></tr>
+<tr><th scope="row">120 FPS</th><td><b>8,33 ms</b></td></tr>
+<tr><th scope="row">144 FPS</th><td><b>6,94 ms</b></td></tr>
+<tr><th scope="row">165 FPS</th><td><b>6,06 ms</b></td></tr>
+<tr><th scope="row">180 FPS</th><td><b>5,56 ms</b></td></tr>
+<tr><th scope="row">200 FPS</th><td><b>5,00 ms</b></td></tr>
+<tr><th scope="row">240 FPS</th><td><b>4,17 ms</b></td></tr>
+<tr><th scope="row">300 FPS</th><td><b>3,33 ms</b></td></tr>
+<tr><th scope="row">360 FPS</th><td><b>2,78 ms</b></td></tr>
+<tr><th scope="row">500 FPS</th><td><b>2,00 ms</b></td></tr></tbody></table></div>
+</section>
+<section class="article guide-article">
+<h2>FPS'ten ms nasıl hesaplanır?</h2>
+<p>Bir saniye 1000 milisaniyedir. Kareler eşit aralıklarla üretiliyorsa <b>kare süresi (ms) = 1000 ÷ FPS</b> formülü kullanılır. Örneğin 1000 ÷ 180 ≈ 5,56 ms. FPS yükseldikçe kareler arasındaki süre kısalır.</p>
+<p>Ters hesap için <b>FPS = 1000 ÷ kare süresi (ms)</b> kullanılır. 5 ms'lik sabit kare aralığı 200 FPS'e, 10 ms ise 100 FPS'e karşılık gelir. Sonuçlar iki ondalık basamağa yuvarlanır.</p>
+<h2>144, 165 ve 180 FPS kaç ms?</h2>
+<p>144 FPS yaklaşık <b>6,94 ms</b>, 165 FPS <b>6,06 ms</b>, 180 FPS ise <b>5,56 ms</b> kare aralığına karşılık gelir. 144 FPS'ten 180 FPS'e çıkıldığında teorik kare aralığı yaklaşık 1,39 ms kısalır. Bu fark toplam sistem gecikmesindeki azalmayı göstermez.</p>
+<h2>FPS ve monitör Hz değeri aynı şey mi?</h2>
+<p><b>FPS</b>, oyunun saniyede ürettiği kare sayısını; <b>Hz</b>, monitörün saniyedeki yenileme sayısını belirtir. Örneğin 180 FPS üretmek, monitörün 180 Hz çalıştığı anlamına gelmez. Monitörün teorik yenileme aralığını <a href="hz-frame-time.html">Hz → ms hesaplayıcı</a> ile ayrı olarak bulabilirsin.</p>
+<h2>Ortalama FPS yüksekken neden takılma görülebilir?</h2>
+<p>Ortalama FPS, her karenin aynı sürede hazırlandığını göstermez. Karelerin çoğu 5 ms sürerken bazı karelerin 30 ms sürmesi, ortalama yüksek olsa bile akıcılığı bozabilir. Buradaki hesaplayıcı yalnızca girdiğin FPS'in matematiksel karşılığını verir; tek tek kare sürelerini veya takılmaları ölçmez.</p>
+<p>Bir performans karşılaştırmasında aynı oyun sahnesini, çözünürlüğü ve grafik ayarlarını kullan. Ölçüm aracın sunuyorsa ortalama FPS yanında kare süresi grafiğine de bak. Ayar değişikliklerini tek tek denemek, hangi değişikliğin etkili olduğunu görmeyi kolaylaştırır.</p>
+<h2>Frame time, input lag veya ping midir?</h2>
+<p>Hayır. <b>Frame time</b> kareler arasındaki süreyi, <b>input lag</b> girdinin ekranda karşılık bulmasına kadar geçen gecikmeyi, <b>ping</b> ise ağdaki gidiş-dönüş süresini ifade eder. Üçü de milisaniyeyle yazılabilir ama birbirinin yerine kullanılamaz.</p>
+<div class="callout"><b>Örnek:</b> 240 FPS için hesaplanan 4,17 ms, mouse tıklamasının ekrana 4,17 ms'de yansıdığı veya internet pinginin 4,17 ms olduğu anlamına gelmez.</div>
+<h2>Sık sorulan sorular</h2>
+<div class="faq">
+<details><summary>60 FPS ve 120 FPS kaç ms?</summary><p>60 FPS yaklaşık 16,67 ms, 120 FPS yaklaşık 8,33 ms'dir. FPS iki katına çıktığında teorik kare aralığı yarıya iner.</p></details>
+<details><summary>240 FPS ve 360 FPS arasında kaç ms fark var?</summary><p>240 FPS yaklaşık 4,17 ms, 360 FPS yaklaşık 2,78 ms'dir. Yuvarlanmamış değerlerle hesaplanan fark yaklaşık 1,39 ms'dir.</p></details>
+<details><summary>Bu araç bilgisayarımın FPS değerini ölçer mi?</summary><p>Hayır. Oyundan veya bir performans ölçüm aracından aldığın FPS değerini buraya girersin. Hesaplayıcı bu değeri milisaniyeye dönüştürür.</p></details>
+<details><summary>FPS yükselince ping düşer mi?</summary><p>Bu formülden ping hesaplanamaz. Daha yüksek FPS, daha kısa teorik kare aralığı demektir; ağ gecikmesinin düştüğünü göstermez.</p></details>
+</div>
+<h2>İlgili araçlar ve rehberler</h2>
+<ul>
+<li><a href="144-fps-240-fps-kac-ms.html">144 FPS ve 240 FPS karşılaştırması</a>: iki değerin kare süresi farkı.</li>
+<li><a href="hz-frame-time.html">Monitör Hz → ms hesabı</a>: yenileme aralığını hesapla.</li>
+<li><a href="mouse-polling-rate-gecikme.html">Mouse polling rate hesaplama</a>: teorik raporlama aralığını gör.</li>
+<li><a href="fps-artirma.html">Valorant ve CS2 FPS artırma rehberi</a>: performans ayarlarını incele.</li>
+</ul>
+</section>
 
 <section class="monetize-wrap">
   <div class="monetize-head">
