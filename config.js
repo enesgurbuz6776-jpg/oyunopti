@@ -23,6 +23,11 @@ window.OYUNOPTI_CONFIG = {
       name: "OyunOpti Aim Challenge Pro",
       price_try: 39,
       payment_url: "https://shopier.com/51605293"
+    },
+    aim_sens_guide: {
+      name: "OyunOpti Aim & Sens Baslangic Paketi - PDF",
+      price_try: 29,
+      payment_url: ""
     }
   },
 
