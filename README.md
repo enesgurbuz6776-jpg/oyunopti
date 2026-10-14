@@ -1,11 +1,14 @@
-# Cutlance Studio — Free Online Video Editor
+# MotionSlate Studio
 
-Website: https://oyunopti.com/ (existing domain preserved, new visual brand Cutlance Studio)
+A CapCut-inspired (not affiliated) responsive browser video editor hosted on the existing `oyunopti.com` domain.
 
-Features: local video import, trim range, 9:16/1:1/16:9 reframing, cover/contain, on-video text, playback speed, color looks, mute, thumbnail PNG, locally recorded video export. Output MP4 is supported on browsers providing MP4 MediaRecorder; otherwise WebM is used. Recording is real-time, not AI-powered. No watermark or file uploads.
+Core implemented features: upload local video; trim range with I/O shortcuts; 9:16, 1:1 and 16:9 framing; text styles and animations; manually timed captions; color presets, brightness and horizontal mirror; audio volume and optional user-provided soundtrack; speed and mute; PNG frame; MediaRecorder export to MP4 when available, otherwise WebM.
 
-Tech: static GitHub Pages frontend using HTML/CSS/vanilla JavaScript, Canvas and MediaRecorder. The legacy gaming Pro backend source and Render deployment config are preserved but not used by the new editor.
+## Limitations
+Current editor supports one video file per project and manually timed captions. Export occurs in real time, can be sensitive to device and browser capabilities and is not an FFmpeg encoder. Full CapCut features such as multiple media tracks, animated transitions, templates, AI transcription and cloud projects are not included. No automatic ads are inserted.
 
-Do not advertise auto subtitles, intelligent silence cutting or universal MP4 export without adding and verifying them first.
+## Privacy
+All user video/audio files remain in the browser. No server-side processing or login.
 
-Previous website version is recoverable from existing git history and backup/oyunopti-before-rebrand-2026-10-14. No new domain is required.
+## Hosting
+GitHub Pages with CNAME `oyunopti.com`. Old versions are preserved in GitHub branch history.
