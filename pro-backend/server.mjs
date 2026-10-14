@@ -3,6 +3,7 @@ import pg from "pg";
 import { ShopierApiClient, ShopierPaymentFlow } from "@nopeion/shopier";
 import { createHash, randomBytes, createPrivateKey, createPublicKey } from "node:crypto";
 import { readFile } from "node:fs/promises";
+import { relayVerifiedFootballNotification } from "./football-bridge.mjs";
 import { createSignedLicense, extractOrderId, inspectShopierOrder, moneyCents,
   plusUtcDays, utcDay, validDevice, verifiedPaidPurchase, verifyShopierHmac } from "./core.mjs";
 
@@ -75,7 +76,8 @@ const rand = size => randomBytes(size).toString("base64url");
 app.get("/api/health", (req, res) => {
   res.setHeader("Cache-Control", "no-store");
   res.json({ service: "OyunOpti Pro", paymentsEnabled: salesReady(), currency: CURRENCY,
-    price: PRICE, termDays: 30, recurringCharge: false });
+    price: PRICE, termDays: 30, recurringCharge: false,
+    footballRelayConfigured: !!(process.env.FOOTBALL_BRIDGE_SECRET && process.env.SHOPIER_WEBHOOK_TOKEN) });
 });
 
 /**
@@ -153,6 +155,17 @@ app.post("/api/shopier/webhook", express.raw({ type: "*/*", limit: "70kb" }), as
     return safeResponse(res, 401, "Geçersiz Shopier imzası.");
   const event = String(req.get("shopier-event") || "").toLowerCase();
   if (event !== "order.created") return res.status(200).send("ignored");
+  // Shopier currently has ONE order.created subscription: OyunOpti.
+  // Keep OyunOpti's own checkout/license route unchanged; send a separately
+  // signed copy to Futbol Analiz, which rechecks the paid order and product ID.
+  // A football delivery outage must not break existing OyunOpti payments.
+  if (process.env.FOOTBALL_BRIDGE_SECRET) {
+    const forwarded = await relayVerifiedFootballNotification(raw, process.env.FOOTBALL_BRIDGE_SECRET);
+    if (!forwarded.ok) {
+      console.warn("Football webhook relay not yet delivered", forwarded.status);
+    }
+  }
+
   // Verify Shopier delivery without permitting checkout, DB writes or license issuance.
   // This is safe while SALE_ENABLED=false. Never log raw payloads, tokens or signatures.
   if (!salesReady()) {
