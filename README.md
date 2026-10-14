@@ -1,6 +1,6 @@
-# Toolora (oyunopti.com)
+# ZentroKit (oyunopti.com)
 
-Toolora is a new international, ad-ready, privacy-first collection of browser-based utilities.
+ZentroKit is a new international, ad-ready, privacy-first collection of browser-based utilities.
 
 ## Stack
 Static HTML, CSS, vanilla JS, hosted by GitHub Pages. No separate backend required for the new tools.
