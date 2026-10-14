@@ -1,25 +1,29 @@
-# OyunOpti v1
+# Toolora (oyunopti.com)
 
-Statik, ücretsiz yayınlanabilir oyuncu araçları sitesi.
+Toolora is a new international, ad-ready, privacy-first collection of browser-based utilities.
 
-## İçerik
-- Valorant / CS2 / Apex sensitivity dönüştürme
-- eDPI ve cm/360
-- Monitör PPI
-- Oyun indirme süresi
-- Hz / frame time
+## Stack
+Static HTML, CSS, vanilla JS, hosted by GitHub Pages. No separate backend required for the new tools.
 
-## Yayınlama
-GitHub Pages:
-1. Bu klasördeki dosyaları bir GitHub reposuna yükle.
-2. Settings > Pages.
-3. Deploy from a branch > main / root.
-4. Save.
+## Tools
+- Image Converter
+- Image Compressor
+- Image Resizer
+- Word Counter
+- Case Converter
+- Password Generator
+- JSON Formatter
+- Base64 Tool
+- URL Encoder
+- Percentage Calculator
+- Color Converter
+- CSS Gradient Generator
 
-## Para kazanma için sonraki aşama
-- Google AdSense (trafik oluştuktan sonra)
-- Mouse/monitör affiliate linkleri
-- SEO için her aracı ayrı URL'ye bölme
-- PRO: kullanıcı profili, ayar kaydetme, karşılaştırma
+## Hosting and domain
+CNAME retains oyunopti.com, so no new domain purchase is necessary. Google verification and publisher ads.txt entries are preserved. Optional Analytics only loads after opt-in.
 
-Not: robots.txt ve sitemap.xml içindeki adresler domain alındığında gerçek domainle güncellenmeli.
+## Legacy
+Previous gaming site is preserved in branch backup/oyunopti-before-rebrand-2026-10-14. The pro-backend directory and render.yaml are temporarily preserved on the new main branch to avoid accidentally disrupting previously provisioned licenses/payment integrations. The new public home page does not link to them.
+
+## Advertising
+AdSense is not injected on any page pending account approval and required consent handling.
