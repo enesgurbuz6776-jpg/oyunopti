@@ -1,1 +1,0 @@
-(()=>{'use strict';const btn=document.querySelector('[data-scroll-editor]');if(btn)btn.addEventListener('click',()=>location.href='/editor.html');const selectors=document.querySelectorAll('[data-year]');selectors.forEach(x=>x.textContent=String(new Date().getFullYear()));})();
