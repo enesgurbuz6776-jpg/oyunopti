@@ -84,7 +84,7 @@ document.querySelectorAll('[data-transition]').forEach(b=>b.addEventListener('cl
 document.querySelectorAll('[data-add-text]').forEach(b=>b.addEventListener('click',()=>addText(b.dataset.addText)));
 
 $('simpleAddText').addEventListener('click',()=>addText('clean'));
-quickText.addEventListener('input',()=>{if(!state.clips.length){showStatus('Upload a video first, then add your text.',true);return}if(!selectedLayer()){addText('clean');}editSelectedText(quickText.value,quickText)});
+quickText.addEventListener('input',()=>{if(!state.clips.length){showStatus('Upload a video first, then add your text.',true);return}const typed=quickText.value;if(!selectedLayer()){addText('clean');}editSelectedText(typed,quickText)});
 canvasEdit.addEventListener('focus',()=>{if(!textEditingStarted){checkpoint();textEditingStarted=true}});
 canvasEdit.addEventListener('blur',()=>{textEditingStarted=false;hideResult()});
 canvasEdit.addEventListener('input',()=>editSelectedText(canvasEdit.value,canvasEdit));
