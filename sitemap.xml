@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url><loc>https://oyunopti.com/</loc></url>
+<url><loc>https://oyunopti.com/editor.html</loc></url>
 <url><loc>https://oyunopti.com/privacy.html</loc></url>
 <url><loc>https://oyunopti.com/terms.html</loc></url>
-<url><loc>https://oyunopti.com/tools/image-converter.html</loc></url>
-<url><loc>https://oyunopti.com/tools/image-compressor.html</loc></url>
-<url><loc>https://oyunopti.com/tools/image-resizer.html</loc></url>
-<url><loc>https://oyunopti.com/tools/word-counter.html</loc></url>
-<url><loc>https://oyunopti.com/tools/case-converter.html</loc></url>
-<url><loc>https://oyunopti.com/tools/password-generator.html</loc></url>
-<url><loc>https://oyunopti.com/tools/json-formatter.html</loc></url>
-<url><loc>https://oyunopti.com/tools/base64-tool.html</loc></url>
-<url><loc>https://oyunopti.com/tools/url-encoder.html</loc></url>
-<url><loc>https://oyunopti.com/tools/percentage-calculator.html</loc></url>
-<url><loc>https://oyunopti.com/tools/color-converter.html</loc></url>
-<url><loc>https://oyunopti.com/tools/css-gradient-generator.html</loc></url>
 </urlset>
