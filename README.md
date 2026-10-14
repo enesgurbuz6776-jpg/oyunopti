@@ -1,29 +1,11 @@
-# ZentroKit (oyunopti.com)
+# Cutlance Studio — Free Online Video Editor
 
-ZentroKit is a new international, ad-ready, privacy-first collection of browser-based utilities.
+Website: https://oyunopti.com/ (existing domain preserved, new visual brand Cutlance Studio)
 
-## Stack
-Static HTML, CSS, vanilla JS, hosted by GitHub Pages. No separate backend required for the new tools.
+Features: local video import, trim range, 9:16/1:1/16:9 reframing, cover/contain, on-video text, playback speed, color looks, mute, thumbnail PNG, locally recorded video export. Output MP4 is supported on browsers providing MP4 MediaRecorder; otherwise WebM is used. Recording is real-time, not AI-powered. No watermark or file uploads.
 
-## Tools
-- Image Converter
-- Image Compressor
-- Image Resizer
-- Word Counter
-- Case Converter
-- Password Generator
-- JSON Formatter
-- Base64 Tool
-- URL Encoder
-- Percentage Calculator
-- Color Converter
-- CSS Gradient Generator
+Tech: static GitHub Pages frontend using HTML/CSS/vanilla JavaScript, Canvas and MediaRecorder. The legacy gaming Pro backend source and Render deployment config are preserved but not used by the new editor.
 
-## Hosting and domain
-CNAME retains oyunopti.com, so no new domain purchase is necessary. Google verification and publisher ads.txt entries are preserved. Optional Analytics only loads after opt-in.
+Do not advertise auto subtitles, intelligent silence cutting or universal MP4 export without adding and verifying them first.
 
-## Legacy
-Previous gaming site is preserved in branch backup/oyunopti-before-rebrand-2026-10-14. The pro-backend directory and render.yaml are temporarily preserved on the new main branch to avoid accidentally disrupting previously provisioned licenses/payment integrations. The new public home page does not link to them.
-
-## Advertising
-AdSense is not injected on any page pending account approval and required consent handling.
+Previous website version is recoverable from existing git history and backup/oyunopti-before-rebrand-2026-10-14. No new domain is required.
